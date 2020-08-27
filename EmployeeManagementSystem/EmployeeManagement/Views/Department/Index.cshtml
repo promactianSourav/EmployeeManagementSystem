@@ -1,0 +1,55 @@
+﻿@model EmployeeManagement.Models.Department
+
+@{
+    ViewData["Title"] = "Department Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to the Department section</h1>
+    @{ int i = 0;}
+
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Serial No.</th>
+                <th scope="col">Name</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var dep in ViewBag.departments)
+            {
+                i++;
+                <tr>
+                    <th scope="row">@i</th>
+                    <td>@dep.DepartmentName</td>
+                    <td>
+                       
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Department" asp-action="Edit">
+
+                                Edit
+                                
+                            </a>
+                        
+                        </td>
+                    <td>
+                        @using (Html.BeginForm("Delete", "Department", FormMethod.Post))
+                        {
+
+                            <button type="submit" class="btn btn-link">Delete</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @using (Html.BeginForm("Add", "Department", FormMethod.Post))
+    {
+
+        @Html.EditorFor(s => s.DepartmentName, new { htmlAttributes = new { @class = "form-control" } })
+        <br />
+        <button type="submit" class="btn btn-secondary btn-lg btn-block">Add new department</button>
+
+    }
+</div>
