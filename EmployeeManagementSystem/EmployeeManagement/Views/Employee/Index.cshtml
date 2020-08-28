@@ -1,0 +1,47 @@
+﻿@model EmployeeManagement.Models.Employee
+
+@{
+    ViewData["Title"] = "Employee Page";
+}
+ 
+<div class="text-center">
+    <h1 class="display-4">Welcome to the Employee section</h1>
+    @{ int i = 0;}
+
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Serial No.</th>
+                <th scope="col">Name</th>
+                <th scope="col">Surname</th>
+                <th scope="col">Address</th>
+                <th scope="col">Qualification</th>
+                <th scope="col">Contact No.</th>
+                <th scope="col">Department</th>
+                <th scope="col">Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var emp in ViewBag.employees)
+            {
+                i++;
+                <tr>
+                    <th scope="row">@i</th>
+                    <td>@emp.Name</td>
+                    <td>@emp.Surname</td>
+                    <td>@emp.Address</td>
+                    <td>@emp.Qualification</td>
+                    <td>@emp.ContactNumber</td>
+                    <td>@emp.Department</td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", "Employee", new { Id = emp.Id })
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <br />
+    @Html.ActionLink("Add New Employee", "Add", "Employee")
+</div>

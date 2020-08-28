@@ -26,13 +26,11 @@ namespace EmployeeManagement.Controllers
             return View();
         }
 
-        //...
+    
 
         [HttpPost]
         public IActionResult Add(Department department)
         {
-            //Department department = new Department();
-            //Determine the next ID
             var newID = _context.Departments.Select(x => x.Id).Max() + 1;
             department.Id = newID;
 
@@ -43,7 +41,7 @@ namespace EmployeeManagement.Controllers
 
         //...
 
-        [HttpGet("{Id:int}")]
+        [HttpGet]
         public IActionResult Edit(int Id)
         {
 
@@ -65,9 +63,9 @@ namespace EmployeeManagement.Controllers
         }
 
         [HttpPost]
-        public IActionResult Delete(Department dept)
+        public IActionResult Delete(int Id)
         {
-            var dep = (Department)_context.Departments.FirstOrDefault(a => a.Id == dept.Id);
+            var dep = (Department)_context.Departments.Find(Id);
             _context.Departments.Remove(dep);
             _context.SaveChanges();
 

@@ -11,13 +11,12 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Student</h4>
+        <h4>Department</h4>
         <hr />
         
 
         <div class="form-group">
             <div class="col-md-10">
-                @ViewBag.name
                 @Html.EditorFor(m => m.DepartmentName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(m => m.DepartmentName, "", new { @class = "text-danger" })
             </div>
@@ -25,7 +24,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <button type="submit" class="btn btn-secondary btn-sm btn-block">Save</button>
             </div>
         </div>
     </div>
