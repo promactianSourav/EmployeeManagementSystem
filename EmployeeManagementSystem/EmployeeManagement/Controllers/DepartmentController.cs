@@ -26,28 +26,25 @@ namespace EmployeeManagement.Controllers
             return View();
         }
 
-    
-
         [HttpPost]
         public IActionResult Add(Department department)
         {
-            var newID = _context.Departments.Select(x => x.Id).Max() + 1;
-            department.Id = newID;
+            var newID = _context.Departments.Select(x => x.DeptId).Max() + 1;
+            department.DeptId = newID;
 
             _context.Departments.Add(department);
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
 
-        //...
 
         [HttpGet]
         public IActionResult Edit(int Id)
         {
 
             Department department = new Department();
-            department.DepartmentName = ((Department)_context.Departments.Where(s => s.Id == Id).FirstOrDefault()).DepartmentName;
-            department.Id = Id;
+            department.DepartmentName = ((Department)_context.Departments.Where(s => s.DeptId == Id).FirstOrDefault()).DepartmentName;
+            department.DeptId = Id;
             ViewBag.name = department.DepartmentName;
             return View(department);
         }
@@ -55,7 +52,8 @@ namespace EmployeeManagement.Controllers
         [HttpPost]
         public IActionResult Edit(Department department)
         {
-            var dep = (Department)_context.Departments.Where(s => s.Id == department.Id).FirstOrDefault();
+            ViewBag.id = department.DeptId;
+            var dep = (Department)_context.Departments.Where(s => s.DeptId == department.DeptId).FirstOrDefault();
             _context.Departments.Remove(dep);
             _context.Departments.Add(department);
             _context.SaveChanges();

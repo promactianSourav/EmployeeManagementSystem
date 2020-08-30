@@ -25,11 +25,11 @@
                     <th scope="row">@i</th>
                     <td>@dep.DepartmentName</td>
                     <td>
-                        @Html.ActionLink("Edit","Edit", "Department",new { Id = dep.Id})
+                        @Html.ActionLink("Edit","Edit", "Department",new { Id = dep.DeptId })
 
                     </td>
                     <td>
-                        @using (Html.BeginForm("Delete", "Department", new { Id = dep.Id }, FormMethod.Post))
+                        @using (Html.BeginForm("Delete", "Department", new { Id = dep.DeptId }, FormMethod.Post))
                         {
 
                             <button type="submit" class="btn btn-link">Delete</button>
@@ -40,10 +40,11 @@
             }
         </tbody>
     </table>
+    <hr/>
     @using (Html.BeginForm("Add", "Department", FormMethod.Post))
     {
-        <label> Enter the new Department Name</label>
-        @Html.EditorFor(s => s.DepartmentName, new { htmlAttributes = new { @class = "form-control" } })
+        <label style="font-size:26px"> Enter the new Department Name</label>
+        @Html.EditorFor(s => s.DepartmentName, new { htmlAttributes = new { @class = "form-control" ,@maxlength="20", @placeholder = "Department Name", @required="true" } })
         <br />
         <button type="submit" class="btn btn-secondary btn-lg btn-block">Add new department</button>
 

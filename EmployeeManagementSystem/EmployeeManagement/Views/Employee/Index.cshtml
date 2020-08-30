@@ -1,4 +1,4 @@
-﻿@model EmployeeManagement.Models.Employee
+﻿@model IEnumerable<EmployeeManagement.Models.Employee>
 
 @{
     ViewData["Title"] = "Employee Page";
@@ -6,7 +6,7 @@
  
 <div class="text-center">
     <h1 class="display-4">Welcome to the Employee section</h1>
-    @{ int i = 0;}
+    @{ int i = 0; Department dp = new Department();}
 
     <table class="table">
         <thead class="thead-dark">
@@ -22,7 +22,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var emp in ViewBag.employees)
+            @foreach (var emp in Model)
             {
                 i++;
                 <tr>
@@ -32,7 +32,20 @@
                     <td>@emp.Address</td>
                     <td>@emp.Qualification</td>
                     <td>@emp.ContactNumber</td>
-                    <td>@emp.Department</td>
+                    <td>
+
+                        @{
+                            foreach(var d in ViewBag.departments)
+                            {
+                                if(d.DeptId == emp.DepartmentId)
+                                {
+                                    @d.DepartmentName
+                                }
+                            }
+                        }
+
+
+                    </td>
                     <td>
                         @Html.ActionLink("Edit", "Edit", "Employee", new { Id = emp.Id })
 

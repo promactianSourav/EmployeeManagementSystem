@@ -13,11 +13,11 @@
     <div class="form-horizontal">
         <h4>Department</h4>
         <hr />
-        
+        @Html.HiddenFor(m => m.DeptId)
 
         <div class="form-group">
             <div class="col-md-10">
-                @Html.EditorFor(m => m.DepartmentName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(m => m.DepartmentName, new { htmlAttributes = new { @class = "form-control", @required="true" } })
                 @Html.ValidationMessageFor(m => m.DepartmentName, "", new { @class = "text-danger" })
             </div>
         </div>

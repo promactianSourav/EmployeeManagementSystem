@@ -7,11 +7,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeManagement.Data
 {
-    public class DataContext : DbContext
+    public class DataContextTwo : DbContext
     {
-        public DataContext(DbContextOptions<DataContext> options)
+        public DataContextTwo(DbContextOptions<DataContextTwo> options)
             : base(options) { }
 
-        public DbSet<Department> Departments { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+       
     }
 }

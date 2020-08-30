@@ -24,69 +24,36 @@ namespace EmployeeManagement.Data
                 context.Departments.AddRange(
                     new Department
                     {
-                        Id = 1,
+                        DeptId = 1,
                         DepartmentName = "HR"
                     },
                     new Department
                     {
-                        Id = 2,
-                        DepartmentName = "Engineer"
+                        DeptId = 2,
+                        DepartmentName = "IT"
                     },
                     new Department
                     {
-                        Id = 3,
+                        DeptId = 3,
                         DepartmentName = "Developer"
                     },
                     new Department
                     {
-                        Id = 4,
+                        DeptId = 4,
                         DepartmentName = "Marketing"
+                    }, new Department
+                    {
+                        DeptId = 5,
+                        DepartmentName = "Ad"
                     });
 
-                context.Employees.AddRange(
-                    new Employee
-                    {
-                        Id = 1,
-                        Name = "firstEmployee",
-                        Surname = "Kumar",
-                        Address = "first, gujarat, 1234",
-                        Qualification = "B.Tech",
-                        ContactNumber = 1234567890,
-                        Department = "HR"
-                    },
-                    new Employee
-                    {
-                        Id = 2,
-                        Name = "secondEmployee",
-                        Surname = "Kumar",
-                        Address = "second, gujarat, 1234",
-                        Qualification = "B.Tech",
-                        ContactNumber = 1234567890,
-                        Department = "Engineer"
-                    },
-                    new Employee
-                    {
-                        Id = 3,
-                        Name = "thirdEmployee",
-                        Surname = "Kumar",
-                        Address = "third, gujarat, 1234",
-                        Qualification = "B.Tech",
-                        ContactNumber = 1234567890,
-                        Department = "Developer"
-                    },
-                    new Employee
-                    {
-                        Id = 4,
-                        Name = "fourthEmployee",
-                        Surname = "Kumar",
-                        Address = "fourth, gujarat, 1234",
-                        Qualification = "B.Tech",
-                        ContactNumber = 1234567890,
-                        Department = "Marketing"
-                    });
+               
 
                 context.SaveChanges();
             }
+
+
+            
         }
     }
 }
