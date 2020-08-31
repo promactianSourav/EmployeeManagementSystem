@@ -28,8 +28,8 @@ namespace EmployeeManagement
                 var contextTWo = services.GetRequiredService<DataContextTwo>();
 
                 //4. Call the DataGenerator to create sample data
-                DataGenerator.Initialize(services);
-                DataGeneratorTwo.Initialize(services);
+                //DataGenerator.Initialize(services);
+                //DataGeneratorTwo.Initialize(services);
             }
 
             //Continue to run the application
