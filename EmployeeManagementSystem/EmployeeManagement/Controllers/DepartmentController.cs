@@ -21,13 +21,13 @@ namespace EmployeeManagement.Controllers
         }
 
        DepartmentDataAccessLayer departmentDataAccessLayer = new DepartmentDataAccessLayer();
-        
+        DepartmentSqlMapperAsync departmentSqlMapperAsync = new DepartmentSqlMapperAsync();
 
         //...and can access it in our actions.
         [HttpGet]
         public IActionResult Index()
         {
-            ViewBag.departments = departmentDataAccessLayer.GetAllDepartments().ToList();
+            ViewBag.departments = departmentSqlMapperAsync.GetAllDepartments().ToList();
             return View();
         }
 
@@ -35,11 +35,11 @@ namespace EmployeeManagement.Controllers
         public IActionResult Add(Department department)
         {
             List<Department> listDepartment = new List<Department>();
-            listDepartment = departmentDataAccessLayer.GetAllDepartments().ToList();
+            listDepartment = departmentSqlMapperAsync.GetAllDepartments().ToList();
             int d = listDepartment.Max(x => x.DeptId);
             department.DeptId = d+1;
 
-            departmentDataAccessLayer.AddDepartment(department);
+            departmentSqlMapperAsync.AddDepartment(department);
             return RedirectToAction("Index");
         }
 
@@ -50,8 +50,8 @@ namespace EmployeeManagement.Controllers
 
             Department department = new Department();
             List<Department> listDepartment = new List<Department>();
-            listDepartment = departmentDataAccessLayer.GetAllDepartments().ToList();
-            foreach(var d in listDepartment)
+            listDepartment = departmentSqlMapperAsync.GetAllDepartments().ToList();
+            foreach (var d in listDepartment)
             {
                 if(d.DeptId == Id)
                 {
@@ -68,15 +68,15 @@ namespace EmployeeManagement.Controllers
         public IActionResult Edit(Department department)
         {
             ViewBag.id = department.DeptId;
-            departmentDataAccessLayer.UpdateDepartment(department);
+            departmentSqlMapperAsync.UpdateDepartment(department);
             return RedirectToAction("Index");
         }
 
         [HttpPost]
         public IActionResult Delete(int Id)
         {
-            
-            departmentDataAccessLayer.DeleteDepartment(Id);
+
+            departmentSqlMapperAsync.DeleteDepartment(Id);
 
             return RedirectToAction("Index");
         }

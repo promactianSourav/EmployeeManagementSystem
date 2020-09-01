@@ -21,25 +21,25 @@ namespace EmployeeManagement.Controllers
             _contextDepartment = contextDepartment;
         }
 
-        DepartmentDataAccessLayer departmentDataAccessLayer = new DepartmentDataAccessLayer();
-        EmployeeDataAccessLayer employeeDataAccessLayer = new EmployeeDataAccessLayer();
+        DepartmentSqlMapperAsync departmentSqlMapperAsync = new DepartmentSqlMapperAsync();
+        EmployeeSqlMapperAsync employeeSqlMapperAsync = new EmployeeSqlMapperAsync();
 
         //...and can access it in our actions.
         [HttpGet]
         public IActionResult Index()
         {
             
-            ViewBag.employees = employeeDataAccessLayer.GetAllEmployees().ToList();
-            ViewBag.departments = departmentDataAccessLayer.GetAllDepartments().ToList();
+            ViewBag.employees = employeeSqlMapperAsync.GetAllEmployees().ToList();
+            ViewBag.departments = departmentSqlMapperAsync.GetAllDepartments().ToList();
             var emp = new List<Employee>();
-            emp = employeeDataAccessLayer.GetAllEmployees().ToList();
+            emp = employeeSqlMapperAsync.GetAllEmployees().ToList();
             return View(emp);
         }
 
        [HttpGet]
         public IActionResult Add()
         {
-            ViewBag.departments = departmentDataAccessLayer.GetAllDepartments().ToList()
+            ViewBag.departments = departmentSqlMapperAsync.GetAllDepartments().ToList()
                .Select(n => new SelectListItem
                {
                    Value = n.DeptId.ToString(),
@@ -55,11 +55,11 @@ namespace EmployeeManagement.Controllers
             
 
             List<Employee> listEmployee = new List<Employee>();
-            listEmployee = employeeDataAccessLayer.GetAllEmployees().ToList();
+            listEmployee = employeeSqlMapperAsync.GetAllEmployees().ToList();
             int d = listEmployee.Max(x => x.Id);
             employee.Id = d + 1;
 
-            employeeDataAccessLayer.AddEmployee(employee);
+            employeeSqlMapperAsync.AddEmployee(employee);
             return RedirectToAction("Index");
         }
 
@@ -68,7 +68,7 @@ namespace EmployeeManagement.Controllers
         [HttpGet]
         public IActionResult Edit(int Id)
         {
-            ViewBag.departments = departmentDataAccessLayer.GetAllDepartments().ToList()
+            ViewBag.departments = departmentSqlMapperAsync.GetAllDepartments().ToList()
               .Select(n => new SelectListItem
               {
                   Value = n.DeptId.ToString(),
@@ -77,7 +77,7 @@ namespace EmployeeManagement.Controllers
             Employee employee = new Employee();
 
             List<Employee> listEmployee = new List<Employee>();
-            listEmployee = employeeDataAccessLayer.GetAllEmployees().ToList();
+            listEmployee = employeeSqlMapperAsync.GetAllEmployees().ToList();
             foreach (var e in listEmployee)
             {
                 if (e.Id == Id)
@@ -103,7 +103,7 @@ namespace EmployeeManagement.Controllers
         {
            
             ViewBag.id = employee.Id;
-            employeeDataAccessLayer.UpdateEmployee(employee);
+            employeeSqlMapperAsync.UpdateEmployee(employee);
             return RedirectToAction("Index");
         }
 
@@ -111,7 +111,7 @@ namespace EmployeeManagement.Controllers
         public IActionResult Delete(int Id)
         {
            
-            employeeDataAccessLayer.DeleteEmployee(Id);
+            employeeSqlMapperAsync.DeleteEmployee(Id);
 
             return RedirectToAction("Index");
         }
