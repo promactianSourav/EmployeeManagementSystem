@@ -13,21 +13,20 @@ namespace EmployeeManagement.Controllers
     public class DepartmentController : Controller
     {
         //We inject the DBContext into the controller...
-        private DataContext _context;
+        private DataContextAll _context;
 
-        public DepartmentController(DataContext context)
+        public DepartmentController(DataContextAll context)
         {
             _context = context;
         }
-
-       DepartmentDataAccessLayer departmentDataAccessLayer = new DepartmentDataAccessLayer();
         
 
         //...and can access it in our actions.
         [HttpGet]
         public IActionResult Index()
         {
-            ViewBag.departments = departmentDataAccessLayer.GetAllDepartments().ToList();
+            ViewBag.departments = _context.Departments.ToList();
+           
             return View();
         }
 
@@ -35,11 +34,13 @@ namespace EmployeeManagement.Controllers
         public IActionResult Add(Department department)
         {
             List<Department> listDepartment = new List<Department>();
-            listDepartment = departmentDataAccessLayer.GetAllDepartments().ToList();
+            listDepartment = _context.Departments.ToList();
             int d = listDepartment.Max(x => x.DeptId);
-            department.DeptId = d+1;
+            department.DeptId = d + 1;
 
-            departmentDataAccessLayer.AddDepartment(department);
+
+            _context.Departments.Add(department);
+            _context.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -49,18 +50,7 @@ namespace EmployeeManagement.Controllers
         {
 
             Department department = new Department();
-            List<Department> listDepartment = new List<Department>();
-            listDepartment = departmentDataAccessLayer.GetAllDepartments().ToList();
-            foreach(var d in listDepartment)
-            {
-                if(d.DeptId == Id)
-                {
-                    ViewBag.name = d.DepartmentName;
-                    department.DeptId = Id;
-                    department.DepartmentName = d.DepartmentName;
-                    break;
-                }
-            }
+            department = _context.Departments.FirstOrDefault(a => a.DeptId == Id);
             return View(department);
         }
 
@@ -68,16 +58,17 @@ namespace EmployeeManagement.Controllers
         public IActionResult Edit(Department department)
         {
             ViewBag.id = department.DeptId;
-            departmentDataAccessLayer.UpdateDepartment(department);
+            _context.Departments.Update(department);
+            _context.SaveChanges();
             return RedirectToAction("Index");
         }
 
         [HttpPost]
         public IActionResult Delete(int Id)
         {
-            
-            departmentDataAccessLayer.DeleteDepartment(Id);
-
+            Department department = _context.Departments.FirstOrDefault(a => a.DeptId == Id);
+            _context.Departments.Remove(department);
+            _context.SaveChanges();
             return RedirectToAction("Index");
         }
     }

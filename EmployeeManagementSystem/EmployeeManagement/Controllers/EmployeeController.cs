@@ -12,34 +12,30 @@ namespace EmployeeManagement.Controllers
     public class EmployeeController : Controller
     {
         //We inject the DBContext into the controller...
-        private DataContextTwo _context;
-        private DataContext _contextDepartment;
+         DataContextAll _context;
 
-        public EmployeeController(DataContextTwo context,DataContext contextDepartment)
+        public EmployeeController(DataContextAll context)
         {
             _context = context;
-            _contextDepartment = contextDepartment;
         }
 
-        DepartmentDataAccessLayer departmentDataAccessLayer = new DepartmentDataAccessLayer();
-        EmployeeDataAccessLayer employeeDataAccessLayer = new EmployeeDataAccessLayer();
-
+       
         //...and can access it in our actions.
         [HttpGet]
         public IActionResult Index()
         {
-            
-            ViewBag.employees = employeeDataAccessLayer.GetAllEmployees().ToList();
-            ViewBag.departments = departmentDataAccessLayer.GetAllDepartments().ToList();
+
+            ViewBag.employees = _context.Employees.ToList();
+            ViewBag.departments = _context.Departments.ToList();
             var emp = new List<Employee>();
-            emp = employeeDataAccessLayer.GetAllEmployees().ToList();
+            emp = _context.Employees.ToList();
             return View(emp);
         }
 
        [HttpGet]
         public IActionResult Add()
         {
-            ViewBag.departments = departmentDataAccessLayer.GetAllDepartments().ToList()
+            ViewBag.departments = _context.Departments.ToList()
                .Select(n => new SelectListItem
                {
                    Value = n.DeptId.ToString(),
@@ -51,15 +47,14 @@ namespace EmployeeManagement.Controllers
         [HttpPost]
         public IActionResult Add(Employee employee)
         {
-
-            
-
             List<Employee> listEmployee = new List<Employee>();
-            listEmployee = employeeDataAccessLayer.GetAllEmployees().ToList();
+            listEmployee = _context.Employees.ToList();
             int d = listEmployee.Max(x => x.Id);
             employee.Id = d + 1;
 
-            employeeDataAccessLayer.AddEmployee(employee);
+            _context.Employees.Add(employee);
+            _context.SaveChanges();
+
             return RedirectToAction("Index");
         }
 
@@ -68,33 +63,15 @@ namespace EmployeeManagement.Controllers
         [HttpGet]
         public IActionResult Edit(int Id)
         {
-            ViewBag.departments = departmentDataAccessLayer.GetAllDepartments().ToList()
+            ViewBag.departments = _context.Departments.ToList()
               .Select(n => new SelectListItem
               {
                   Value = n.DeptId.ToString(),
                   Text = n.DepartmentName
               }).ToList();
             Employee employee = new Employee();
+            employee = _context.Employees.FirstOrDefault(a => a.Id == Id);
 
-            List<Employee> listEmployee = new List<Employee>();
-            listEmployee = employeeDataAccessLayer.GetAllEmployees().ToList();
-            foreach (var e in listEmployee)
-            {
-                if (e.Id == Id)
-                {
-                    ViewBag.name = e.Name;
-                    employee.Id = Id;
-                    employee.Name = e.Name;
-                    employee.Surname = e.Surname;
-                    employee.Address = e.Address;
-                    employee.Qualification = e.Qualification;
-                    employee.ContactNumber = e.ContactNumber;
-                    employee.DepartmentId = e.DepartmentId;
-                    break;
-                }
-            }
-        
-           
             return View(employee);
         }
 
@@ -103,16 +80,18 @@ namespace EmployeeManagement.Controllers
         {
            
             ViewBag.id = employee.Id;
-            employeeDataAccessLayer.UpdateEmployee(employee);
+            _context.Employees.Update(employee);
+            _context.SaveChanges();
             return RedirectToAction("Index");
         }
 
         [HttpPost]
         public IActionResult Delete(int Id)
         {
-           
-            employeeDataAccessLayer.DeleteEmployee(Id);
 
+            Employee employee = _context.Employees.FirstOrDefault(a => a.Id == Id);
+            _context.Employees.Remove(employee);
+            _context.SaveChanges();
             return RedirectToAction("Index");
         }
     }

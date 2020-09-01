@@ -28,17 +28,12 @@ namespace EmployeeManagement
             
             services.AddControllers();
             services.AddMvc();
-            services.AddDbContext<DataContext>(
-                options => options
-                .UseLazyLoadingProxies()
-                .UseInMemoryDatabase(databaseName: "Departments"));
-            
-            services.AddDbContext<DataContextTwo>(options =>
-                options
-                .UseLazyLoadingProxies()
-                .UseInMemoryDatabase(databaseName: "Employees")
-                );
-            services.AddScoped<DbContext, DataContextTwo>();
+           
+            services.AddDbContextPool<DataContextAll>(options =>
+                                                options.UseSqlServer(Configuration.GetConnectionString("DBCS")));
+
+            //For changing the scope of database
+            services.AddScoped<DataContextAll>();
 
         }
 
