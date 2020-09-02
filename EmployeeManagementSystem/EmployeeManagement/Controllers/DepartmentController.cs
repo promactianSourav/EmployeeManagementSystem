@@ -27,18 +27,34 @@ namespace EmployeeManagement.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            //var watch = new System.Diagnostics.Stopwatch();
+            //watch.Start();
             ViewBag.departments = departmentDataAccessLayer.GetAllDepartments().ToList();
+            //watch.Stop();
+            //Console.WriteLine($"Execution time for Select using ado.net : {watch.ElapsedMilliseconds} ms");
+
             return View();
         }
 
         [HttpPost]
         public IActionResult Add(Department department)
         {
+            //var watch = new System.Diagnostics.Stopwatch();
+            //watch.Start();
             List<Department> listDepartment = new List<Department>();
             listDepartment = departmentDataAccessLayer.GetAllDepartments().ToList();
             int d = listDepartment.Max(x => x.DeptId);
-            department.DeptId = d+1;
+            department.DeptId = d + 1;
+            //for (int i = 1; i < 100; i++)
+            //{
+            //    department.DeptId = d + i;
+            //    department.DepartmentName = "EmployeeNew" + i.ToString();
+            //    departmentDataAccessLayer.AddDepartment(department);
 
+            //}
+
+            //watch.Stop();
+            //Console.WriteLine($"Execution time for Insert using ado.net : {watch.ElapsedMilliseconds} ms");
             departmentDataAccessLayer.AddDepartment(department);
             return RedirectToAction("Index");
         }
@@ -68,6 +84,19 @@ namespace EmployeeManagement.Controllers
         public IActionResult Edit(Department department)
         {
             ViewBag.id = department.DeptId;
+            //var watch = new System.Diagnostics.Stopwatch();
+            //watch.Start();
+            //for (int i = 1; i < 101; i++)
+            //{
+            //    Department d = new Department();
+            //    d.DeptId = i;
+            //    d.DepartmentName = "Hello" + i.ToString();
+            //    departmentDataAccessLayer.UpdateDepartment(d);
+
+            //}
+            //watch.Stop();
+            //Console.WriteLine($"Execution time for Update using ado.net : {watch.ElapsedMilliseconds} ms");
+
             departmentDataAccessLayer.UpdateDepartment(department);
             return RedirectToAction("Index");
         }
@@ -75,7 +104,19 @@ namespace EmployeeManagement.Controllers
         [HttpPost]
         public IActionResult Delete(int Id)
         {
-            
+            //var watch = new System.Diagnostics.Stopwatch();
+            //watch.Start();
+            //for (int i = 1; i < 101; i++)
+            //{
+            //    Department d = new Department();
+            //    d.DeptId = i;
+            //    d.DepartmentName = "EmployeeUpdate" + i.ToString();
+            //    departmentDataAccessLayer.DeleteDepartment(i);
+
+            //}
+            //watch.Stop();
+            //Console.WriteLine($"Execution time for Delete using ado.net : {watch.ElapsedMilliseconds} ms");
+
             departmentDataAccessLayer.DeleteDepartment(Id);
 
             return RedirectToAction("Index");
