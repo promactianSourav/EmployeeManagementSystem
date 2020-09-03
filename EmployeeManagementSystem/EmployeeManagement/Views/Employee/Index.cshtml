@@ -19,38 +19,45 @@
                 <th scope="col">Contact No.</th>
                 <th scope="col">Department</th>
                 <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var emp in Model)
             {
                 i++;
-                <tr>
-                    <th scope="row">@i</th>
-                    <td>@emp.Name</td>
-                    <td>@emp.Surname</td>
-                    <td>@emp.Address</td>
-                    <td>@emp.Qualification</td>
-                    <td>@emp.ContactNumber</td>
-                    <td>
+            <tr>
+                <th scope="row">@i</th>
+                <td>@emp.Name</td>
+                <td>@emp.Surname</td>
+                <td>@emp.Address</td>
+                <td>@emp.Qualification</td>
+                <td>@emp.ContactNumber</td>
+                <td>
 
-                        @{
-                            foreach(var d in ViewBag.departments)
+                    @{
+                        foreach (var d in ViewBag.departments)
+                        {
+                            if (d.DeptId == emp.DepartmentId)
                             {
-                                if(d.DeptId == emp.DepartmentId)
-                                {
-                                    @d.DepartmentName
-                                }
+                                @d.DepartmentName
                             }
                         }
+                    }
 
 
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", "Employee", new { Id = emp.Id })
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "Employee", new { Id = emp.Id })
 
-                    </td>
-                </tr>
+                </td>
+                <td>
+                    @using (Html.BeginForm("Delete", "Employee", new { Id = emp.Id }, FormMethod.Post))
+                    {
+                        <button type="submit" class="btn btn-link">Delete</button>
+                    }
+                </td>
+            </tr>
             }
         </tbody>
     </table>

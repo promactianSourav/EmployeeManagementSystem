@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EmployeeManagement.Data;
+using EmployeeManagement.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,13 +32,37 @@ namespace EmployeeManagement
         {           
             
             services.AddControllers();
-            services.AddMvc();
+            //services.AddMvc();
            
             services.AddDbContextPool<DataContextAll>(options =>
                                                 options.UseSqlServer(Configuration.GetConnectionString("DBCS")));
 
             //For changing the scope of database
             services.AddScoped<DataContextAll>();
+            services.AddDbContext<AppIdentityDbContext>(options =>
+         options.UseSqlServer(Configuration.GetConnectionString("DBCS")));
+
+            services.AddIdentity<AppIdentityUser, AppIdentityRole>()
+                    .AddEntityFrameworkStores<AppIdentityDbContext>()
+                    .AddDefaultTokenProviders();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Security/Login";
+                options.LogoutPath = "/Security/Logout";
+                options.AccessDeniedPath = "/Security/AccessDenied";
+                options.SlidingExpiration = true;
+                options.Cookie = new CookieBuilder
+                {
+                    HttpOnly = true,
+                    Name = "EmployeeManagement.Cookie",
+                    Path = "/",
+                    SameSite = SameSiteMode.Lax,
+                    SecurePolicy = CookieSecurePolicy.SameAsRequest
+                };
+            });
+            services.AddTransient<IEmailSender, EmailSender>();
+            services.AddMvc();
 
         }
 
@@ -57,6 +86,8 @@ namespace EmployeeManagement
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseAuthentication();
+            //app.UseMvcWithDefaultRoute();
 
             app.UseEndpoints(endpoints =>
             {

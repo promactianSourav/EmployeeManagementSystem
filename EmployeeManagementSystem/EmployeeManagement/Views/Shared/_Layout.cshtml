@@ -36,6 +36,24 @@
     </div>
 
     <footer class="border-top footer text-muted">
+        <div>
+            @if (Context.User.Identity.IsAuthenticated)
+            {
+                <p>
+                    @Context.User.Identity.Name (<a asp-controller="Security" asp-action="Logout">Logout</a>)
+                </p>
+            }
+            else
+            {
+                <p>
+                    <a asp-controller="Security" asp-action="Login">Signin</a>
+                    |
+                    <a asp-controller="Security" asp-action="Register">Register</a>
+                    |
+                    <a asp-controller="Security" asp-action="ForgotPassword">Forgot Password</a>
+                </p>
+            }
+        </div>
         <div class="container">
             &copy; 2020 - EmployeeManagement - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
