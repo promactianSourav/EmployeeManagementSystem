@@ -20,6 +20,7 @@ namespace EmployeeManagement.Models
 
         [Required]
         [DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage = "Password and Confrim Password do not match.")]
         public string ConfirmPassword { get; set; }
     }
 }

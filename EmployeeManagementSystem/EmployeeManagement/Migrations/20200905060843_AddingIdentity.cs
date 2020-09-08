@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EmployeeManagement.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class AddingIdentity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -39,12 +39,42 @@ namespace EmployeeManagement.Migrations
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false),
-                    Age = table.Column<int>(nullable: false)
+                    AccessFailedCount = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Department",
+                columns: table => new
+                {
+                    DeptId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DepartmentName = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Department", x => x.DeptId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Employee",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: true),
+                    Surname = table.Column<string>(nullable: true),
+                    Address = table.Column<string>(nullable: true),
+                    Qualification = table.Column<string>(nullable: true),
+                    ContactNumber = table.Column<string>(nullable: false),
+                    DepartmentId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Employee", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -209,6 +239,12 @@ namespace EmployeeManagement.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Department");
+
+            migrationBuilder.DropTable(
+                name: "Employee");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

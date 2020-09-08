@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EmployeeManagement.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeManagement.Data
 {
-    public class DataContextAll : DbContext
+    public class DataContextAll : IdentityDbContext
     {
         public DataContextAll(DbContextOptions<DataContextAll> options)
             : base(options) { }
@@ -15,5 +16,12 @@ namespace EmployeeManagement.Data
         public DbSet<Department> Departments { get; set; }
 
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<Userroles> UserRolesList { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            
+        }
     }
 }

@@ -25,6 +25,5 @@ namespace EmployeeManagement.Models
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
-        public int Age { get; set; }
     }
 }

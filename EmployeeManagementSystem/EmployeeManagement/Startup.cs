@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EmployeeManagement.Data;
+using EmployeeManagement.Models;
 using EmployeeManagement.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -11,6 +14,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,22 +36,23 @@ namespace EmployeeManagement
         {           
             
             services.AddControllers();
-            //services.AddMvc();
-           
-            services.AddDbContextPool<DataContextAll>(options =>
-                                                options.UseSqlServer(Configuration.GetConnectionString("DBCS")));
-
+            
             //For changing the scope of database
             services.AddScoped<DataContextAll>();
-            services.AddDbContext<AppIdentityDbContext>(options =>
+            services.AddDbContext<DataContextAll>(options =>
          options.UseSqlServer(Configuration.GetConnectionString("DBCS")));
 
-            services.AddIdentity<AppIdentityUser, AppIdentityRole>()
-                    .AddEntityFrameworkStores<AppIdentityDbContext>()
-                    .AddDefaultTokenProviders();
+            services.AddIdentity<Employee, Userroles>()
+                .AddEntityFrameworkStores<DataContextAll>();
+
+            services.Configure<IdentityOptions>(options => {
+                options.Password.RequiredLength = 6;
+                
+            });
 
             services.ConfigureApplicationCookie(options =>
             {
+                options.Cookie.IsEssential = true;
                 options.LoginPath = "/Security/Login";
                 options.LogoutPath = "/Security/Logout";
                 options.AccessDeniedPath = "/Security/AccessDenied";
@@ -62,7 +67,15 @@ namespace EmployeeManagement
                 };
             });
             services.AddTransient<IEmailSender, EmailSender>();
-            services.AddMvc();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+            //services.AddMvc();
+            services.AddMvc(options =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .Build();
+                options.Filters.Add(new AuthorizeFilter(policy));
+            }).AddXmlSerializerFormatters();
 
         }
 
@@ -82,11 +95,12 @@ namespace EmployeeManagement
             //}
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseCookiePolicy();
+            app.UseAuthentication();
             app.UseRouting();
 
             app.UseAuthorization();
-            app.UseAuthentication();
+           
             //app.UseMvcWithDefaultRoute();
 
             app.UseEndpoints(endpoints =>

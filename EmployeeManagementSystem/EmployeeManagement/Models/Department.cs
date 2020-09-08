@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace EmployeeManagement.Models
 {
@@ -11,7 +12,7 @@ namespace EmployeeManagement.Models
     public class Department
     {
         [Key]
-        public int DeptId { get; set; }
+        public string DeptId { get; set; }
         public string DepartmentName { get; set; }
     }
 }

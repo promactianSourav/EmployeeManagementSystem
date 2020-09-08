@@ -12,12 +12,39 @@
 
 <div class="form-horizontal">
     <hr />
-
+    <div class="form-group">
+        <div class="col-md-10">
+            <label>UserName</label>
+            @Html.EditorFor(m => m.UserName, new { htmlAttributes = new { @class = "form-control", @maxlength = "20", @required = "true" } })
+            @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            <label>Email</label>
+            @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @class = "form-control", @maxlength = "20", @required = "true" } })
+            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+        </div>
+    </div>
 
     <div class="form-group">
         <div class="col-md-10">
+            <label>Password</label>
+            @Html.EditorFor(m => m.Password, new { htmlAttributes = new { @class = "form-control", @maxlength = "20", @required = "true",@type="password" } })
+            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            <label>Confirm Password</label>
+            @Html.EditorFor(m => m.ConfirmPassword, new { htmlAttributes = new { @class = "form-control", @maxlength = "20", @required = "true" } })
+            @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
             <label>Name</label>
-            @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @class = "form-control", @maxlength="20", @required = "true" } })
+            @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @class = "form-control", @maxlength = "20", @required = "true" } })
             @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -28,6 +55,7 @@
             @Html.ValidationMessageFor(m => m.Surname, "", new { @class = "text-danger" })
         </div>
     </div>
+
     <div class="form-group">
         <div class="col-md-10">
             <label>Address</label>
@@ -42,10 +70,11 @@
             @Html.ValidationMessageFor(m => m.Qualification, "", new { @class = "text-danger" })
         </div>
     </div>
+
     <div class="form-group">
         <div class="col-md-10">
-           <label>Contact Number<i style="font-size: 12px">(Numbers only, Avoid any other characters)</i></label>
-            @Html.EditorFor(m => m.ContactNumber, new { htmlAttributes = new { @class = "form-control", @required = "true", @pattern = "^[0-9]+",@maxlength = "10",@minlength="10", @type="text" } })
+            <label>Contact Number<i style="font-size: 12px">(Numbers only, Avoid any other characters)</i></label>
+            @Html.EditorFor(m => m.ContactNumber, new { htmlAttributes = new { @class = "form-control", @required = "true", @pattern = "^[0-9]+", @maxlength = "10", @minlength = "10", @type = "text" } })
             @Html.ValidationMessageFor(m => m.ContactNumber, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -63,8 +92,8 @@
         </div>
     </div>
 </div>
-}
+ }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>

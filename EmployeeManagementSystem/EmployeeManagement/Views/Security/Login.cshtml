@@ -1,10 +1,21 @@
 ﻿@model EmployeeManagement.Models.LoginViewModel
 <h3>Login</h3>
 
+@using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+{
 <form asp-controller="Security" asp-action="Login" method="post">
     <div asp-validation-summary="All"></div>
 
-    <input type="text" asp-for="Username" placeholder="Username" />
+    <input type="text" asp-for="UserName" placeholder="UserName" />
     <input type="password" asp-for="Password" placeholder="Password" />
+    <div class="form-group">
+        <div class="custom-checkbox">
+            <label asp-for="RememberMe">
+                <input asp-for="RememberMe"/>
+                @Html.DisplayNameFor(m=>m.RememberMe)
+            </label>
+        </div>
+    </div>
     <input type="submit" value="Login" />
 </form>
+}

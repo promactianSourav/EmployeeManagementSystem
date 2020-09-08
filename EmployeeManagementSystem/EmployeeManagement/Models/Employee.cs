@@ -5,14 +5,22 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace EmployeeManagement.Models
 {
-    [Table("Employee")]
-    public class Employee
+    [Table("Users")]
+    public class Employee : IdentityUser
     {
-       
-        public int Id { get; set; }
+
+        //public int Id { get; set; }
+        [Required]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+        [Required]
+        [DataType(DataType.Password)]
+        [Compare("Password",ErrorMessage ="Password and Confrim Password do not match.")]
+        public string ConfirmPassword { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Address { get; set; }
@@ -21,7 +29,7 @@ namespace EmployeeManagement.Models
         [RegularExpression(@"^([0-9]{10})$",ErrorMessage ="Not a valid Phone number")]
         public string ContactNumber { get; set; }
         [ForeignKey("DeptId")]
-        public int DepartmentId { get; set; }
+        public string DepartmentId { get; set; }
 
         //public virtual ICollection<Department> DepartmentList { get; set; }
 

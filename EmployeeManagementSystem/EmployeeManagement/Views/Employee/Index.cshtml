@@ -6,7 +6,7 @@
  
 <div class="text-center">
     <h1 class="display-4">Welcome to the Employee section</h1>
-    @{ int i = 0; Department dp = new Department();}
+    @{ int i = 0; Department dp = new Department(); string s = "";}
 
     <table class="table">
         <thead class="thead-dark">
@@ -23,42 +23,116 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var emp in Model)
-            {
-                i++;
-            <tr>
-                <th scope="row">@i</th>
-                <td>@emp.Name</td>
-                <td>@emp.Surname</td>
-                <td>@emp.Address</td>
-                <td>@emp.Qualification</td>
-                <td>@emp.ContactNumber</td>
-                <td>
-
-                    @{
-                        foreach (var d in ViewBag.departments)
-                        {
-                            if (d.DeptId == emp.DepartmentId)
-                            {
-                                @d.DepartmentName
-                            }
-                        }
-                    }
-
-
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", "Employee", new { Id = emp.Id })
-
-                </td>
-                <td>
-                    @using (Html.BeginForm("Delete", "Employee", new { Id = emp.Id }, FormMethod.Post))
+            @{
+                foreach (var d in ViewBag.departments)
+                {
+                    if (d.DeptId == ViewBag.currentEmp.DepartmentId)
                     {
-                        <button type="submit" class="btn btn-link">Delete</button>
+                        s = d.DeptId;
+                        break;
                     }
-                </td>
-            </tr>
+                }
             }
+
+            @{
+                if ((ViewBag.currentEmp.UserName == "Admin" || ViewBag.currentEmp.UserName == "HR"))
+                {
+                    @foreach (var emp in ViewBag.employees)
+                    {
+                        i++;
+
+                        if (((emp.UserName == "Admin") || (emp.UserName == "HR")))
+                        {
+                            i--;
+                            continue;
+                        }
+
+
+
+                        <tr>
+                            <th scope="row">@i</th>
+                            <td>@emp.Name</td>
+                            <td>@emp.Surname</td>
+                            <td>@emp.Address</td>
+                            <td>@emp.Qualification</td>
+                            <td>@emp.ContactNumber</td>
+                            <td>
+
+                                @{
+                                    foreach (var d in ViewBag.departments)
+                                    {
+                                        if (d.DeptId == emp.DepartmentId)
+                                        {
+                                            @d.DepartmentName
+                                        }
+                                    }
+                                }
+
+
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", "Employee", new { Id = emp.Id })
+
+                            </td>
+                            <td>
+                                @using (Html.BeginForm("Delete", "Employee", new { Id = emp.Id }, FormMethod.Post))
+                                {
+                                    <button type="submit" class="btn btn-link">Delete</button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    @foreach (var emp in ViewBag.employees)
+                    {
+                        i++;
+
+                        if (((emp.UserName == "Admin") || (emp.UserName == "HR") || emp.DepartmentId != s))
+                        {
+                            i--;
+                            continue;
+                        }
+
+
+
+                        <tr>
+                            <th scope="row">@i</th>
+                            <td>@emp.Name</td>
+                            <td>@emp.Surname</td>
+                            <td>@emp.Address</td>
+                            <td>@emp.Qualification</td>
+                            <td>@emp.ContactNumber</td>
+                            <td>
+
+                                @{
+                                    foreach (var d in ViewBag.departments)
+                                    {
+                                        if (d.DeptId == emp.DepartmentId)
+                                        {
+                                            @d.DepartmentName
+                                        }
+                                    }
+                                }
+
+
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", "Employee", new { Id = emp.Id })
+
+                            </td>
+                            <td>
+                                @using (Html.BeginForm("Delete", "Employee", new { Id = emp.Id }, FormMethod.Post))
+                                {
+                                    <button type="submit" class="btn btn-link">Delete</button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+            }
+
         </tbody>
     </table>
 

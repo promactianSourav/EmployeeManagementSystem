@@ -10,61 +10,93 @@ using System.Security.Cryptography.X509Certificates;
 using System.IO;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EmployeeManagement.Controllers
 {
     public class SecurityController : Controller
     {
-        private readonly UserManager<AppIdentityUser> userManager;
-        private readonly SignInManager<AppIdentityUser> signInManager;
+        private readonly UserManager<Employee> userManager;
+        private readonly SignInManager<Employee> signInManager;
         private readonly IEmailSender emailSender;
 
         public SecurityController(
-            UserManager<AppIdentityUser> userManager,
-            SignInManager<AppIdentityUser> signInManager,
+            UserManager<Employee> userManager,
+            SignInManager<Employee> signInManager,
             IEmailSender emailSender)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.emailSender = emailSender;
         }
-        public IActionResult Login()
+
+        [AllowAnonymous]
+        public IActionResult Login(string returnUrl)
         {
+            //var model = new LoginViewModel { ReturnUrl = returnUrl };
+            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        [AllowAnonymous]
+        public async Task<IActionResult> Login(LoginViewModel model,string returnUrl)
         {
-            if (!ModelState.IsValid)
-                return View(model);
-
-            var user = await this.userManager.FindByNameAsync(model.Username);
-            if (user != null)
+            //returnUrl = Request.QueryString.ToString();
+            string a = HttpContext.Request.Query["ReturnUrl"];
+            if (ModelState.IsValid)
             {
-                if (!await this.userManager.IsEmailConfirmedAsync(user))
+                var result = await signInManager.PasswordSignInAsync(model.UserName,
+                   model.Password, model.RememberMe, false);
+
+                if (result.Succeeded)
                 {
-                    ModelState.AddModelError(string.Empty,
-                              "Confirm your email please");
-                    return View(model);
+                    
+                    Console.WriteLine("Hello: "+returnUrl+" ok"+a);
+                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
+                ModelState.AddModelError("", "Invalid login attempt");
+
             }
+            //if (!ModelState.IsValid)
+            //    return View(model);
 
-            var result = await this.signInManager.PasswordSignInAsync(
-                model.Username, model.Password, isPersistent: false, lockoutOnFailure: false);
+            //var user = await this.userManager.FindByNameAsync(model.Username);
+            //if (user != null)
+            //{
+            //    if (!await this.userManager.IsEmailConfirmedAsync(user))
+            //    {
+            //        ModelState.AddModelError(string.Empty,
+            //                  "Confirm your email please");
+            //        return View(model);
+            //    }
+            //}
 
-            if (result.Succeeded)
-                return RedirectToAction("Index", "Home");
+            //var result = await this.signInManager.PasswordSignInAsync(
+            //    model.Username, model.Password, isPersistent: false, lockoutOnFailure: false);
 
-            ModelState.AddModelError(string.Empty, "Login Failed");
+            //if (result.Succeeded)
+            //    return RedirectToAction("Index", "Home");
+
+            //ModelState.AddModelError(string.Empty, "Login Failed");
+
+
             return View(model);
         }
 
+        
         public async Task<IActionResult> Logout()
         {
-            await this.signInManager.SignOutAsync();
+            await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
 
@@ -75,37 +107,56 @@ namespace EmployeeManagement.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(RegisterViewModel model)
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            if (!ModelState.IsValid)
-                return View(model);
 
-            var user = new AppIdentityUser
+            if (ModelState.IsValid)
             {
-                UserName = model.UserName,
-                Email = model.Email,
-                Age = model.Age
-            };
+                var user = new Employee { UserName = model.UserName,Email=model.Email };
+                var result = await userManager.CreateAsync(user, model.Password);
 
-            var result =  this.userManager.CreateAsync(user, model.Password);
-            if (result.IsCompletedSuccessfully)
-            {
-                var confrimationCode =
-                      this.userManager.GenerateEmailConfirmationTokenAsync(user);
-
-                var callbackurl = Url.Action(
-                    controller: "Security",
-                    action: "ConfirmEmail",
-                    values: new { userId = user.Id, code = confrimationCode },
-                    protocol: Request.Scheme);
-
-                 this.emailSender.SendEmailAsync(
-                    email: user.Email,
-                    subject: "Confirm Email",
-                    htmlMessage: callbackurl);
-
-                return RedirectToAction("Index", "Home");
+                if (result.Succeeded)
+                {
+                    await signInManager.SignInAsync(user, false);
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                }
             }
+            //if (!ModelState.IsValid)
+            //    return View(model);
+
+            //var user = new AppIdentityUser
+            //{
+            //    UserName = model.UserName,
+            //    Email = model.Email,
+            //    Age = model.Age
+            //};
+
+            //var result =  this.userManager.CreateAsync(user, model.Password);
+            //if (result.IsCompletedSuccessfully)
+            //{
+            //    var confrimationCode =
+            //          this.userManager.GenerateEmailConfirmationTokenAsync(user);
+
+            //    var callbackurl = Url.Action(
+            //        controller: "Security",
+            //        action: "ConfirmEmail",
+            //        values: new { userId = user.Id, code = confrimationCode },
+            //        protocol: Request.Scheme);
+
+            //     this.emailSender.SendEmailAsync(
+            //        email: user.Email,
+            //        subject: "Confirm Email",
+            //        htmlMessage: callbackurl);
+
+            //    return RedirectToAction("Index", "Home");
+            //}
 
             return View(model);
         }

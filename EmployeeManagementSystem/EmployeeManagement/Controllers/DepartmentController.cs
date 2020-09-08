@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Data.SqlClient;
 using System.Security.Cryptography.X509Certificates;
 using System.IO;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EmployeeManagement.Controllers
 {
@@ -15,38 +17,99 @@ namespace EmployeeManagement.Controllers
     {
         //We inject the DBContext into the controller...
         private DataContextAll _context;
+        private readonly RoleManager<Userroles> roleManager;
 
-        public DepartmentController(DataContextAll context)
+        public DepartmentController(DataContextAll context, RoleManager<Userroles> roleManager)
         {
             _context = context;
+            this.roleManager = roleManager;
         }
         
 
         //...and can access it in our actions.
         [HttpGet]
+        [Authorize(Roles ="Admin,HR")]
         public IActionResult Index()
         {
+
+            //if (ModelState.IsValid)
+            //{
+
+            //    Userroles dep1 = new Userroles
+            //    {
+            //        Name = "Admin"
+            //    };
+            //    roleManager.CreateAsync(dep1);
+            //    Userroles dep2 = new Userroles
+            //    {
+            //        Name = "HR"
+            //    };
+            //    roleManager.CreateAsync(dep2);
+            //}
+
+            //Userroles dep1 = new Userroles
+            //{
+            //    Id="1",
+            //    Name="Admin"
+            //};
+            //_context.Roles.Add(dep1);
+            //_context.SaveChanges();
+            //Userroles dep2 = new Userroles
+            //{
+            //    Id = "2",
+            //    Name = "HR"
+            //};
+            //_context.Roles.Add(dep2);
+
+            //_context.SaveChanges();
+            //Userroles dep3 = new Userroles
+            //{
+            //    Id = "3",
+            //    Name = "HR"
+            //};
+            //_context.Roles.Add(dep3);
+
+            //_context.SaveChanges();
             ViewBag.departments = _context.Departments.ToList();
             return View();
         }
 
         [HttpPost]
-        public IActionResult Add(Department department)
+        [Authorize(Roles = "Admin")]
+        public IActionResult Add(Department model)
         {
-            List<Department> listDepartment = new List<Department>();
-            listDepartment = _context.Departments.ToList();
-            int d = listDepartment.Max(x => x.DeptId);
-            department.DeptId = d + 1;
+            //if (ModelState.IsValid)
+            //{
+            string s = (Convert.ToInt32(_context.Departments.Select(x => x.DeptId).Max())+1).ToString();
+            Department dep = new Department
+            {
+                DeptId = s,
+                DepartmentName = model.DepartmentName
+            };
 
-            _context.Departments.Add(department);
-            _context.SaveChanges();
+            //IdentityResult result = await roleManager.CreateAsync(dep);
+
+            //if (result.Succeeded)
+            //{
+                    _context.Departments.Add(dep);
+                    _context.SaveChanges();
+            //        return RedirectToAction("Index");
+            //    }
+
+            //    foreach (IdentityError error in result.Errors)
+            //    {
+            //        ModelState.AddModelError("", error.Description);
+            //    }
+            //}
+
             
             return RedirectToAction("Index");
         }
 
 
         [HttpGet]
-        public IActionResult Edit(int Id)
+        [Authorize(Roles = "Admin")]
+        public IActionResult Edit(string Id)
         {
 
             Department department = new Department();
@@ -55,21 +118,50 @@ namespace EmployeeManagement.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(Department department)
+        [Authorize(Roles = "Admin")]
+        public IActionResult Edit(Department model)
         {
-            ViewBag.id = department.DeptId;
+            ViewBag.id = model.DeptId;
+            _context.Departments.Update(model);
+            _context.SaveChanges();
+            //var dep = await roleManager.FindByIdAsync(model.Id);
+            //dep.Name = model.Name;
+            //var result = await roleManager.UpdateAsync(dep);
 
-            _context.Departments.Update(department);
+            //if (result.Succeeded)
+            //{
+            //    return RedirectToAction("Index");
+            //}
+            //foreach(var error in result.Errors)
+            //{
+            //    ModelState.AddModelError("", error.Description);
+            //}
 
             return RedirectToAction("Index");
+
         }
 
         [HttpPost]
-        public IActionResult Delete(int Id)
+        [Authorize(Roles = "Admin")]
+        public IActionResult Delete(string Id)
         {
 
             Department department = _context.Departments.FirstOrDefault(a => a.DeptId == Id);
             _context.Departments.Remove(department);
+            _context.SaveChanges();
+            //var dep = await roleManager.FindByIdAsync(Id);
+            //dep.Name = model.Name;
+            //var result = await roleManager.DeleteAsync(dep);
+
+            //if (result.Succeeded)
+            //{
+            //    return RedirectToAction("Index");
+            //}
+            //foreach (var error in result.Errors)
+            //{
+            //    ModelState.AddModelError("", error.Description);
+            //}
+
 
             return RedirectToAction("Index");
         }
