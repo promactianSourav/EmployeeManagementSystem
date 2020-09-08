@@ -11,6 +11,7 @@ using System.IO;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
 
 namespace EmployeeManagement.Controllers
 {
@@ -176,6 +177,7 @@ namespace EmployeeManagement.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [AllowAnonymous]
         public IActionResult ForgotPassword()
         {
             return View();
@@ -183,6 +185,7 @@ namespace EmployeeManagement.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public async Task<IActionResult> ForgotPassword(string email)
         {
             if (string.IsNullOrEmpty(email))
@@ -192,11 +195,10 @@ namespace EmployeeManagement.Controllers
             if (user == null)
                 return RedirectToAction("ForgotPasswordEmailSent");
 
-            if (!await this.userManager.IsEmailConfirmedAsync(user))
-                return RedirectToAction("ForgotPasswordEmailSent");
+            //if (!await this.userManager.IsEmailConfirmedAsync(user))
+            //    return RedirectToAction("ForgotPasswordEmailSent");
 
-            var confrimationCode =
-                    await this.userManager.GeneratePasswordResetTokenAsync(user);
+            var confrimationCode = await userManager.GeneratePasswordResetTokenAsync(user);
 
             var callbackurl = Url.Action(
                 controller: "Security",
@@ -204,18 +206,27 @@ namespace EmployeeManagement.Controllers
                 values: new { userId = user.Id, code = confrimationCode },
                 protocol: Request.Scheme);
 
-            await this.emailSender.SendEmailAsync(
-                email: user.Email,
-                subject: "Reset Password",
-                htmlMessage: callbackurl);
+            //await this.emailSender.SendEmailAsync(
+            //    email: user.Email,
+            //    subject: "Reset Password",
+            //    htmlMessage: callbackurl);     
+            Console.WriteLine(callbackurl);
+            TempData["url"] = callbackurl;
+            //logger.Log(LogLevel.Warning, callbackurl);
+
+            
 
             return RedirectToAction("ForgotPasswordEmailSent");
         }
 
+        [AllowAnonymous]
         public IActionResult ForgotPasswordEmailSent()
         {
+            ViewBag.NewPassword = TempData["url"];
             return View();
         }
+
+        [AllowAnonymous]
         public IActionResult ResetPassword(string userId, string code)
         {
             if (userId == null || code == null)
@@ -227,6 +238,7 @@ namespace EmployeeManagement.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
             if (!ModelState.IsValid)
@@ -239,7 +251,16 @@ namespace EmployeeManagement.Controllers
             var result = await this.userManager.ResetPasswordAsync(
                                         user, model.Code, model.Password);
             if (result.Succeeded)
+            {
+                user.Password = model.Password;
+                user.ConfirmPassword = model.ConfirmPassword;
+               var result2 = await userManager.UpdateAsync(user);
+                if(result2.Succeeded)
                 return RedirectToAction("ResetPasswordConfirm");
+                else
+                    return RedirectToAction("ResetPasswordConfirm");
+
+            }
 
             foreach (var error in result.Errors)
                 ModelState.AddModelError(string.Empty, error.Description);
@@ -247,6 +268,8 @@ namespace EmployeeManagement.Controllers
             return View(model);
         }
 
+
+        [AllowAnonymous]
         public IActionResult ResetPasswordConfirm()
         {
             return View();

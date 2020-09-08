@@ -43,7 +43,8 @@ namespace EmployeeManagement
          options.UseSqlServer(Configuration.GetConnectionString("DBCS")));
 
             services.AddIdentity<Employee, Userroles>()
-                .AddEntityFrameworkStores<DataContextAll>();
+                .AddEntityFrameworkStores<DataContextAll>()
+                .AddDefaultTokenProviders();
 
             services.Configure<IdentityOptions>(options => {
                 options.Password.RequiredLength = 6;
