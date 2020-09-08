@@ -55,7 +55,6 @@ namespace EmployeeManagement.Controllers
                 if (result.Succeeded)
                 {
                     
-                    Console.WriteLine("Hello: "+returnUrl+" ok"+a);
                     if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
                     {
                         return Redirect(returnUrl);
@@ -94,88 +93,30 @@ namespace EmployeeManagement.Controllers
             return View(model);
         }
 
-        
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+
+        public IActionResult GoBack()
+        {
+            string a = HttpContext.Request.Query["ReturnUrl"];
+            if (!string.IsNullOrEmpty(a) && Url.IsLocalUrl(a))
+            {
+                return Redirect(a);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+        }
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
 
-        public ActionResult Register()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterViewModel model)
-        {
-
-            if (ModelState.IsValid)
-            {
-                var user = new Employee { UserName = model.UserName,Email=model.Email };
-                var result = await userManager.CreateAsync(user, model.Password);
-
-                if (result.Succeeded)
-                {
-                    await signInManager.SignInAsync(user, false);
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error.Description);
-                    }
-                }
-            }
-            //if (!ModelState.IsValid)
-            //    return View(model);
-
-            //var user = new AppIdentityUser
-            //{
-            //    UserName = model.UserName,
-            //    Email = model.Email,
-            //    Age = model.Age
-            //};
-
-            //var result =  this.userManager.CreateAsync(user, model.Password);
-            //if (result.IsCompletedSuccessfully)
-            //{
-            //    var confrimationCode =
-            //          this.userManager.GenerateEmailConfirmationTokenAsync(user);
-
-            //    var callbackurl = Url.Action(
-            //        controller: "Security",
-            //        action: "ConfirmEmail",
-            //        values: new { userId = user.Id, code = confrimationCode },
-            //        protocol: Request.Scheme);
-
-            //     this.emailSender.SendEmailAsync(
-            //        email: user.Email,
-            //        subject: "Confirm Email",
-            //        htmlMessage: callbackurl);
-
-            //    return RedirectToAction("Index", "Home");
-            //}
-
-            return View(model);
-        }
-        public async Task<IActionResult> ConfirmEmail(string userId, string code)
-        {
-            if (userId == null || code == null)
-                return RedirectToAction("Index", "Home");
-
-            var user = await this.userManager.FindByIdAsync(userId);
-            if (user == null)
-                throw new ApplicationException($"Unable to load user with ID '{userId}'.");
-
-            var result = await this.userManager.ConfirmEmailAsync(user, code);
-            if (result.Succeeded)
-                return View("ConfirmEmail");
-
-            return RedirectToAction("Index", "Home");
-        }
+        
 
         [AllowAnonymous]
         public IActionResult ForgotPassword()
