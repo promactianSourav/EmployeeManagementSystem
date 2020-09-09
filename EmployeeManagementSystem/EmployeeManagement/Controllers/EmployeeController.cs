@@ -125,13 +125,12 @@ namespace EmployeeManagement.Controllers
                     //    _context.UserRoles.Add(ed);
                     //    _context.SaveChanges();
                     //}
-                    Console.WriteLine(_context.UserRoles.ToList().Count());
                     return RedirectToAction("Index");
                 }
 
                 foreach (IdentityError error in result.Errors)
                 {
-                    ModelState.AddModelError("", error.Description);
+                    ModelState.AddModelError("customerror", error.Description);
                 }
             }
 

@@ -78,8 +78,6 @@ namespace EmployeeManagement.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Add(Department model)
         {
-            //if (ModelState.IsValid)
-            //{
             string s = (Convert.ToInt32(_context.Departments.Select(x => x.DeptId).Max())+1).ToString();
             Department dep = new Department
             {
@@ -87,21 +85,10 @@ namespace EmployeeManagement.Controllers
                 DepartmentName = model.DepartmentName
             };
 
-            //IdentityResult result = await roleManager.CreateAsync(dep);
-
-            //if (result.Succeeded)
-            //{
+          
                     _context.Departments.Add(dep);
                     _context.SaveChanges();
-            //        return RedirectToAction("Index");
-            //    }
-
-            //    foreach (IdentityError error in result.Errors)
-            //    {
-            //        ModelState.AddModelError("", error.Description);
-            //    }
-            //}
-
+           
             
             return RedirectToAction("Index");
         }
@@ -124,18 +111,6 @@ namespace EmployeeManagement.Controllers
             ViewBag.id = model.DeptId;
             _context.Departments.Update(model);
             _context.SaveChanges();
-            //var dep = await roleManager.FindByIdAsync(model.Id);
-            //dep.Name = model.Name;
-            //var result = await roleManager.UpdateAsync(dep);
-
-            //if (result.Succeeded)
-            //{
-            //    return RedirectToAction("Index");
-            //}
-            //foreach(var error in result.Errors)
-            //{
-            //    ModelState.AddModelError("", error.Description);
-            //}
 
             return RedirectToAction("Index");
 
@@ -149,19 +124,6 @@ namespace EmployeeManagement.Controllers
             Department department = _context.Departments.FirstOrDefault(a => a.DeptId == Id);
             _context.Departments.Remove(department);
             _context.SaveChanges();
-            //var dep = await roleManager.FindByIdAsync(Id);
-            //dep.Name = model.Name;
-            //var result = await roleManager.DeleteAsync(dep);
-
-            //if (result.Succeeded)
-            //{
-            //    return RedirectToAction("Index");
-            //}
-            //foreach (var error in result.Errors)
-            //{
-            //    ModelState.AddModelError("", error.Description);
-            //}
-
 
             return RedirectToAction("Index");
         }

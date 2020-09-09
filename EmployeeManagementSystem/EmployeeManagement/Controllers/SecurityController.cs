@@ -34,7 +34,6 @@ namespace EmployeeManagement.Controllers
         [AllowAnonymous]
         public IActionResult Login(string returnUrl)
         {
-            //var model = new LoginViewModel { ReturnUrl = returnUrl };
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -45,7 +44,6 @@ namespace EmployeeManagement.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel model,string returnUrl)
         {
-            //returnUrl = Request.QueryString.ToString();
             string a = HttpContext.Request.Query["ReturnUrl"];
             if (ModelState.IsValid)
             {
@@ -67,29 +65,7 @@ namespace EmployeeManagement.Controllers
                 ModelState.AddModelError("", "Invalid login attempt");
 
             }
-            //if (!ModelState.IsValid)
-            //    return View(model);
-
-            //var user = await this.userManager.FindByNameAsync(model.Username);
-            //if (user != null)
-            //{
-            //    if (!await this.userManager.IsEmailConfirmedAsync(user))
-            //    {
-            //        ModelState.AddModelError(string.Empty,
-            //                  "Confirm your email please");
-            //        return View(model);
-            //    }
-            //}
-
-            //var result = await this.signInManager.PasswordSignInAsync(
-            //    model.Username, model.Password, isPersistent: false, lockoutOnFailure: false);
-
-            //if (result.Succeeded)
-            //    return RedirectToAction("Index", "Home");
-
-            //ModelState.AddModelError(string.Empty, "Login Failed");
-
-
+            
             return View(model);
         }
 
@@ -136,9 +112,6 @@ namespace EmployeeManagement.Controllers
             if (user == null)
                 return RedirectToAction("ForgotPasswordEmailSent");
 
-            //if (!await this.userManager.IsEmailConfirmedAsync(user))
-            //    return RedirectToAction("ForgotPasswordEmailSent");
-
             var confrimationCode = await userManager.GeneratePasswordResetTokenAsync(user);
 
             var callbackurl = Url.Action(
@@ -147,15 +120,8 @@ namespace EmployeeManagement.Controllers
                 values: new { userId = user.Id, code = confrimationCode },
                 protocol: Request.Scheme);
 
-            //await this.emailSender.SendEmailAsync(
-            //    email: user.Email,
-            //    subject: "Reset Password",
-            //    htmlMessage: callbackurl);     
-            Console.WriteLine(callbackurl);
             TempData["url"] = callbackurl;
-            //logger.Log(LogLevel.Warning, callbackurl);
-
-            
+           
 
             return RedirectToAction("ForgotPasswordEmailSent");
         }

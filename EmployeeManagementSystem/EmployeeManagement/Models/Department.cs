@@ -12,7 +12,10 @@ namespace EmployeeManagement.Models
     public class Department
     {
         [Key]
+        [Required]
         public string DeptId { get; set; }
+
+        [Required]
         public string DepartmentName { get; set; }
     }
 }

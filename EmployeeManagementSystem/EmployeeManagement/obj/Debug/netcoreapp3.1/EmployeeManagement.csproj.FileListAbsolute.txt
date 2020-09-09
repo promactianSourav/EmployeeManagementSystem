@@ -317,3 +317,4 @@ F:\promact\WorkingONBoard\EmpManageSys\EmployeeManagementSystem\EmployeeManageme
 F:\promact\WorkingONBoard\EmpManageSys\EmployeeManagementSystem\EmployeeManagement\obj\Debug\netcoreapp3.1\EmployeeManagement.pdb
 F:\promact\WorkingONBoard\EmpManageSys\EmployeeManagementSystem\EmployeeManagement\obj\Debug\netcoreapp3.1\EmployeeManagement.genruntimeconfig.cache
 F:\promact\WorkingONBoard\EmpManageSys\EmployeeManagementSystem\EmployeeManagement\obj\Debug\netcoreapp3.1\EmployeeManagement.csprojAssemblyReference.cache
+F:\promact\WorkingONBoard\EmpManageSys\EmployeeManagementSystem\EmployeeManagement\bin\Debug\netcoreapp3.1\libman.json
