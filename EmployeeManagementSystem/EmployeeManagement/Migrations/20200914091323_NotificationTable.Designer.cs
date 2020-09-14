@@ -4,14 +4,16 @@ using EmployeeManagement.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EmployeeManagement.Migrations
 {
     [DbContext(typeof(DataContextAll))]
-    partial class DataContextAllModelSnapshot : ModelSnapshot
+    [Migration("20200914091323_NotificationTable")]
+    partial class NotificationTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,7 +48,7 @@ namespace EmployeeManagement.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Notifications");
+                    b.ToTable("Notification");
                 });
 
             modelBuilder.Entity("EmployeeManagement.Models.NotificationUser", b =>
@@ -54,14 +56,17 @@ namespace EmployeeManagement.Migrations
                     b.Property<string>("NotificationId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("EmployeeUserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("NotificationId", "EmployeeUserId");
+                    b.HasKey("NotificationId", "UserId");
 
                     b.HasIndex("EmployeeUserId");
 
-                    b.ToTable("UserNotifications");
+                    b.ToTable("NotificationUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -323,9 +328,7 @@ namespace EmployeeManagement.Migrations
                 {
                     b.HasOne("EmployeeManagement.Models.Employee", "EmployeeUser")
                         .WithMany("NotificationUsers")
-                        .HasForeignKey("EmployeeUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EmployeeUserId");
 
                     b.HasOne("EmployeeManagement.Models.Notification", "Notification")
                         .WithMany("NotificationUsers")

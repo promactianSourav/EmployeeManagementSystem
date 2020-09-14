@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EmployeeManagement.Data;
 using EmployeeManagement.Models;
+using EmployeeManagement.Repository;
 using EmployeeManagement.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -19,6 +20,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 
 namespace EmployeeManagement
 {
@@ -68,6 +70,7 @@ namespace EmployeeManagement
                 };
             });
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<INotificationRepository, NotificationRepository>();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
             //services.AddMvc();
             services.AddMvc(options =>

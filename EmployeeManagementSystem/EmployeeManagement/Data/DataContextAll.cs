@@ -17,9 +17,17 @@ namespace EmployeeManagement.Data
 
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Userroles> UserRolesList { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<NotificationUser> UserNotifications { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+
+            builder.Entity<NotificationUser>()
+                   .HasKey(k => new { k.NotificationId, k.EmployeeUserId });
+            builder.Entity<Notification>()
+                   .Property(e => e.Id)
+                   .ValueGeneratedOnAdd();
             base.OnModelCreating(builder);
             
         }

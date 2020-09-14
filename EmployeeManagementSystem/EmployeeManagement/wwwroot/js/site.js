@@ -1,4 +1,17 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿
+function getNotification() {
+    $.ajax({
+        url: "/Notification/getNofication",
+        method: "GET",
+        success: function (result) {
+            $("notificationCount").html(result.Count);
+            console.log(result);
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+    }
 
-// Write your JavaScript code.
+    getNotification();
+

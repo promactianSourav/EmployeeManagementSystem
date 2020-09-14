@@ -37,6 +37,9 @@
                     <p>
                         @User.Identity.Name (<a asp-controller="Security" asp-action="Logout">Logout</a>)
                     </p>
+                    <p>
+                        <span class="badge notification-count" id="notificationCount"></span>
+                    </p>
                 }
                 else
                 {

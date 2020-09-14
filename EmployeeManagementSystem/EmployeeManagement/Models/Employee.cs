@@ -42,5 +42,8 @@ namespace EmployeeManagement.Models
         [ForeignKey("DeptId")]
         public string DepartmentId { get; set; }
 
+        public List<NotificationUser> NotificationUsers { get; set; }
+
+
     }
 }

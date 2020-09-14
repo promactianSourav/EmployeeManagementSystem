@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
 using EmployeeManagement.Data;
 using EmployeeManagement.Models;
+using EmployeeManagement.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -19,13 +21,17 @@ namespace EmployeeManagement.Controllers
         private readonly UserManager<Employee> userManager;
         private readonly SignInManager<Employee> signInManager;
 
+        public INotificationRepository NotificationRepository { get; }
+
         public EmployeeController(DataContextAll context, UserManager<Employee> userManager,
-            SignInManager<Employee> signInManager)
+            SignInManager<Employee> signInManager,INotificationRepository notificationRepository)
         {
             _context = context;
             this.userManager = userManager;
             this.signInManager = signInManager;
+            NotificationRepository = notificationRepository;
 
+           
         }
 
        
@@ -54,6 +60,12 @@ namespace EmployeeManagement.Controllers
                    Value = n.DeptId,
                    Text = n.DepartmentName
                }).ToList();
+            var username = userManager.GetUserName(HttpContext.User);
+            var notification = new Notification
+            {
+                Text = $" The {username} is new Employee in your Department."
+            };
+            NotificationRepository.Create(notification);
             return View();
         }
 
@@ -125,6 +137,12 @@ namespace EmployeeManagement.Controllers
                     //    _context.UserRoles.Add(ed);
                     //    _context.SaveChanges();
                     //}
+                    //var username = userManager.GetUserName(HttpContext.User);
+                    //var notification = new Notification
+                    //{
+                    //    Text = $" The {username} is new Employee in your Department."
+                    //};
+                    //NotificationRepository.Create(notification);
                     return RedirectToAction("Index");
                 }
 
