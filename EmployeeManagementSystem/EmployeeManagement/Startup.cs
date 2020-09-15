@@ -35,10 +35,10 @@ namespace EmployeeManagement
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {           
-            
+        {
+
             services.AddControllers();
-            
+
             //For changing the scope of database
             services.AddScoped<DataContextAll>();
             services.AddDbContext<DataContextAll>(options =>
@@ -47,6 +47,8 @@ namespace EmployeeManagement
             services.AddIdentity<Employee, Userroles>()
                 .AddEntityFrameworkStores<DataContextAll>()
                 .AddDefaultTokenProviders();
+            services.AddTransient<IEmailSender, EmailSender>();
+            //services.AddTransient<INotificationRepository, NotificationRepository>();
 
             services.Configure<IdentityOptions>(options => {
                 options.Password.RequiredLength = 6;
@@ -69,8 +71,6 @@ namespace EmployeeManagement
                     SecurePolicy = CookieSecurePolicy.SameAsRequest
                 };
             });
-            services.AddTransient<IEmailSender, EmailSender>();
-            services.AddTransient<INotificationRepository, NotificationRepository>();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
             //services.AddMvc();
             services.AddMvc(options =>
@@ -80,6 +80,7 @@ namespace EmployeeManagement
                 .Build();
                 options.Filters.Add(new AuthorizeFilter(policy));
             }).AddXmlSerializerFormatters();
+          
 
         }
 

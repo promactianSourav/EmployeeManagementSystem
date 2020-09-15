@@ -315,6 +315,7 @@ F:\promact\WorkingONBoard\EmpManageSys\EmployeeManagementSystem\EmployeeManageme
 F:\promact\WorkingONBoard\EmpManageSys\EmployeeManagementSystem\EmployeeManagement\obj\Debug\netcoreapp3.1\EmployeeManagement.dll
 F:\promact\WorkingONBoard\EmpManageSys\EmployeeManagementSystem\EmployeeManagement\obj\Debug\netcoreapp3.1\EmployeeManagement.pdb
 F:\promact\WorkingONBoard\EmpManageSys\EmployeeManagementSystem\EmployeeManagement\obj\Debug\netcoreapp3.1\EmployeeManagement.genruntimeconfig.cache
+F:\promact\WorkingONBoard\EmpManageSys\EmployeeManagementSystem\EmployeeManagement\bin\Debug\netcoreapp3.1\System.Net.WebSockets.WebSocketProtocol.dll
 F:\promact\WorkingONBoard\EmpManageSys\EmployeeManagementSystem\EmployeeManagement\obj\Debug\netcoreapp3.1\EmployeeManagement.csproj.CoreCompileInputs.cache
 F:\promact\WorkingONBoard\EmpManageSys\EmployeeManagementSystem\EmployeeManagement\obj\Debug\netcoreapp3.1\EmployeeManagement.MvcApplicationPartsAssemblyInfo.cs
 F:\promact\WorkingONBoard\EmpManageSys\EmployeeManagementSystem\EmployeeManagement\obj\Debug\netcoreapp3.1\EmployeeManagement.MvcApplicationPartsAssemblyInfo.cache

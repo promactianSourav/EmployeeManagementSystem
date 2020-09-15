@@ -12,11 +12,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using System.Data.Entity;
 using EmployeeManagement.Repository;
+using Microsoft.AspNetCore.Http;
 
 namespace EmployeeManagement.Controllers
 {
     [Authorize]
-    public class NotificaitonController : Controller
+    public class NotificationController : Controller
     {
         //We inject the DBContext into the controller...
         private DataContextAll _context;
@@ -24,28 +25,33 @@ namespace EmployeeManagement.Controllers
         private readonly UserManager<Employee> userManager;
         private readonly SignInManager<Employee> signInManager;
 
-        public NotificationRepository NotificationRepository { get; }
+        public IHttpContextAccessor HttpContextAccessor { get; }
 
-        public NotificaitonController(DataContextAll context, RoleManager<Userroles> roleManager,UserManager<Employee> userManager,
-            SignInManager<Employee> signInManager,NotificationRepository notificationRepository)
+        //public NotificationRepository NotificationRepository { get; }
+        NotificationRepository notificationRepository;
+        public NotificationController(DataContextAll context, RoleManager<Userroles> roleManager,UserManager<Employee> userManager,
+            SignInManager<Employee> signInManager, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             this.roleManager = roleManager;
             this.userManager = userManager;
             this.signInManager = signInManager;
-            NotificationRepository = notificationRepository;
+            HttpContextAccessor = httpContextAccessor;
+            notificationRepository = new NotificationRepository(_context, roleManager, userManager, signInManager, HttpContextAccessor);
+
+            //NotificationRepository = notificationRepository;
         }
-        
+
         public IActionResult GetNotification()
         {
             var userId = userManager.GetUserId(HttpContext.User);
-            var notification = NotificationRepository.GetNotificationUsers(userId);
-            return Ok( new { NotificationUser = notification, Count = notification.Count});
+            var notification = notificationRepository.GetNotificationUsers(userId);
+            return Ok( new { NotificationUser = notification, count = notification.Count});
         }
 
         public IActionResult ReadNotification(string NotificationId)
         {
-            NotificationRepository.ReadNotification(NotificationId);
+            notificationRepository.ReadNotification(NotificationId);
             return Ok();
         }
     }

@@ -26,6 +26,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="Index">Employee</a>
                         </li>
+
                     </ul>
 
                 </div>
@@ -34,12 +35,11 @@
 
                 @if (signInManager.IsSignedIn(User))
                 {
+                    <span class="badge badge-light notification-count" id="notificationCount" data-toggle="popover" title="Notifications"></span>
                     <p>
                         @User.Identity.Name (<a asp-controller="Security" asp-action="Logout">Logout</a>)
                     </p>
-                    <p>
-                        <span class="badge notification-count" id="notificationCount"></span>
-                    </p>
+
                 }
                 else
                 {
@@ -70,6 +70,8 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/jquery-validate/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>

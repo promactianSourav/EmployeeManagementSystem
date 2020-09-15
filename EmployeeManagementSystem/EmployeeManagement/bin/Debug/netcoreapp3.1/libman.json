@@ -5,6 +5,15 @@
     {
       "library": "jquery-validate@1.19.2",
       "destination": "wwwroot/lib/jquery-validate/"
+    },
+    {
+      "provider": "unpkg",
+      "library": "@microsoft/signalr@3.1.8",
+      "destination": "wwwroot/js/signalr/",
+      "files": [
+        "dist/browser/signalr.js",
+        "dist/browser/signalr.min.js"
+      ]
     }
   ]
 }

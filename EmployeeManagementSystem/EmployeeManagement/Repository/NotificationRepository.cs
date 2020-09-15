@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace EmployeeManagement.Repository
 {
-    public class NotificationRepository : INotificationRepository
+    public class NotificationRepository 
     {
         public DataContextAll _context { get; }
         public RoleManager<Userroles> roleManager { get; }
@@ -30,8 +30,9 @@ namespace EmployeeManagement.Repository
             HttpContextAccessor = httpContextAccessor;
         }
 
-        public NotificationRepository()
+        public NotificationRepository(DataContextAll dataContextAll)
         {
+            _context = dataContextAll;
         }
 
         public void Create(Notification notification)
@@ -40,10 +41,10 @@ namespace EmployeeManagement.Repository
             _context.Notifications.Add(notification);
             _context.SaveChanges();
 
-            if (signInManager.IsSignedIn(HttpContextAccessor.HttpContext.User))
-            {
+            //if (signInManager.IsSignedIn(HttpContextAccessor.HttpContext.User) || true)
+            //{
                 //How we know the new User is created by Admin or HR
-                string currentEmp =HttpContextAccessor.HttpContext.User.Identity.Name;
+                //string currentEmp =HttpContextAccessor.HttpContext.User.Identity.Name;
 
                 var lists = _context.Employees.ToList();
 
@@ -56,15 +57,20 @@ namespace EmployeeManagement.Repository
                     _context.UserNotifications.Add(userNotification);
                     _context.SaveChanges();
                 }
-            }
+            //}
             
 
         }
-        public List<NotificationUser> GetNotificationUsers(string userId)
+        public List<Notification> GetNotificationUsers(string userId)
         {
-            return _context.UserNotifications.Where(q => q.EmployeeUserId.Equals(userId))
-                .Include(n => n.Notification)
+            //.Where(q => q.EmployeeUserId.Equals(userId))
+            return _context.Notifications
+                .Where(n => n.IsRead==false)
                 .ToList();
+
+            //return _context.UserNotifications
+            //    .Include(n => n.Notification)
+            //    .ToList();
         }
 
         public void ReadNotification(string Id)

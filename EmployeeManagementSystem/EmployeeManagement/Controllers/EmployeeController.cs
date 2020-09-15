@@ -22,14 +22,15 @@ namespace EmployeeManagement.Controllers
         private readonly SignInManager<Employee> signInManager;
 
         public INotificationRepository NotificationRepository { get; }
-
+        NotificationRepository notificationRepository;
         public EmployeeController(DataContextAll context, UserManager<Employee> userManager,
-            SignInManager<Employee> signInManager,INotificationRepository notificationRepository)
+            SignInManager<Employee> signInManager)
         {
             _context = context;
             this.userManager = userManager;
             this.signInManager = signInManager;
-            NotificationRepository = notificationRepository;
+            //NotificationRepository = notificationRepository;
+            notificationRepository = new NotificationRepository(_context);
 
            
         }
@@ -65,7 +66,7 @@ namespace EmployeeManagement.Controllers
             {
                 Text = $" The {username} is new Employee in your Department."
             };
-            NotificationRepository.Create(notification);
+            notificationRepository.Create(notification);
             return View();
         }
 
