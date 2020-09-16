@@ -1,4 +1,9 @@
-﻿$('[data-toggle="popover"]').popover({
+﻿//import { signalR } from "./signalr/dist/browser/signalr";
+
+//import { signalR } from "./signalr/dist/browser/signalr";
+
+//signalR = require('./signalr/dist/browser/signalr');
+$('[data-toggle="popover"]').popover({
     placement: "bottom",
     content: function () {
         return $("#notification-content").html();
@@ -16,6 +21,7 @@ function getNotification() {
         success: function (result) {
             if (result.count != 0) {
                 $("#notificationCount").html(result.count);
+                $("#notificationCount").show("slow");
             } else {
                 $("#notificationCount").html();
                 $("#notificationCount").hide("slow");
@@ -71,5 +77,19 @@ function readNotification(id,target) {
     });
 }
 
+getNotification();
+//let con = new signalR.HubConnection("/signalServer");
+//let connection = new signalR.HubConnection("/signalServer");
+//let con = new signalR.HubConnection("/signalServer");
+const connection = new signalR.HubConnectionBuilder()
+    .withUrl("/signalServer")
+    .configureLogging(signalR.LogLevel.Information)
+    .build();
+
+connection.on("displayNotification", () => {
     getNotification();
+});
+
+connection.start();
+
 

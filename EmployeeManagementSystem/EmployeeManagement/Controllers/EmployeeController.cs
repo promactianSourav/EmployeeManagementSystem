@@ -4,12 +4,14 @@ using System.Linq;
 using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
 using EmployeeManagement.Data;
+using EmployeeManagement.Intrastructure;
 using EmployeeManagement.Models;
 using EmployeeManagement.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.SignalR;
 
 namespace EmployeeManagement.Controllers
 {
@@ -22,15 +24,16 @@ namespace EmployeeManagement.Controllers
         private readonly SignInManager<Employee> signInManager;
 
         public INotificationRepository NotificationRepository { get; }
-        NotificationRepository notificationRepository;
+        //NotificationRepository notificationRepository;
+        private IHubContext<SignalServer> _hubContext { get; }
         public EmployeeController(DataContextAll context, UserManager<Employee> userManager,
-            SignInManager<Employee> signInManager)
+            SignInManager<Employee> signInManager,INotificationRepository notificationRepository)
         {
             _context = context;
             this.userManager = userManager;
             this.signInManager = signInManager;
-            //NotificationRepository = notificationRepository;
-            notificationRepository = new NotificationRepository(_context);
+            NotificationRepository = notificationRepository;
+            //notificationRepository = new NotificationRepository(_context,_hubContext);
 
            
         }
@@ -66,7 +69,7 @@ namespace EmployeeManagement.Controllers
             {
                 Text = $" The {username} is new Employee in your Department."
             };
-            notificationRepository.Create(notification);
+            NotificationRepository.Create(notification);
             return View();
         }
 

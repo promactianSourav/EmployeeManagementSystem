@@ -13,7 +13,8 @@ namespace EmployeeManagement.Repository
 {
     public interface INotificationRepository
     {
-        List<NotificationUser> GetNotificationUsers(string userId);
+        List<NotificationUser> GetNotificationUsersSecond(string userId);
+         List<Notification> GetNotificationUsers(string userId);
         void Create(Notification notification);
         void ReadNotification(string Id);
         

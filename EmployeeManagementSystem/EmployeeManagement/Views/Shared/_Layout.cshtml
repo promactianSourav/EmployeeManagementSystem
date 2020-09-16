@@ -1,4 +1,4 @@
-﻿@inject SignInManager<Employee> signInManager;
+﻿@inject SignInManager<Employee> signInManager;    
 
 <!DOCTYPE html>
 <html lang="en">
@@ -70,9 +70,11 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/jquery-validate/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+    <script src="~/lib/microsoft-signalr/signalr.js"></script>
     <script src="~/js/signalr/dist/browser/signalr.js"></script>
-    <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @RenderSection("Scripts", required: false)
 </body>
 </html>

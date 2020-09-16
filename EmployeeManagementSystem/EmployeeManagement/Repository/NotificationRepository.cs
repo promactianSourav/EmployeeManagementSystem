@@ -1,18 +1,20 @@
-﻿using System;
+﻿using System;     
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using EmployeeManagement.Data;
+using EmployeeManagement.Intrastructure;
 using EmployeeManagement.Models;
 using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
 
 namespace EmployeeManagement.Repository
 {
-    public class NotificationRepository 
+    public class NotificationRepository : INotificationRepository
     {
         public DataContextAll _context { get; }
         public RoleManager<Userroles> roleManager { get; }
@@ -20,20 +22,23 @@ namespace EmployeeManagement.Repository
         public SignInManager<Employee> signInManager { get; }
         public IHttpContextAccessor HttpContextAccessor { get; }
 
+        private IHubContext<SignalServer> _hubContext { get; }
         public NotificationRepository(DataContextAll dataContextAll, RoleManager<Userroles> _roleManager, UserManager<Employee> _userManager,
-            SignInManager<Employee> _signInManage,IHttpContextAccessor httpContextAccessor)
+            SignInManager<Employee> _signInManage,IHttpContextAccessor httpContextAccessor,IHubContext<SignalServer> hubContext)
         {
             _context = dataContextAll;
             roleManager = _roleManager;
             userManager = _userManager;
             signInManager = _signInManage;
             HttpContextAccessor = httpContextAccessor;
+            _hubContext = hubContext;
         }
 
-        public NotificationRepository(DataContextAll dataContextAll)
-        {
-            _context = dataContextAll;
-        }
+        //public NotificationRepository(DataContextAll dataContextAll,IHubContext<SignalServer> hubContext)
+        //{
+        //    _context = dataContextAll;
+        //    _hubContext = hubContext;
+        //}
 
         public void Create(Notification notification)
         {
@@ -58,7 +63,7 @@ namespace EmployeeManagement.Repository
                     _context.SaveChanges();
                 }
             //}
-            
+            _hubContext.Clients.All.SendAsync("displayNotification", "");
 
         }
         public List<Notification> GetNotificationUsers(string userId)
@@ -81,5 +86,9 @@ namespace EmployeeManagement.Repository
             _context.SaveChanges();
         }
 
+        public List<NotificationUser> GetNotificationUsersSecond(string userId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

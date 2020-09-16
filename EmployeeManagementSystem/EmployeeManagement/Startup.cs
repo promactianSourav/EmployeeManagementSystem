@@ -1,8 +1,9 @@
-using System;
+using System;    
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EmployeeManagement.Data;
+using EmployeeManagement.Intrastructure;
 using EmployeeManagement.Models;
 using EmployeeManagement.Repository;
 using EmployeeManagement.Services;
@@ -48,7 +49,7 @@ namespace EmployeeManagement
                 .AddEntityFrameworkStores<DataContextAll>()
                 .AddDefaultTokenProviders();
             services.AddTransient<IEmailSender, EmailSender>();
-            //services.AddTransient<INotificationRepository, NotificationRepository>();
+            services.AddTransient<INotificationRepository, NotificationRepository>();
 
             services.Configure<IdentityOptions>(options => {
                 options.Password.RequiredLength = 6;
@@ -73,6 +74,7 @@ namespace EmployeeManagement
             });
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
             //services.AddMvc();
+            services.AddSignalR();
             services.AddMvc(options =>
             {
                 var policy = new AuthorizationPolicyBuilder()
@@ -105,11 +107,18 @@ namespace EmployeeManagement
             app.UseRouting();
 
             app.UseAuthorization();
-           
+
             //app.UseMvcWithDefaultRoute();
+            app.UseSignalR(routes => routes.MapHub<SignalServer>("/signalServer"));
+            //app.UseSignalR(route =>
+            //{
+            //    route.MapHub<SignalServer>("/signalServer");
+            //});
 
             app.UseEndpoints(endpoints =>
             {
+
+                endpoints.MapHub<SignalServer>("signalServer");
                 endpoints.MapControllerRoute(
                     name: "/Home",
                     pattern: "{controller=Home}/{action=Index}/{Id?}");
