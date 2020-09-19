@@ -49,7 +49,11 @@ namespace EmployeeManagement.Repository
             var changeObjectEmployee = _context.Employees.FirstOrDefault(a => a.Id == changeObjectId);
             var changeObjectDepartment = _context.Departments.FirstOrDefault(a => a.DeptId == changeObjectId);
 
-            if(changeObjectDepartment != null)
+            Console.WriteLine("Your changer: " + changer);
+            Console.WriteLine("Your object: " + changeObjectId);
+            Console.WriteLine("Your Employee: " + changeObjectEmployee);
+            Console.WriteLine("Your Department: " + changeObjectDepartment);
+            if (changeObjectDepartment != null)
             {
                 var listOfHR = _context.UserRoles.Where(a => a.RoleId == "2");
                 //var lists = _context.Employees.Where(a => { listOfHR.Contains(a.Id) });
@@ -79,7 +83,7 @@ namespace EmployeeManagement.Repository
 
             }
 
-            if(changer == null)
+            if (changer == "")
             {
                 var listOfAdmin = _context.UserRoles.Where(a => a.RoleId == "1");
                 foreach (var emp in listOfAdmin)
@@ -127,9 +131,14 @@ namespace EmployeeManagement.Repository
         public List<Notification> GetNotificationUsers(string userId)
         {
             //.Where(q => q.EmployeeUserId.Equals(userId))
-            return _context.Notifications
-                .Where(n => n.IsRead==false)
-                .ToList();
+            var listNotificationIds = _context.UserNotifications.Where(a => a.EmployeeUserId == userId).ToList();
+            //List<Notification> listNotifications = _context.Notifications.Where(n => listNotificationIds.All(i => i.NotificationId == n.Id)).ToList();
+            List<Notification> list1 = _context.Notifications.ToList();
+            List<Notification> list2 = (from one in list1
+                                       join two in listNotificationIds
+                                       on one.Id equals two.NotificationId
+                                       select one).ToList();
+            return list2;
 
             //return _context.UserNotifications
             //    .Include(n => n.Notification)

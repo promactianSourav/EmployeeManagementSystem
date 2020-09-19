@@ -280,6 +280,24 @@ namespace EmployeeManagement.Controllers
 
             if (result.Succeeded)
             {
+                var userid = userManager.GetUserId(HttpContext.User);
+                Console.WriteLine(userid+" Hello");
+                var role = _context.UserRoles.FirstOrDefault(a => a.UserId == userid);
+                Console.WriteLine(role+" role");
+                string changer = "";
+                if(role != null)
+                {
+                    var Role = _context.Roles.FirstOrDefault(a => a.Id == role.UserId);
+                    changer = Role.Name;
+                }
+               
+                var changeObjectId = model.Id;
+                var notification = new Notification
+                {
+                    Text = $" The {model.UserName} is updated the profile."
+                };
+                NotificationRepository.Create(notification, changer, changeObjectId);
+
                 return RedirectToAction("Index");
             }
             foreach (var error in result.Errors)
