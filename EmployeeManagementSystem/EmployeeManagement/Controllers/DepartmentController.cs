@@ -10,6 +10,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.IO;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using EmployeeManagement.Repository;
 
 namespace EmployeeManagement.Controllers
 {
@@ -19,10 +20,15 @@ namespace EmployeeManagement.Controllers
         private DataContextAll _context;
         private readonly RoleManager<Userroles> roleManager;
 
-        public DepartmentController(DataContextAll context, RoleManager<Userroles> roleManager)
+        public UserManager<Employee> userManager { get; }
+        public INotificationRepository NotificationRepository { get; }
+
+        public DepartmentController(DataContextAll context, UserManager<Employee> UserManager, RoleManager<Userroles> roleManager, INotificationRepository notificationRepository)
         {
             _context = context;
+            userManager = UserManager;
             this.roleManager = roleManager;
+            NotificationRepository = notificationRepository;
         }
         
 
@@ -88,8 +94,18 @@ namespace EmployeeManagement.Controllers
           
                     _context.Departments.Add(dep);
                     _context.SaveChanges();
-           
-            
+
+            var userid = userManager.GetUserId(HttpContext.User);
+            var role = _context.UserRoles.FirstOrDefault(a => a.UserId == userid);
+            var changer = _context.Roles.FirstOrDefault(a => a.Id == role.UserId);
+            var changeObjectId = s;
+
+            var notification = new Notification
+            {
+                Text = $" The {model.DepartmentName} is new Department."
+            };
+            NotificationRepository.Create(notification, changer.Name, changeObjectId);
+
             return RedirectToAction("Index");
         }
 

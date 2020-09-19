@@ -40,19 +40,33 @@ namespace EmployeeManagement.Repository
         //    _hubContext = hubContext;
         //}
 
-        public void Create(Notification notification)
+        public void Create(Notification notification,string changer,string changeObjectId)
         {
             
             _context.Notifications.Add(notification);
             _context.SaveChanges();
 
-            //if (signInManager.IsSignedIn(HttpContextAccessor.HttpContext.User) || true)
-            //{
-                //How we know the new User is created by Admin or HR
-                //string currentEmp =HttpContextAccessor.HttpContext.User.Identity.Name;
+            var changeObjectEmployee = _context.Employees.FirstOrDefault(a => a.Id == changeObjectId);
+            var changeObjectDepartment = _context.Departments.FirstOrDefault(a => a.DeptId == changeObjectId);
 
-                var lists = _context.Employees.ToList();
+            if(changeObjectDepartment != null)
+            {
+                var listOfHR = _context.UserRoles.Where(a => a.RoleId == "2");
+                //var lists = _context.Employees.Where(a => { listOfHR.Contains(a.Id) });
+                foreach (var emp in listOfHR)
+                {
+                    var userNotification = new NotificationUser();
+                    userNotification.EmployeeUserId = emp.UserId;
+                    userNotification.NotificationId = notification.Id;
 
+                    _context.UserNotifications.Add(userNotification);
+                    _context.SaveChanges();
+                }
+            }
+
+            if ((changer == "Admin" || changer == "HR") && changeObjectDepartment == null)
+            {
+                var lists = _context.Employees.Where(a => a.DepartmentId == changeObjectEmployee.DepartmentId);
                 foreach (var emp in lists)
                 {
                     var userNotification = new NotificationUser();
@@ -62,6 +76,50 @@ namespace EmployeeManagement.Repository
                     _context.UserNotifications.Add(userNotification);
                     _context.SaveChanges();
                 }
+
+            }
+
+            if(changer == null)
+            {
+                var listOfAdmin = _context.UserRoles.Where(a => a.RoleId == "1");
+                foreach (var emp in listOfAdmin)
+                {
+                    var userNotification = new NotificationUser();
+                    userNotification.EmployeeUserId = emp.UserId;
+                    userNotification.NotificationId = notification.Id;
+
+                    _context.UserNotifications.Add(userNotification);
+                    _context.SaveChanges();
+                }
+
+                var listOfHR = _context.UserRoles.Where(a => a.RoleId == "2");
+                foreach (var emp in listOfHR)
+                {
+                    var userNotification = new NotificationUser();
+                    userNotification.EmployeeUserId = emp.UserId;
+                    userNotification.NotificationId = notification.Id;
+
+                    _context.UserNotifications.Add(userNotification);
+                    _context.SaveChanges();
+                }
+            }
+
+            //if (signInManager.IsSignedIn(HttpContextAccessor.HttpContext.User) || true)
+            //{
+            //How we know the new User is created by Admin or HR
+            //string currentEmp =HttpContextAccessor.HttpContext.User.Identity.Name;
+
+            //var lists = _context.Employees.ToList();
+
+            //foreach (var emp in lists)
+            //{
+            //    var userNotification = new NotificationUser();
+            //    userNotification.EmployeeUserId = emp.Id;
+            //    userNotification.NotificationId = notification.Id;
+
+            //    _context.UserNotifications.Add(userNotification);
+            //    _context.SaveChanges();
+            //}
             //}
             _hubContext.Clients.All.SendAsync("displayNotification", "");
 

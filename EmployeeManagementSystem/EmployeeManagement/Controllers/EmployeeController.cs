@@ -64,12 +64,12 @@ namespace EmployeeManagement.Controllers
                    Value = n.DeptId,
                    Text = n.DepartmentName
                }).ToList();
-            var username = userManager.GetUserName(HttpContext.User);
-            var notification = new Notification
-            {
-                Text = $" The {username} is new Employee in your Department."
-            };
-            NotificationRepository.Create(notification);
+            //var username = userManager.GetUserName(HttpContext.User);
+            //var notification = new Notification
+            //{
+            //    Text = $" The {username} is new Employee in your Department."
+            //};
+            //NotificationRepository.Create(notification);
             return View();
         }
 
@@ -142,11 +142,15 @@ namespace EmployeeManagement.Controllers
                     //    _context.SaveChanges();
                     //}
                     //var username = userManager.GetUserName(HttpContext.User);
-                    //var notification = new Notification
-                    //{
-                    //    Text = $" The {username} is new Employee in your Department."
-                    //};
-                    //NotificationRepository.Create(notification);
+                    var userid = userManager.GetUserId(HttpContext.User);
+                    var role = _context.UserRoles.FirstOrDefault(a => a.UserId == userid);
+                    var changer = _context.Roles.FirstOrDefault(a => a.Id == role.UserId);
+                    var changeObjectId = model.Id;
+                    var notification = new Notification
+                    {
+                        Text = $" The {model.UserName} is new Employee in your Department."
+                    };
+                    NotificationRepository.Create(notification,changer.Name,changeObjectId);
                     return RedirectToAction("Index");
                 }
 
@@ -234,6 +238,57 @@ namespace EmployeeManagement.Controllers
                 ModelState.AddModelError("", error.Description);
             }
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult Update(string Id)
+        {
+            ViewBag.departments = _context.Departments.ToList()
+              .Select(n => new SelectListItem
+              {
+                  Value = n.DeptId,
+                  Text = n.DepartmentName
+              }).ToList();
+            Employee employee = new Employee();
+            employee = _context.Employees.FirstOrDefault(a => a.Id == Id);
+
+            return View(employee);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Update(Employee model)
+        {
+
+            ViewBag.id = model.Id;
+            //_context.Employees.Update(employee);
+            //_context.SaveChanges();
+            //return RedirectToAction("Index");
+            var emp = await userManager.FindByIdAsync(model.Id);
+            emp.UserName = model.UserName;
+            emp.Email = model.Email;
+            emp.Password = model.Password;
+            emp.ConfirmPassword = model.ConfirmPassword;
+            emp.Name = model.Name;
+            emp.Surname = model.Surname;
+            emp.Address = model.Address;
+            emp.Qualification = model.Qualification;
+            emp.ContactNumber = model.ContactNumber;
+            emp.DepartmentId = model.DepartmentId;
+            var result = await userManager.UpdateAsync(emp);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Index");
+            }
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+
+            return View(model);
+
         }
     }
 }
