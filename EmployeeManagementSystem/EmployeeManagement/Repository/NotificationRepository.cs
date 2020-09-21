@@ -62,10 +62,12 @@ namespace EmployeeManagement.Repository
                     var userNotification = new NotificationUser();
                     userNotification.EmployeeUserId = emp.UserId;
                     userNotification.NotificationId = notification.Id;
+                    userNotification.Notification = notification;
 
                     _context.UserNotifications.Add(userNotification);
-                    _context.SaveChanges();
+                   
                 }
+                _context.SaveChanges();
             }
 
             if ((changer == "Admin" || changer == "HR") && changeObjectDepartment == null)
@@ -78,8 +80,9 @@ namespace EmployeeManagement.Repository
                     userNotification.NotificationId = notification.Id;
 
                     _context.UserNotifications.Add(userNotification);
-                    _context.SaveChanges();
+                    
                 }
+                _context.SaveChanges();
 
             }
 
@@ -93,8 +96,9 @@ namespace EmployeeManagement.Repository
                     userNotification.NotificationId = notification.Id;
 
                     _context.UserNotifications.Add(userNotification);
-                    _context.SaveChanges();
+                    
                 }
+                _context.SaveChanges();
 
                 var listOfHR = _context.UserRoles.Where(a => a.RoleId == "2");
                 foreach (var emp in listOfHR)
@@ -104,8 +108,9 @@ namespace EmployeeManagement.Repository
                     userNotification.NotificationId = notification.Id;
 
                     _context.UserNotifications.Add(userNotification);
-                    _context.SaveChanges();
+                  
                 }
+                _context.SaveChanges();
             }
 
             //if (signInManager.IsSignedIn(HttpContextAccessor.HttpContext.User) || true)
@@ -138,6 +143,7 @@ namespace EmployeeManagement.Repository
                                        join two in listNotificationIds
                                        on one.Id equals two.NotificationId
                                        select one).ToList();
+            Console.WriteLine(list2);
             return list2;
 
             //return _context.UserNotifications

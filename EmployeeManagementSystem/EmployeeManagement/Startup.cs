@@ -38,7 +38,8 @@ namespace EmployeeManagement
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options => 
+            options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore );
 
             //For changing the scope of database
             services.AddScoped<DataContextAll>();
@@ -109,7 +110,7 @@ namespace EmployeeManagement
             app.UseAuthorization();
 
             //app.UseMvcWithDefaultRoute();
-            app.UseSignalR(routes => routes.MapHub<SignalServer>("/signalServer"));
+            //app.UseSignalR(routes => routes.MapHub<SignalServer>("/signalServer"));
             //app.UseSignalR(route =>
             //{
             //    route.MapHub<SignalServer>("/signalServer");

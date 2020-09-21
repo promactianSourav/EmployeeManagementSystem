@@ -97,7 +97,7 @@ namespace EmployeeManagement.Controllers
 
             var userid = userManager.GetUserId(HttpContext.User);
             var role = _context.UserRoles.FirstOrDefault(a => a.UserId == userid);
-            var changer = _context.Roles.FirstOrDefault(a => a.Id == role.UserId);
+            var changer = _context.Roles.FirstOrDefault(a => a.Id == role.RoleId);
             var changeObjectId = s;
 
             var notification = new Notification

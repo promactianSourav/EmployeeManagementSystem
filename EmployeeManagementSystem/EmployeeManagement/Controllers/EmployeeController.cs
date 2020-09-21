@@ -144,7 +144,7 @@ namespace EmployeeManagement.Controllers
                     //var username = userManager.GetUserName(HttpContext.User);
                     var userid = userManager.GetUserId(HttpContext.User);
                     var role = _context.UserRoles.FirstOrDefault(a => a.UserId == userid);
-                    var changer = _context.Roles.FirstOrDefault(a => a.Id == role.UserId);
+                    var changer = _context.Roles.FirstOrDefault(a => a.Id == role.RoleId);
                     var changeObjectId = model.Id;
                     var notification = new Notification
                     {
@@ -287,7 +287,7 @@ namespace EmployeeManagement.Controllers
                 string changer = "";
                 if(role != null)
                 {
-                    var Role = _context.Roles.FirstOrDefault(a => a.Id == role.UserId);
+                    var Role = _context.Roles.FirstOrDefault(a => a.Id == role.RoleId);
                     changer = Role.Name;
                 }
                
