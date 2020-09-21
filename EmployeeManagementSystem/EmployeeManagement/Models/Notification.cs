@@ -11,8 +11,6 @@ namespace EmployeeManagement.Models
     {
         public string Id { get; set; }
         public string Text { get; set; }
-        public bool IsRead { get; set; } = false;
-
         public List<NotificationUser> NotificationUsers { get; set; }
     }
 }

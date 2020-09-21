@@ -13,5 +13,6 @@ namespace EmployeeManagement.Models
         public Notification Notification { get; set; }
         public string EmployeeUserId { get; set; }
         public Employee EmployeeUser { get; set; }
+        public bool IsRead { get; set; } = false;
     }
 }

@@ -16,7 +16,9 @@ namespace EmployeeManagement.Repository
         List<NotificationUser> GetNotificationUsersSecond(string userId);
          List<Notification> GetNotificationUsers(string userId);
         void Create(Notification notification, string changer, string changeObjectId);
-        void ReadNotification(string Id);
+        void CreateDepartNoti(Notification notification, string changer, string changeObjectId);
+
+        void ReadNotification(string Id,string userId);
         
 
     }

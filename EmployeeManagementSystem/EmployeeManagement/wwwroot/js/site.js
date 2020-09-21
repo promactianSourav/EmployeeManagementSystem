@@ -65,14 +65,13 @@ function readNotification(id,target) {
     $.ajax({
         url: "/Notification/ReadNotification",
         method: "GET",
-        data: { notificationId: id },
+        data: { NotificationId: id },
         success: function (result) {
             getNotification();
             $(target).fadeOut("slow");
         },
         error: function (error) {
             console.log(error);
-            console.log("Sourav");
         }
     });
 }

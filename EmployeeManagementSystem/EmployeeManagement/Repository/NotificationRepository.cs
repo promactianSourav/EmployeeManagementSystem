@@ -40,19 +40,14 @@ namespace EmployeeManagement.Repository
         //    _hubContext = hubContext;
         //}
 
-        public void Create(Notification notification,string changer,string changeObjectId)
+        public void CreateDepartNoti(Notification notification,string changer, string changeObjectId)
         {
-            
+
             _context.Notifications.Add(notification);
             _context.SaveChanges();
-
-            var changeObjectEmployee = _context.Employees.FirstOrDefault(a => a.Id == changeObjectId);
+            
             var changeObjectDepartment = _context.Departments.FirstOrDefault(a => a.DeptId == changeObjectId);
 
-            Console.WriteLine("Your changer: " + changer);
-            Console.WriteLine("Your object: " + changeObjectId);
-            Console.WriteLine("Your Employee: " + changeObjectEmployee);
-            Console.WriteLine("Your Department: " + changeObjectDepartment);
             if (changeObjectDepartment != null)
             {
                 var listOfHR = _context.UserRoles.Where(a => a.RoleId == "2");
@@ -65,14 +60,26 @@ namespace EmployeeManagement.Repository
                     userNotification.Notification = notification;
 
                     _context.UserNotifications.Add(userNotification);
-                   
+
                 }
                 _context.SaveChanges();
             }
+            _hubContext.Clients.All.SendAsync("displayNotification", "");
 
-            if ((changer == "Admin" || changer == "HR") && changeObjectDepartment == null)
+        }
+
+        public void Create(Notification notification,string changer,string changeObjectId)
+        {
+            
+            _context.Notifications.Add(notification);
+            _context.SaveChanges();
+            var changeObjectDepartment = _context.Departments.FirstOrDefault(a => a.DeptId == changeObjectId);
+
+            
+
+            if ((changer == "Admin" || changer == "HR"))
             {
-                var lists = _context.Employees.Where(a => a.DepartmentId == changeObjectEmployee.DepartmentId);
+                var lists = _context.Employees.Where(a => a.DepartmentId == changeObjectId);
                 foreach (var emp in lists)
                 {
                     var userNotification = new NotificationUser();
@@ -136,7 +143,7 @@ namespace EmployeeManagement.Repository
         public List<Notification> GetNotificationUsers(string userId)
         {
             //.Where(q => q.EmployeeUserId.Equals(userId))
-            var listNotificationIds = _context.UserNotifications.Where(a => a.EmployeeUserId == userId).ToList();
+            var listNotificationIds = _context.UserNotifications.Where(a => a.EmployeeUserId == userId && a.IsRead==false).ToList();
             //List<Notification> listNotifications = _context.Notifications.Where(n => listNotificationIds.All(i => i.NotificationId == n.Id)).ToList();
             List<Notification> list1 = _context.Notifications.ToList();
             List<Notification> list2 = (from one in list1
@@ -151,11 +158,11 @@ namespace EmployeeManagement.Repository
             //    .ToList();
         }
 
-        public void ReadNotification(string Id)
+        public void ReadNotification(string Id, string userId)
         {
-            var notification = _context.Notifications.FirstOrDefault(n => n.Id == Id);
-            notification.IsRead = true;
-            _context.Notifications.Update(notification);
+            var notificationUser = _context.UserNotifications.FirstOrDefault(n => n.NotificationId == Id && n.EmployeeUserId == userId);
+            notificationUser.IsRead = true;
+            _context.UserNotifications.Update(notificationUser);
             _context.SaveChanges();
         }
 

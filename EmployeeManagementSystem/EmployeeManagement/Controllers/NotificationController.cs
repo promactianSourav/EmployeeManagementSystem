@@ -55,7 +55,7 @@ namespace EmployeeManagement.Controllers
 
         public IActionResult ReadNotification(string NotificationId)
         {
-            notificationRepository.ReadNotification(NotificationId);
+            notificationRepository.ReadNotification(NotificationId,userManager.GetUserId(HttpContext.User));
             return Ok();
         }
     }

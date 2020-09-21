@@ -145,7 +145,7 @@ namespace EmployeeManagement.Controllers
                     var userid = userManager.GetUserId(HttpContext.User);
                     var role = _context.UserRoles.FirstOrDefault(a => a.UserId == userid);
                     var changer = _context.Roles.FirstOrDefault(a => a.Id == role.RoleId);
-                    var changeObjectId = model.Id;
+                    var changeObjectId = model.DepartmentId;
                     var notification = new Notification
                     {
                         Text = $" The {model.UserName} is new Employee in your Department."

@@ -104,7 +104,7 @@ namespace EmployeeManagement.Controllers
             {
                 Text = $" The {model.DepartmentName} is new Department."
             };
-            NotificationRepository.Create(notification, changer.Name, changeObjectId);
+            NotificationRepository.CreateDepartNoti(notification, changer.Name, changeObjectId);
 
             return RedirectToAction("Index");
         }
