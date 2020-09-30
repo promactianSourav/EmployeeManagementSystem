@@ -57,33 +57,34 @@ namespace EmployeeManagement
                 
             });
 
-            services.ConfigureApplicationCookie(options =>
-            {
-                options.Cookie.IsEssential = true;
-                options.LoginPath = "/Security/Login";
-                options.LogoutPath = "/Security/Logout";
-                options.AccessDeniedPath = "/Security/AccessDenied";
-                options.SlidingExpiration = true;
-                options.Cookie = new CookieBuilder
-                {
-                    HttpOnly = true,
-                    Name = "EmployeeManagement.Cookie",
-                    Path = "/",
-                    SameSite = SameSiteMode.Lax,
-                    SecurePolicy = CookieSecurePolicy.SameAsRequest
-                };
-            });
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+            //services.ConfigureApplicationCookie(options =>
+            //{
+            //    options.Cookie.IsEssential = true;
+            //    options.LoginPath = "/Security/Login";
+            //    options.LogoutPath = "/Security/Logout";
+            //    options.AccessDeniedPath = "/Security/AccessDenied";
+            //    options.SlidingExpiration = true;
+            //    options.Cookie = new CookieBuilder
+            //    {
+            //        HttpOnly = true,
+            //        Name = "EmployeeManagement.Cookie",
+            //        Path = "/",
+            //        SameSite = SameSiteMode.Lax,
+            //        SecurePolicy = CookieSecurePolicy.SameAsRequest
+            //    };
+            //});
+            //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
             //services.AddMvc();
             services.AddSignalR();
-            services.AddMvc(options =>
-            {
-                var policy = new AuthorizationPolicyBuilder()
-                .RequireAuthenticatedUser()
-                .Build();
-                options.Filters.Add(new AuthorizeFilter(policy));
-            }).AddXmlSerializerFormatters();
-          
+            services.AddMvc();
+            //services.AddMvc(options =>
+            //{
+            //    var policy = new AuthorizationPolicyBuilder()
+            //    .RequireAuthenticatedUser()
+            //    .Build();
+            //    options.Filters.Add(new AuthorizeFilter(policy));
+            //}).AddXmlSerializerFormatters();
+
 
         }
 
@@ -103,7 +104,7 @@ namespace EmployeeManagement
             //}
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
+            //app.UseCookiePolicy();
             app.UseAuthentication();
             app.UseRouting();
 
@@ -120,9 +121,10 @@ namespace EmployeeManagement
             {
 
                 endpoints.MapHub<SignalServer>("signalServer");
-                endpoints.MapControllerRoute(
-                    name: "/Home",
-                    pattern: "{controller=Home}/{action=Index}/{Id?}");
+                endpoints.MapControllers();
+                //endpoints.MapControllerRoute(
+                //    name: "/Home",
+                //    pattern: "{controller=Home}/{action=Index}/{Id?}");
             });
         }
     }

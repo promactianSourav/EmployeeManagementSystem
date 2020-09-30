@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/Client",
+            "outputPath": "F:/promact/WorkingONBoard/EmpManageSys/EmployeeManagementSystem/EmployeeManagement/wwwroot/js/Client",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",

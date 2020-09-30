@@ -14,7 +14,8 @@ using EmployeeManagement.Repository;
 
 namespace EmployeeManagement.Controllers
 {
-    public class DepartmentController : Controller
+    [Route("api/[controller]")]
+    public class DepartmentController : ControllerBase
     {
         //We inject the DBContext into the controller...
         private DataContextAll _context;
@@ -34,50 +35,16 @@ namespace EmployeeManagement.Controllers
 
         //...and can access it in our actions.
         [HttpGet]
-        [Authorize(Roles ="Admin,HR")]
+        //[Authorize(Roles = "Admin,HR")]
         public IActionResult Index()
         {
 
-            //if (ModelState.IsValid)
-            //{
-
-            //    Userroles dep1 = new Userroles
-            //    {
-            //        Name = "Admin"
-            //    };
-            //    roleManager.CreateAsync(dep1);
-            //    Userroles dep2 = new Userroles
-            //    {
-            //        Name = "HR"
-            //    };
-            //    roleManager.CreateAsync(dep2);
-            //}
-
-            //Userroles dep1 = new Userroles
-            //{
-            //    Id="1",
-            //    Name="Admin"
-            //};
-            //_context.Roles.Add(dep1);
             //_context.SaveChanges();
-            //Userroles dep2 = new Userroles
-            //{
-            //    Id = "2",
-            //    Name = "HR"
-            //};
-            //_context.Roles.Add(dep2);
+            //ViewBag.departments = _context.Departments.ToList();
+            //return View();
 
-            //_context.SaveChanges();
-            //Userroles dep3 = new Userroles
-            //{
-            //    Id = "3",
-            //    Name = "HR"
-            //};
-            //_context.Roles.Add(dep3);
-
-            //_context.SaveChanges();
-            ViewBag.departments = _context.Departments.ToList();
-            return View();
+            var departList = _context.Departments.ToList();
+            return Ok(departList);
         }
 
         [HttpPost]
@@ -106,42 +73,45 @@ namespace EmployeeManagement.Controllers
             };
             NotificationRepository.CreateDepartNoti(notification, changer.Name, changeObjectId);
 
-            return RedirectToAction("Index");
+            //return RedirectToAction("Index");
+            return Ok(model);
         }
 
 
-        [HttpGet]
+        [HttpPut("{Id}")]
         [Authorize(Roles = "Admin")]
         public IActionResult Edit(string Id)
         {
 
             Department department = new Department();
             department = _context.Departments.FirstOrDefault(a => a.DeptId == Id);
-            return View(department);
+            //return View(department);
+            return Ok(department);
         }
 
-        [HttpPost]
+        //[HttpPost]
+        //[Authorize(Roles = "Admin")]
+        //public IActionResult Edit(Department model)
+        //{
+        //    //ViewBag.id = model.DeptId;
+        //    _context.Departments.Update(model);
+        //    _context.SaveChanges();
+
+        //    //return RedirectToAction("Index");
+        //    return Ok(model);
+
+        //}
+
+        [HttpDelete("{Id}")]
         [Authorize(Roles = "Admin")]
-        public IActionResult Edit(Department model)
-        {
-            ViewBag.id = model.DeptId;
-            _context.Departments.Update(model);
-            _context.SaveChanges();
-
-            return RedirectToAction("Index");
-
-        }
-
-        [HttpPost]
-        [Authorize(Roles = "Admin")]
-        public IActionResult Delete(string Id)
+        public void Delete(string Id)
         {
 
             Department department = _context.Departments.FirstOrDefault(a => a.DeptId == Id);
             _context.Departments.Remove(department);
             _context.SaveChanges();
 
-            return RedirectToAction("Index");
+            //return RedirectToAction("Index");
         }
     }
 }

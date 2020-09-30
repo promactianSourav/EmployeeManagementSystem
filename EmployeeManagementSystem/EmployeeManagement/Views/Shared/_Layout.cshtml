@@ -1,86 +1,98 @@
-﻿@inject SignInManager<Employee> signInManager;    
+﻿@inject SignInManager<Employee> signInManager;
 @inject UserManager<Employee> userManager;
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - EmployeeManagement</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
-</head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">EmployeeManagement</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Department" asp-action="Index">Department</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="Index">Employee</a>
-                        </li>
 
-                    </ul>
+
+
+
+
+
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>@ViewData["Title"] - EmployeeManagement</title>
+        <base href="/">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+    </head>
+    <body>
+        <header>
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                <div class="container">
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">EmployeeManagement</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Department" asp-action="Index">Department</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="Index">Employee</a>
+                            </li>
+
+                        </ul>
+
+                    </div>
+                </div>
+                <div class="navbar-nav ml-auto">
+
+                    @if (signInManager.IsSignedIn(User))
+                    {
+                        <p style="margin-right:20px">
+                            @Html.ActionLink("Update", "Update", "Employee", new { Id = userManager.GetUserId(User) })
+
+                        </p>
+                        <span class="badge badge-light notification-count" id="notificationCount" data-toggle="popover" title="Notifications"></span>
+                        <p>
+                            @User.Identity.Name (<a asp-controller="Security" asp-action="Logout">Logout</a>)
+                        </p>
+
+
+                    }
+                    else
+                    {
+                        <p>
+                            <a asp-controller="Security" asp-action="Login">Signin</a>
+                            |
+                            <a asp-controller="Security" asp-action="ForgotPassword">Forgot Password</a>
+                        </p>
+                    }
 
                 </div>
-            </div>
-            <div class="navbar-nav ml-auto">
+            </nav>
 
-                @if (signInManager.IsSignedIn(User))
-                {
-                    <p style="margin-right:20px">
-                        @Html.ActionLink("Update", "Update", "Employee", new { Id = userManager.GetUserId(User) })
-
-                    </p>
-                    <span class="badge badge-light notification-count" id="notificationCount" data-toggle="popover" title="Notifications"></span>
-                    <p>
-                        @User.Identity.Name (<a asp-controller="Security" asp-action="Logout">Logout</a>)
-                    </p>
-
-
-                }
-                else
-                {
-                    <p>
-                        <a asp-controller="Security" asp-action="Login">Signin</a>
-                        |
-                        <a asp-controller="Security" asp-action="ForgotPassword">Forgot Password</a>
-                    </p>
-                }
-
-            </div>
-        </nav>
-
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-
+        </header>
         <div class="container">
-            &copy; 2020 - EmployeeManagement - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/lib/jquery-validate/jquery.validate.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
 
-    <script src="~/lib/microsoft-signalr/signalr.js"></script>
-    <script src="~/js/signalr/dist/browser/signalr.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+        <footer class="border-top footer text-muted">
 
-    @RenderSection("Scripts", required: false)
-</body>
-</html>
+            <div class="container">
+                &copy; 2020 - EmployeeManagement - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
+        </footer>
+        @*<script src="~/js/Client/runtime.js"></script>
+        <script src="~/js/Client/polyfills.js"></script>
+        <script src="~/js/Client/styles.js"></script>
+        <script src="~/js/Client/vendor.js"></script>
+        <script src="~/js/Client/main.js"></script>*@
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/lib/jquery-validate/jquery.validate.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+        <script src="~/lib/microsoft-signalr/signalr.js"></script>
+        <script src="~/js/signalr/dist/browser/signalr.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+
+        @RenderSection("Scripts", required: false)
+    </body>
+    </html>
