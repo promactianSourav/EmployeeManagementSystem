@@ -1,1 +1,60 @@
-<p>login works!</p>
+<!-- Default form login -->
+<div id="formmiddle" class="">
+    <form class="text-center border border-light p-5 col-md-4" action="#!">
+
+        <p class="h4 mb-4">Sign in</p>
+
+
+        <input type="text" class="form-control mb-4" placeholder="Username">
+
+
+        <input type="password" class="form-control mb-4" placeholder="Password">
+
+        <div class="d-flex justify-content-around">
+            <div>
+
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="defaultLoginFormRemember">
+                    <label class="custom-control-label" for="defaultLoginFormRemember">Remember me</label>
+                </div>
+            </div>
+            <!-- <div>
+                <a href="">Forgot password?</a>
+            </div> -->
+        </div>
+
+        <button class="btn btn-info btn-block my-4" type="submit">Sign in</button>
+
+    </form>
+</div>
+<!-- Default form login -->
+
+
+<!-- <form class="form-signin">
+    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+    <label for="UserName" class="sr-only">UserName</label>
+    <input type="text" id="UserName" class="form-control" placeholder="UserName" required autofocus>
+    <label for="Password" class="sr-only">Password</label>
+    <input type="password" id="Password" class="form-control" placeholder="Password" required>
+    <div class="checkbox mb-3">
+        <label>
+        <input type="checkbox" value="remember-me"> Remember me
+      </label>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+</form> -->
+<!-- <form asp-controller="Security" asp-action="Login" method="post">
+    <div asp-validation-summary="All"></div>
+
+    <input type="text" asp-for="UserName" placeholder="UserName" />
+    <input type="password" asp-for="Password" placeholder="Password" />
+    <div class="form-group">
+        <div class="custom-checkbox">
+            <label asp-for="RememberMe">
+                <input asp-for="RememberMe"/>
+                @Html.DisplayNameFor(m=>m.RememberMe)
+            </label>
+        </div>
+    </div>
+    <input type="submit" value="Login" />
+</form> -->

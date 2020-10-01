@@ -320,9 +320,6 @@ F:\promact\WorkingONBoard\EmpManageSys\EmployeeManagementSystem\EmployeeManageme
 F:\promact\WorkingONBoard\EmpManageSys\EmployeeManagementSystem\EmployeeManagement\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.JsonPatch.dll
 F:\promact\WorkingONBoard\EmpManageSys\EmployeeManagementSystem\EmployeeManagement\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 F:\promact\WorkingONBoard\EmpManageSys\EmployeeManagementSystem\EmployeeManagement\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
-F:\promact\WorkingONBoard\EmpManageSys\EmployeeManagementSystem\EmployeeManagement\obj\Debug\netcoreapp3.1\EmployeeManagement.csproj.CoreCompileInputs.cache
-F:\promact\WorkingONBoard\EmpManageSys\EmployeeManagementSystem\EmployeeManagement\obj\Debug\netcoreapp3.1\EmployeeManagement.MvcApplicationPartsAssemblyInfo.cs
-F:\promact\WorkingONBoard\EmpManageSys\EmployeeManagementSystem\EmployeeManagement\obj\Debug\netcoreapp3.1\EmployeeManagement.MvcApplicationPartsAssemblyInfo.cache
 F:\promact\WorkingONBoard\EmpManageSys\EmployeeManagementSystem\EmployeeManagement\bin\Debug\netcoreapp3.1\Client\angular.json
 F:\promact\WorkingONBoard\EmpManageSys\EmployeeManagementSystem\EmployeeManagement\bin\Debug\netcoreapp3.1\Client\e2e\tsconfig.json
 F:\promact\WorkingONBoard\EmpManageSys\EmployeeManagementSystem\EmployeeManagement\bin\Debug\netcoreapp3.1\Client\package-lock.json
@@ -331,3 +328,7 @@ F:\promact\WorkingONBoard\EmpManageSys\EmployeeManagementSystem\EmployeeManageme
 F:\promact\WorkingONBoard\EmpManageSys\EmployeeManagementSystem\EmployeeManagement\bin\Debug\netcoreapp3.1\Client\tsconfig.json
 F:\promact\WorkingONBoard\EmpManageSys\EmployeeManagementSystem\EmployeeManagement\bin\Debug\netcoreapp3.1\Client\tsconfig.spec.json
 F:\promact\WorkingONBoard\EmpManageSys\EmployeeManagementSystem\EmployeeManagement\bin\Debug\netcoreapp3.1\Client\tslint.json
+F:\promact\WorkingONBoard\EmpManageSys\EmployeeManagementSystem\EmployeeManagement\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+F:\promact\WorkingONBoard\EmpManageSys\EmployeeManagementSystem\EmployeeManagement\obj\Debug\netcoreapp3.1\EmployeeManagement.csproj.CoreCompileInputs.cache
+F:\promact\WorkingONBoard\EmpManageSys\EmployeeManagementSystem\EmployeeManagement\obj\Debug\netcoreapp3.1\EmployeeManagement.MvcApplicationPartsAssemblyInfo.cs
+F:\promact\WorkingONBoard\EmpManageSys\EmployeeManagementSystem\EmployeeManagement\obj\Debug\netcoreapp3.1\EmployeeManagement.MvcApplicationPartsAssemblyInfo.cache

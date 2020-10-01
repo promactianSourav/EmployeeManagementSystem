@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "bb7t4v/sHinHExCR4/d44OTEGceF5ueUo9Z91K2HHIR8jmOW3jcZ2xvc7n9dLiRD/L6Eba2+9XY7rz9V8WVksQ==",
+  "dgSpecHash": "ryM41shpw34kCEuv0BpxBi+u3hdw7kuahidVPxeVuzHXiAcfuyTtOZKtHRwD8fXjihWsS3QY0wHNOppCo2l6ig==",
   "success": true,
   "projectFilePath": "F:\\promact\\WorkingONBoard\\EmpManageSys\\EmployeeManagementSystem\\EmployeeManagement\\EmployeeManagement.csproj",
   "expectedPackageFiles": [
@@ -15,6 +15,7 @@
     "C:\\Users\\LENOVO\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\LENOVO\\.nuget\\packages\\microsoft.aspnetcore.authentication.cookies\\2.2.0\\microsoft.aspnetcore.authentication.cookies.2.2.0.nupkg.sha512",
     "C:\\Users\\LENOVO\\.nuget\\packages\\microsoft.aspnetcore.authentication.core\\2.2.0\\microsoft.aspnetcore.authentication.core.2.2.0.nupkg.sha512",
+    "C:\\Users\\LENOVO\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\3.1.8\\microsoft.aspnetcore.authentication.jwtbearer.3.1.8.nupkg.sha512",
     "C:\\Users\\LENOVO\\.nuget\\packages\\microsoft.aspnetcore.authentication.openidconnect\\3.1.0\\microsoft.aspnetcore.authentication.openidconnect.3.1.0.nupkg.sha512",
     "C:\\Users\\LENOVO\\.nuget\\packages\\microsoft.aspnetcore.authorization\\2.2.0\\microsoft.aspnetcore.authorization.2.2.0.nupkg.sha512",
     "C:\\Users\\LENOVO\\.nuget\\packages\\microsoft.aspnetcore.authorization.policy\\2.2.0\\microsoft.aspnetcore.authorization.policy.2.2.0.nupkg.sha512",
