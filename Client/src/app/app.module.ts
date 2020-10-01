@@ -1,4 +1,6 @@
-import { HttpClientModule } from '@angular/common/http';
+import { SecurityModule } from './security/security.module';
+import { UniversalAppInterceptorService } from './services/universal-app-interceptor.service';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -24,9 +26,12 @@ import { PagenotfoundComponent } from './sharedcomponent/pagenotfound/pagenotfou
     HttpClientModule,
     CommonModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    SecurityModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: UniversalAppInterceptorService, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

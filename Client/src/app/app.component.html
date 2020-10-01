@@ -20,26 +20,28 @@
         </div>
         <div class="navbar-nav ml-auto">
 
-            <!-- @if (signInManager.IsSignedIn(User))
-        {
-            <p style="margin-right:20px">
-                @Html.ActionLink("Update", "Update", "Employee", new { Id = userManager.GetUserId(User) })
+            <div *ngIf="signin">
+                <p style="margin-right:20px">
+                    <!-- @Html.ActionLink("Update", "Update", "Employee", new { Id = userManager.GetUserId(User) }) -->
+                    <a>Update</a>
+                </p>
+                <span class="badge badge-light notification-count" id="notificationCount" data-toggle="popover" title="Notifications"></span>
+                <p>
+                    (<a (click)="logout()">Logout</a>)
+                </p>
+            </div>
 
-            </p>
-            <span class="badge badge-light notification-count" id="notificationCount" data-toggle="popover" title="Notifications"></span>
-            <p>
-               (<a >Logout</a>)
-            </p>
 
 
-        }
-        else
-        { -->
-            <p>
-                <a>Signin</a> |
-                <a>Forgot Password</a>
-            </p>
-            <!-- } -->
+
+            <div *ngIf="!signin">
+                <p>
+                    <a>Signin</a> |
+                    <a>Forgot Password</a>
+                </p>
+            </div>
+
+
 
         </div>
     </nav>

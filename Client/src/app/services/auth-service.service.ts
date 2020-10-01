@@ -1,3 +1,6 @@
+import { ILoginview } from './../models/ILoginview';
+import { LocalStorageServiceService } from './local-storage-service.service';
+import { JWTTokenServiceService } from './jwttoken-service.service';
 import { HttpClient, HttpClientModule ,HttpErrorResponse} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable ,throwError,pipe} from 'rxjs';
@@ -11,11 +14,30 @@ export class AuthServiceService {
 
   private serverUrl = "https://localhost:5001/api/security";
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient,private jwttoken:JWTTokenServiceService,private localstore:LocalStorageServiceService) { }
+  user:string=null;
+  login(form:ILoginview): Observable<any>{
+    return this.http.post<any>(this.serverUrl,form).pipe(
+      tap(data => {JSON.stringify(data);
+        console.log(data);
+        this.user = data.username;
+          this.localstore.set('token',data.token);
+        this.localstore.set('user',data.username);}
+      ),
+      catchError(this.handleError)
+    );
+  }
 
-  login(username:string,password:string): Observable<any>{
-    return this.http.post<any>(this.serverUrl).pipe(
-      tap(data => JSON.stringify(data)),
+  logout():void{
+    this.localstore.remove('token');
+    this.user=null;
+  }
+
+  check():Observable<any>{
+    console.log(localStorage.getItem('token'));
+    return this.http.get(this.serverUrl+"/check",{responseType:'text'}).pipe(
+      tap(data => console.log(data+"sourav")
+      ),
       catchError(this.handleError)
     );
   }

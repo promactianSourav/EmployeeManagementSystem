@@ -77,6 +77,7 @@ namespace EmployeeManagement.Controllers
                         );
                 return Ok(new
                 {
+                    username=model.UserName,
                     token = new JwtSecurityTokenHandler().WriteToken(token)
                 });
             }

@@ -1,20 +1,20 @@
 <!-- Default form login -->
 <div id="formmiddle" class="">
-    <form class="text-center border border-light p-5 col-md-4" action="#!">
+    <form class="text-center border border-light p-5 col-md-4" action="#!" (ngSubmit)="onSubmit(formData)" #formData="ngForm">
 
         <p class="h4 mb-4">Sign in</p>
 
 
-        <input type="text" class="form-control mb-4" placeholder="Username">
+        <input type="text" class="form-control mb-4" placeholder="Username" [(ngModel)]="username" name="username">
 
 
-        <input type="password" class="form-control mb-4" placeholder="Password">
+        <input type="password" class="form-control mb-4" placeholder="Password" [(ngModel)]="password" name="password">
 
         <div class="d-flex justify-content-around">
             <div>
 
                 <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="defaultLoginFormRemember">
+                    <input type="checkbox" class="custom-control-input" id="defaultLoginFormRemember" [(ngModel)]="readme" name="readme">
                     <label class="custom-control-label" for="defaultLoginFormRemember">Remember me</label>
                 </div>
             </div>
