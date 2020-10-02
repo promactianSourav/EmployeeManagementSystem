@@ -11,7 +11,10 @@ import { Router } from '@angular/router';
 export class AppComponent {
   title = 'Client';
   constructor(private authservice:AuthServiceService,private router:Router){}
-  signin:boolean = localStorage.getItem('token')!=null ? true:false;
+  // signin:boolean = localStorage.getItem('token')!=null ? true:false;
+  get signin(){
+    return localStorage.getItem('token')!=null ? true:false;
+  }
   logout(){
     this.authservice.logout();
    

@@ -1,3 +1,4 @@
+import { SecurityRoutingModule } from './security/security-routing.module';
 import { SecurityModule } from './security/security.module';
 import { UniversalAppInterceptorService } from './services/universal-app-interceptor.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -26,8 +27,10 @@ import { PagenotfoundComponent } from './sharedcomponent/pagenotfound/pagenotfou
     HttpClientModule,
     CommonModule,
     FormsModule,
-    AppRoutingModule,
-    SecurityModule
+    SecurityRoutingModule,
+    SecurityModule,
+    AppRoutingModule
+   
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: UniversalAppInterceptorService, multi: true }

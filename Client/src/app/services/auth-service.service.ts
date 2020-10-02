@@ -1,3 +1,4 @@
+import { IResetpasswordview } from './../models/IResetpasswordview';
 import { ILoginview } from './../models/ILoginview';
 import { LocalStorageServiceService } from './local-storage-service.service';
 import { JWTTokenServiceService } from './jwttoken-service.service';
@@ -17,7 +18,7 @@ export class AuthServiceService {
   constructor(private http:HttpClient,private jwttoken:JWTTokenServiceService,private localstore:LocalStorageServiceService) { }
   user:string=null;
   login(form:ILoginview): Observable<any>{
-    return this.http.post<any>(this.serverUrl,form).pipe(
+    return this.http.post<any>(this.serverUrl+"/login",form).pipe(
       tap(data => {JSON.stringify(data);
         console.log(data);
         this.user = data.username;
@@ -42,6 +43,38 @@ export class AuthServiceService {
     );
   }
 
+  code:string=null;
+  forgotpassword(email:string):Observable<any>{
+    console.log(localStorage.getItem('token'));
+    return this.http.post<any>(this.serverUrl+"/forgotpassword",email).pipe(
+      tap(data => {JSON.stringify(data);
+        console.log("Message "+JSON.stringify(data));
+        this.code=data.code;
+      }
+      ),
+      catchError(this.handleError)
+    );
+  }
+
+  forgotpassworlinksent():Observable<any>{
+    console.log(localStorage.getItem('token'));
+    return this.http.get(this.serverUrl+"/forgotpassworlinksent").pipe(
+      tap(data => console.log("Link: "+data)
+      ),
+      catchError(this.handleError)
+    );
+  }
+
+  resetpassword(resetview:IResetpasswordview):Observable<any>{
+    console.log(localStorage.getItem('token'));
+    return this.http.post<any>(this.serverUrl+"/resetpassword",resetview).pipe(
+      tap(data => {JSON.stringify(data);
+        console.log("Message "+JSON.stringify(data));
+      }
+      ),
+      catchError(this.handleError)
+    );
+  }
   private handleError(err: HttpErrorResponse) {
     let errorMessage = '';
     if (err.error instanceof ErrorEvent) {

@@ -50,9 +50,9 @@ namespace EmployeeManagement.Controllers
         //}
 
 
-        [HttpPost]
-        //[ValidateAntiForgeryToken]
-        //[AllowAnonymous]
+        [HttpPost("login")]
+        // [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LoginViewModel model)
         {
             var user = await userManager.FindByNameAsync(model.UserName);
@@ -109,6 +109,7 @@ namespace EmployeeManagement.Controllers
 
         [HttpGet("check")]
         [Authorize]
+        // [Authorize(Roles = "Admin")]
         public IActionResult AccessDenied()
         {
             //return View();
@@ -141,38 +142,43 @@ namespace EmployeeManagement.Controllers
         //    return View();
         //}
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //[AllowAnonymous]
-        //public async Task<IActionResult> ForgotPassword(string email)
-        //{
+        [HttpPost("forgotpassword")]
+        // [ValidateAntiForgeryToken]
+        [AllowAnonymous]
+        public async Task<IActionResult> ForgotPassword([FromBody] string email)
+        {
         //    if (string.IsNullOrEmpty(email))
         //        return View();
 
-        //    var user = await this.userManager.FindByEmailAsync(email);
-        //    if (user == null)
-        //        return RedirectToAction("ForgotPasswordEmailSent");
+           var user = await this.userManager.FindByEmailAsync(email);
+           if (user == null)
+           return Ok(new {message="Email is not found"});
+            //    return RedirectToAction("ForgotPasswordEmailSent");
 
-        //    var confrimationCode = await userManager.GeneratePasswordResetTokenAsync(user);
+           var confrimationCode = await userManager.GeneratePasswordResetTokenAsync(user);
 
-        //    var callbackurl = Url.Action(
-        //        controller: "Security",
-        //        action: "ResetPassword",
-        //        values: new { userId = user.Id, code = confrimationCode },
-        //        protocol: Request.Scheme);
+           var callbackurl = Url.Action(
+               controller: "Security",
+               action: "ResetPassword",
+               values: new { userId = user.Id, code = confrimationCode },
+               protocol: Request.Scheme);
 
-        //    TempData["url"] = callbackurl;
+           TempData["url"] = callbackurl;
 
 
         //    return RedirectToAction("ForgotPasswordEmailSent");
-        //}
+                return Ok(new {code=confrimationCode,email=email, message="link is send."});
+        }
 
-        //[AllowAnonymous]
-        //public IActionResult ForgotPasswordEmailSent()
-        //{
+        [HttpGet("forgotpasswordlinksent")]
+        [AllowAnonymous]
+        public IActionResult ForgotPasswordEmailSent()
+        {
         //    ViewBag.NewPassword = TempData["url"];
+            string url = TempData["url"];
         //    return View();
-        //}
+            reurn Ok(new{link=url});
+        }
 
         //[AllowAnonymous]
         //public IActionResult ResetPassword(string userId, string code)
@@ -184,37 +190,45 @@ namespace EmployeeManagement.Controllers
         //    return View(model);
         //}
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //[AllowAnonymous]
-        //public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
-        //{
+        [HttpPost("resetpassword")]
+        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordViewModel model)
+        {
         //    if (!ModelState.IsValid)
         //        return View(model);
 
-        //    var user = await this.userManager.FindByEmailAsync(model.Email);
-        //    if (user == null)
-        //        return RedirectToAction("ResetPasswordConfirm");
+           var user = await this.userManager.FindByEmailAsync(model.Email);
+           if (user == null)
+            return Ok(new {message="Password reset is failed with some unknown error."});
+            //    return RedirectToAction("ResetPasswordConfirm");
 
-        //    var result = await this.userManager.ResetPasswordAsync(
-        //                                user, model.Code, model.Password);
-        //    if (result.Succeeded)
-        //    {
-        //        user.Password = model.Password;
-        //        user.ConfirmPassword = model.ConfirmPassword;
-        //       var result2 = await userManager.UpdateAsync(user);
-        //        if(result2.Succeeded)
-        //        return RedirectToAction("ResetPasswordConfirm");
-        //        else
-        //            return RedirectToAction("ResetPasswordConfirm");
+           var result = await this.userManager.ResetPasswordAsync(
+                                       user, model.Code, model.Password);
+           if (result.Succeeded)
+           {
+               user.Password = model.Password;
+               user.ConfirmPassword = model.ConfirmPassword;
+              var result2 = await userManager.UpdateAsync(user);
+               if(result2.Succeeded){
+                    return Ok(new {message="Password reset is success"});
+                //    return RedirectToAction("ResetPasswordConfirm");
+               }
+               else{
+                     return Ok(new {message="Password reset is failed with some unknown error."});
+                    // return RedirectToAction("ResetPasswordConfirm");
+               }
+                 
 
-        //    }
+           }
 
-        //    foreach (var error in result.Errors)
-        //        ModelState.AddModelError(string.Empty, error.Description);
-
+           foreach (var error in result.Errors)
+               ModelState.AddModelError(string.Empty, error.Description);
+            
+            
+            return Ok(new {message="Password reset is failed with some unknown error."});
         //    return View(model);
-        //}
+        }
 
 
         //[AllowAnonymous]
