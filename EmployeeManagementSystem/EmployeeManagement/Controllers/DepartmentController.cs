@@ -34,8 +34,8 @@ namespace EmployeeManagement.Controllers
         
 
         //...and can access it in our actions.
-        [HttpGet]
-        //[Authorize(Roles = "Admin,HR")]
+        [HttpGet("departmentlist")]
+        [Authorize(Roles = "Admin,HR")]
         public IActionResult Index()
         {
 
@@ -47,9 +47,9 @@ namespace EmployeeManagement.Controllers
             return Ok(departList);
         }
 
-        [HttpPost]
+        [HttpPost("add")]
         [Authorize(Roles = "Admin")]
-        public IActionResult Add(Department model)
+        public IActionResult Add([FromBody] Department model)
         {
             string s = (Convert.ToInt32(_context.Departments.Select(x => x.DeptId).Max())+1).ToString();
             Department dep = new Department
@@ -62,45 +62,51 @@ namespace EmployeeManagement.Controllers
                     _context.Departments.Add(dep);
                     _context.SaveChanges();
 
-            var userid = userManager.GetUserId(HttpContext.User);
-            var role = _context.UserRoles.FirstOrDefault(a => a.UserId == userid);
-            var changer = _context.Roles.FirstOrDefault(a => a.Id == role.RoleId);
-            var changeObjectId = s;
+            //var userid = userManager.GetUserId(HttpContext.User);
+            //var role = _context.UserRoles.FirstOrDefault(a => a.UserId == userid);
+            //var changer = _context.Roles.FirstOrDefault(a => a.Id == role.RoleId);
+            //var changeObjectId = s;
 
-            var notification = new Notification
-            {
-                Text = $" The {model.DepartmentName} is new Department."
-            };
-            NotificationRepository.CreateDepartNoti(notification, changer.Name, changeObjectId);
+            //var notification = new Notification
+            //{
+            //    Text = $" The {model.DepartmentName} is new Department."
+            //};
+            //NotificationRepository.CreateDepartNoti(notification, changer.Name, changeObjectId);
 
             //return RedirectToAction("Index");
             return Ok(model);
         }
 
 
+        // [HttpPut("{Id}")]
+        // // [Authorize(Roles = "Admin")]
+        // public IActionResult Edit(string Id)
+        // {
+
+        //     Department department = new Department();
+        //     department = _context.Departments.FirstOrDefault(a => a.DeptId == Id);
+        //     //return View(department);
+        //     return Ok(department);
+        // }
+
         [HttpPut("{Id}")]
         [Authorize(Roles = "Admin")]
-        public IActionResult Edit(string Id)
+        public IActionResult Edit(string Id, [FromBody] Department model)
         {
-
-            Department department = new Department();
-            department = _context.Departments.FirstOrDefault(a => a.DeptId == Id);
-            //return View(department);
-            return Ok(department);
-        }
-
-        //[HttpPost]
-        //[Authorize(Roles = "Admin")]
-        //public IActionResult Edit(Department model)
-        //{
-        //    //ViewBag.id = model.DeptId;
+           //ViewBag.id = model.DeptId;
         //    _context.Departments.Update(model);
-        //    _context.SaveChanges();
+                Department dep = new Department();
+                dep = _context.Departments.FirstOrDefault(a => a.DeptId == Id);
+                dep.DeptId = Id;
+                dep.DepartmentName = model.DepartmentName;
+                
 
-        //    //return RedirectToAction("Index");
-        //    return Ok(model);
+           _context.SaveChanges();
 
-        //}
+           //return RedirectToAction("Index");
+           return Ok(model);
+
+        }
 
         [HttpDelete("{Id}")]
         [Authorize(Roles = "Admin")]

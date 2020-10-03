@@ -9,6 +9,7 @@ import { HomeComponent } from './sharedcomponent/home/home.component';
 const routes: Routes = [
   {path:'',redirectTo:'/home',pathMatch:'full'},
   {path:'home',component:HomeComponent},
+  {path:'accessdenied',component:HomeComponent},
   {path:'**',component:PagenotfoundComponent}
 ];
 

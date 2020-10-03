@@ -108,8 +108,8 @@ namespace EmployeeManagement.Controllers
         }
 
         [HttpGet("check")]
-        [Authorize]
-        // [Authorize(Roles = "Admin")]
+        // [Authorize]
+        [Authorize(Roles = "Admin")]
         public IActionResult AccessDenied()
         {
             //return View();
@@ -142,43 +142,51 @@ namespace EmployeeManagement.Controllers
         //    return View();
         //}
 
+public class EmailTry{
+    public string email { get; set; }
+}
         [HttpPost("forgotpassword")]
         // [ValidateAntiForgeryToken]
         [AllowAnonymous]
-        public async Task<IActionResult> ForgotPassword([FromBody] string email)
+        public async Task<IActionResult> ForgotPassword([FromBody] EmailTry email)
         {
         //    if (string.IsNullOrEmpty(email))
         //        return View();
-
-           var user = await this.userManager.FindByEmailAsync(email);
+        
+           var user = await this.userManager.FindByEmailAsync(email.email);
            if (user == null)
            return Ok(new {message="Email is not found"});
             //    return RedirectToAction("ForgotPasswordEmailSent");
 
            var confrimationCode = await userManager.GeneratePasswordResetTokenAsync(user);
 
-           var callbackurl = Url.Action(
-               controller: "Security",
-               action: "ResetPassword",
-               values: new { userId = user.Id, code = confrimationCode },
-               protocol: Request.Scheme);
+        //    var callbackurl = Url.Action(
+        //        controller: "Security",
+        //        action: "ResetPassword",
+        //        values: new { userId = user.Id, code = confrimationCode },
+        //        protocol: Request.Scheme);
 
-           TempData["url"] = callbackurl;
+        //    TempData["url"] = callbackurl;
 
 
         //    return RedirectToAction("ForgotPasswordEmailSent");
-                return Ok(new {code=confrimationCode,email=email, message="link is send."});
+                return Ok(new 
+                {
+                    code=confrimationCode,
+                    email=email, 
+                    message="link is send."
+                });
         }
 
-        [HttpGet("forgotpasswordlinksent")]
-        [AllowAnonymous]
-        public IActionResult ForgotPasswordEmailSent()
-        {
-        //    ViewBag.NewPassword = TempData["url"];
-            string url = TempData["url"];
-        //    return View();
-            reurn Ok(new{link=url});
-        }
+        // [HttpGet("forgotpasswordlinksent")]
+        // [AllowAnonymous]
+        // public IActionResult ForgotPasswordEmailSent()
+        // {
+        // //    ViewBag.NewPassword = TempData["url"];
+        //     string url = TempData["url"];
+        // //    return View();
+        //     reurn Ok(new{link=url});
+        // }
 
         //[AllowAnonymous]
         //public IActionResult ResetPassword(string userId, string code)
@@ -191,7 +199,7 @@ namespace EmployeeManagement.Controllers
         //}
 
         [HttpPost("resetpassword")]
-        [ValidateAntiForgeryToken]
+        // [ValidateAntiForgeryToken]
         [AllowAnonymous]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordViewModel model)
         {

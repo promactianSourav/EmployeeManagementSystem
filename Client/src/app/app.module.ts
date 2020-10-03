@@ -13,6 +13,8 @@ import { HomeComponent } from './sharedcomponent/home/home.component';
 import { HeaderComponent } from './sharedcomponent/header/header.component';
 import { FooterComponent } from './sharedcomponent/footer/footer.component';
 import { PagenotfoundComponent } from './sharedcomponent/pagenotfound/pagenotfound.component';
+import { DepartmentModule } from './department/department.module';
+import { DepartmentRoutingModule } from './department/department-routing.module';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,8 @@ import { PagenotfoundComponent } from './sharedcomponent/pagenotfound/pagenotfou
     FormsModule,
     SecurityRoutingModule,
     SecurityModule,
+    DepartmentRoutingModule,
+    DepartmentModule,
     AppRoutingModule
    
   ],

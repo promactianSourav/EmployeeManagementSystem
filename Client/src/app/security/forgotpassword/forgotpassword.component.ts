@@ -16,17 +16,22 @@ export class ForgotpasswordComponent implements OnInit {
   ngOnInit(): void {
   }
   onSubmit(formData:NgForm){
+    console.log(this.email);
     this.authservice.forgotpassword(this.email).subscribe(
+      data => {
+        
+        console.log(localStorage.getItem('token'));
+    
+        console.log("codeForPassword: "+this.authservice.code)
+        
+        this.router.navigate(['/resetpassword']);
+      },
       (error:any)=>this.errorMessage = <any> error
     );
     console.log(localStorage.getItem('token'));
     
-    if(this.authservice.code!=null){
-      this.router.navigate(['/resetpassword']);
-    }else{
-      formData.resetForm();
-      alert("Password reset failed.");
-    }
+    console.log("codeForPassword: "+this.authservice.code)
+    
    
   }
 

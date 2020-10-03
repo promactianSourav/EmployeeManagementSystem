@@ -18,14 +18,16 @@ export class ResetpasswordComponent implements OnInit {
   ngOnInit(): void {
   }
   code:string = this.authservice.code;
-  email:string;
-  password:string;
-  confirmpassword:string;
+  email:string=null;
+  password:string=null;
+  confirmpassword:string=null;
   onSubmit(formData:NgForm){
     this.resetpassword.code = this.code;
     this.resetpassword.email = this.email;
     this.resetpassword.password = this.password;
     this.resetpassword.confirmpassword = this.confirmpassword;
+
+    console.log(this.resetpassword);
     this.authservice.resetpassword(this.resetpassword).subscribe(
       (error:any)=>this.errorMessage = <any> error
     );

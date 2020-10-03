@@ -1,4 +1,4 @@
 export interface IDepartment{
-    deptid:string;
-    department:string;
+    deptId:string;
+    departmentName:string;
 }

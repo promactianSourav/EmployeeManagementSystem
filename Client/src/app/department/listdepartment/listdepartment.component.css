@@ -1,0 +1,15 @@
+#formmiddle {
+    display: flex;
+    justify-content: center;
+}
+
+#left {
+    float: left;
+}
+
+#right {
+    float: right;
+    margin-right: 10vh;
+    position: sticky;
+    width: 50vh;
+}

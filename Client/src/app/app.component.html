@@ -8,7 +8,7 @@
             <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
-                        <a class="nav-link text-dark" [routerLink]="['department']">Department</a>
+                        <a class="nav-link text-dark" [routerLink]="['departmentlist']">Department</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark" [routerLink]="['employee']">Employee</a>
@@ -33,11 +33,12 @@
                         <a class="nav-link text-dark"  (click)="logout()">Logout</a>
                     </li>
                 </p> -->
+
                 <li class="nav-item">
-                    <a class="nav-link text-dark">Update</a>
+                    <a class="nav-link text-dark btn button-transparent" (click)="logout()">Logout</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" (click)="logout()">Logout</a>
+                    <a class="nav-link text-dark btn button-transparent">Update</a>
                 </li>
             </div>
 
@@ -67,10 +68,3 @@
 <router-outlet>
 
 </router-outlet>
-
-<footer class="border-top footer text-muted">
-
-    <div class="container">
-        &copy; 2020 - EmployeeManagement - <a>Privacy</a>
-    </div>
-</footer>

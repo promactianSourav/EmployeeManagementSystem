@@ -1,0 +1,44 @@
+<div id="right" class=" d-inline ">
+    <!-- <label style="font-size:26px"> Enter the new Department Name</label> -->
+    <input type="text" class="form-control mb-4 mt-5 " placeholder="Enter the new Department Name" [(ngModel)]="newdepartment" name="newdepartment">
+    <button type="submit" class="btn btn-secondary btn-lg btn-block" (click)="adddepartment">Add new department</button>
+
+
+</div>
+<div class="text-center table-responsive col-8 border-right border-black border-4 pl-5" id="formmiddle">
+
+    <div id="left">
+        <h1 class="display-4 mb-5">Welcome to the Department section</h1>
+
+        <table class="table table-bordered table-hover shadow p-3 mb-5 bg-white rounded">
+            <thead class="thead-dark">
+                <tr>
+                    <!-- <th scope="col">Serial No.</th> -->
+                    <th scope="col">Name</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor='let depart of departmentlist'>
+                    <!-- <th scope="row">@i</th> -->
+                    <td>{{depart.departmentName}}</td>
+                    <td>
+                        <button type="submit" class="btn btn-link" [routerLink]="['/departmentlist','editdepartment',depart.deptId]">Edit</button>
+
+                    </td>
+                    <td>
+
+                        <button type="submit" class="btn btn-link" (click)="deletedepartment(depart.deptId)">Delete</button>
+
+
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <hr/>
+
+
+    </div>
+</div>

@@ -20,12 +20,14 @@ export class LoginComponent implements OnInit {
   password:string=null;
   readme:boolean=false;
   loginview:ILoginview = {username:this.username,password:this.password,readme:this.readme};
+  
   onSubmit(formData:NgForm){
     this.loginview.username = this.username;
     this.loginview.password = this.password;
     this.loginview.readme = this.readme;
     console.log(this.loginview);
     this.authservice.login(this.loginview).subscribe(
+      response=>{console.log(response.status)},
       (error:any)=>this.errorMessage = <any> error
     );
     console.log(localStorage.getItem('token'));
