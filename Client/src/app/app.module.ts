@@ -1,3 +1,5 @@
+import { EmployeeModule } from './employee/employee.module';
+import { EmployeeRoutingModule } from './employee/employee-routing.module';
 import { SecurityRoutingModule } from './security/security-routing.module';
 import { SecurityModule } from './security/security.module';
 import { UniversalAppInterceptorService } from './services/universal-app-interceptor.service';
@@ -33,6 +35,8 @@ import { DepartmentRoutingModule } from './department/department-routing.module'
     SecurityModule,
     DepartmentRoutingModule,
     DepartmentModule,
+    EmployeeRoutingModule,
+    EmployeeModule,
     AppRoutingModule
    
   ],

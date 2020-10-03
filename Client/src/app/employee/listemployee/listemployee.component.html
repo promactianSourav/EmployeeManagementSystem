@@ -1,0 +1,59 @@
+<div class="text-center table-responsive col-8  pl-5" id="formmiddle">
+
+    <div id="left">
+        <h1 class="display-4 mb-5">Welcome to the Department section</h1>
+
+        <table class="table table-bordered table-hover shadow p-3 mb-5 bg-white rounded">
+            <thead class="thead-dark">
+                <tr>
+                    <!-- <th scope="col">Serial No.</th> -->
+                    <th scope="col">Name</th>
+                    <th scope="col">Surname</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Qualification</th>
+                    <th scope="col">Contact No.</th>
+                    <th scope="col">Department</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor='let emp of employeelist; let i = index'>
+                    <!-- <th *ngIf='emp.departmentId!==null' scope="row">{{i+1}}</th> -->
+                    <td *ngIf='emp.departmentId!==null'>{{emp.name}}</td>
+                    <td *ngIf='emp.departmentId!==null'>{{emp.surname}}</td>
+                    <td *ngIf='emp.departmentId!==null'>{{emp.address}}</td>
+                    <td *ngIf='emp.departmentId!==null'>{{emp.qualification}}</td>
+                    <td *ngIf='emp.departmentId!==null'>{{emp.contactNumber}}</td>
+
+                    <td *ngIf='emp.departmentId!==null'>
+
+                        <!-- {{emp.departmentId}} -->
+                        <div *ngFor='let depart of departmentlist'>
+                            <div *ngIf='emp.departmentId === depart.deptId'>
+                                {{depart.departmentName}}
+                            </div>
+                        </div>
+
+
+
+                    </td>
+                    <td *ngIf='emp.departmentId!==null'>
+                        <button type="submit" class="btn btn-link" [routerLink]="['/employeelist','editdemployee',emp.Id]">Edit</button>
+
+                    </td>
+                    <td *ngIf='emp.departmentId!==null'>
+
+                        <button type="submit" class="btn btn-link" (click)="deleteemployee(emp.Id)">Delete</button>
+
+
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <hr/>
+
+
+    </div>
+</div>

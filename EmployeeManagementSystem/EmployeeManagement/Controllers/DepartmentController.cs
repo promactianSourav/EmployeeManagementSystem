@@ -35,7 +35,7 @@ namespace EmployeeManagement.Controllers
 
         //...and can access it in our actions.
         [HttpGet("departmentlist")]
-        [Authorize(Roles = "Admin,HR")]
+        // [Authorize(Roles = "Admin,HR")]
         public IActionResult Index()
         {
 
