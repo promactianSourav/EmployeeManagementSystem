@@ -38,6 +38,7 @@ export class ListemployeeComponent implements OnInit {
   }
 
   deleteemployee(id:string){
+    console.log("id:  "+id);
     this.empservice.deleteemployee(id).subscribe(
       data => {this.ngOnInit();},
       error => {this.errorMessage=<any> error;}

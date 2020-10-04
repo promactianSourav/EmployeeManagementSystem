@@ -1,5 +1,18 @@
 #formmiddle {
     display: flex;
     justify-content: center;
-    margin-left: 30vh;
+    margin-left: 10vh;
+    border-right: 4px;
+}
+
+#left {
+    float: left;
+}
+
+#right {
+    float: right;
+    margin-right: 10vh;
+    margin-top: 15vh;
+    position: sticky;
+    width: 30vh;
 }

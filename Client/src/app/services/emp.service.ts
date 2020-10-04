@@ -45,9 +45,24 @@ export class EmpService {
     );
   }
 
-  editemployee(id:string,dep:IEmployee): Observable<any>{
-    const url = `${this.serverUrl}/${id}`;
-     return this.http.put<any>(url,dep,{
+  editemployee(dep:IEmployee): Observable<any>{
+    // const url = `${this.serverUrl}`;
+     return this.http.put<any>(this.serverUrl+"/edit",dep,{
+       headers: new HttpHeaders({
+         'Content-Type':'application/json'
+       })
+     }).pipe(
+       tap(data => {
+         JSON.stringify(data);
+         console.log(data);
+       }),
+       catchError(this.handleError)
+     );
+   }
+
+   updateemployee(dep:IEmployee): Observable<any>{
+    // const url = `${this.serverUrl}`;
+     return this.http.put<any>(this.serverUrl+"/update",dep,{
        headers: new HttpHeaders({
          'Content-Type':'application/json'
        })

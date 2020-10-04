@@ -32,16 +32,16 @@ export class EditdepartmentComponent implements OnInit {
   errorMessage:string = null;
   id:string = this.route.snapshot.paramMap.get('name');
   editeddepartment:string = null;
-  get getname(){
-   this.departmentlist.forEach(function(val) {
-     if(val.deptId == this.id.toString()){
-       this.editeddepartment = val.departmentName;
-     }
+  // get getname(){
+  //  this.departmentlist.forEach(function(val) {
+  //    if(val.deptId == this.id.toString()){
+  //      this.editeddepartment = val.departmentName;
+  //    }
      
-    });
+  //   });
 
-    return this.editeddepartment;
-  }
+  //   return this.editeddepartment;
+  // }
 
   editfulldepart:IDepartment = {deptId:null,departmentName:null};
   editdepartment(){

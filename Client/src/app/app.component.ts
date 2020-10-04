@@ -12,6 +12,7 @@ export class AppComponent {
   title = 'Client';
   constructor(private authservice:AuthServiceService,private router:Router){}
   // signin:boolean = localStorage.getItem('token')!=null ? true:false;
+  username:string = localStorage.getItem('username');
   get signin(){
     return localStorage.getItem('token')!=null ? true:false;
   }
@@ -20,4 +21,5 @@ export class AppComponent {
    
     this.router.navigate(['/login']);
   }
+
 }

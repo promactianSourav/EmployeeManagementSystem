@@ -1,14 +1,14 @@
 
 export interface IEmployee{
     id:string;
-    username:string;
+    userName:string;
     email:string;
     password:string;
-    confirmpassword:string;
+    confirmPassword:string;
     name:string;
     surname:string;
     address:string;
     qualification:string;
-    contactnumber:string;
-    departmentid:string;
+    contactNumber:string;
+    departmentId:string;
 }

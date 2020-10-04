@@ -1,7 +1,14 @@
-<div class="text-center table-responsive col-8  pl-5" id="formmiddle">
+<div id="right" class=" d-inline ">
+    <!-- <label style="font-size:26px"> Enter the new Department Name</label> -->
+    <!-- <input type="text" class="form-control mb-4 mt-5 " placeholder="Enter the new Department Name" [(ngModel)]="newdepartment" name="newdepartment"> -->
+    <button type="submit" class="btn btn-secondary btn-lg btn-block" [routerLink]="['/employeelist/addemployee']">Add new employee</button>
+
+
+</div>
+<div class="text-center table-responsive col-8  border-right border-black border-4 pl-5" id="formmiddle">
 
     <div id="left">
-        <h1 class="display-4 mb-5">Welcome to the Department section</h1>
+        <h1 class="display-4 mb-5">Welcome to the Employee section</h1>
 
         <table class="table table-bordered table-hover shadow p-3 mb-5 bg-white rounded">
             <thead class="thead-dark">
@@ -39,12 +46,12 @@
 
                     </td>
                     <td *ngIf='emp.departmentId!==null'>
-                        <button type="submit" class="btn btn-link" [routerLink]="['/employeelist','editdemployee',emp.Id]">Edit</button>
+                        <button type="submit" class="btn btn-link" [routerLink]="['/employeelist','editemployee',emp.id]">Edit</button>
 
                     </td>
                     <td *ngIf='emp.departmentId!==null'>
 
-                        <button type="submit" class="btn btn-link" (click)="deleteemployee(emp.Id)">Delete</button>
+                        <button type="submit" class="btn btn-link" (click)="deleteemployee(emp.id)">Delete</button>
 
 
                     </td>

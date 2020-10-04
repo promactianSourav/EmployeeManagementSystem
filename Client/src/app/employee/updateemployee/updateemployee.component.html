@@ -1,1 +1,104 @@
-<p>updateemployee works!</p>
+<div class="text-center">
+    <h1>Update Employee Details</h1>
+</div>
+<hr />
+<div class="form-horizontal" id="addemployee">
+
+    <div class="form-group mb-3">
+        <div class="col-md-10">
+            <label class="col-sm-2 col-form-label">UserName</label>
+
+
+            <input type="text" class="form-control" placeholder="Username" id="Username" [(ngModel)]="editedemployee.userName">
+        </div>
+    </div>
+    <div class="form-group mb-3">
+        <div class="col-md-10">
+            <label for="Email" class="col-sm-2 col-form-label">Email</label>
+
+            <input type="email" class="form-control" placeholder="Email" id="Email" [(ngModel)]="editedemployee.email">
+        </div>
+    </div>
+
+    <div class="form-group mb-3">
+        <div class="col-md-10">
+            <label for="Password" class="col-sm-2 col-form-label">Password</label>
+
+            <input type="password" class="form-control" placeholder="Password" id="Password" [(ngModel)]="editedemployee.password">
+        </div>
+    </div>
+
+    <div class="form-group mb-3">
+        <div class="col-md-10">
+            <label for="ConfirmPassword" class="col-sm-2 col-form-label">Confirm Password</label>
+
+            <input type="password" class="form-control" placeholder="Confirm Password" id="ConfirmPassword" [(ngModel)]="editedemployee.confirmPassword">
+        </div>
+    </div>
+
+    <div class="form-group mb-3">
+        <div class="col-md-10">
+            <label for="Name" class="col-sm-2 col-form-label">Name</label>
+
+            <input type="text" class="form-control" placeholder="Name" id="Name" [(ngModel)]="editedemployee.name">
+        </div>
+    </div>
+
+    <div class="form-group mb-3">
+        <div class="col-md-10">
+            <label for="Surname" class="col-sm-2 col-form-label">Surname</label>
+
+            <input type="text" class="form-control" placeholder="Surname" id="Surname" [(ngModel)]="editedemployee.surname">
+        </div>
+    </div>
+
+    <div class="form-group mb-3">
+        <div class="col-md-10">
+            <label for="Address" class="col-sm-2 col-form-label">Address</label>
+
+            <input type="text" class="form-control" placeholder="Address" id="Address" [(ngModel)]="editedemployee.address">
+        </div>
+    </div>
+
+    <div class="form-group mb-3">
+        <div class="col-md-10">
+            <label for="Qualification" class="col-sm-2 col-form-label">Qualification</label>
+
+            <input type="text" class="form-control" placeholder="Qualification" id="Qualification" [(ngModel)]="editedemployee.qualification">
+        </div>
+    </div>
+
+    <div class="form-group mb-3">
+        <div class="col-md-10">
+            <label for="ContactNumber" class="col-sm-2 col-form-label">Contact Number</label>
+
+            <input type="text" class="form-control" placeholder="ContactNumber" id="ContactNumber" [(ngModel)]="editedemployee.contactNumber">
+        </div>
+    </div>
+
+    <div class="form-group mb-3">
+        <div class="col-md-10">
+            <div for="ContactNumber" class="col-sm-2 col-form-label">Department</div>
+            <div class="col-sm-2 col-form-label">
+                <select name="department" id="department" class="form-control form-control-sm" [(ngModel)]="editedemployee.departmentId" name="editedemployee.departmentId">
+                    <!-- <div *ngFor='let dep of departmentlist'> -->
+                        <option value="emp.departmentId" [(ngModel)]="editeddepartment" name="editeddepartment">{{editeddepartment}}</option>
+                        <option *ngFor='let dep of departmentlist' [value]="dep.deptId">
+                            
+                                {{dep.departmentName}}
+                            
+                           
+                        </option>
+                    <!-- </div> -->
+                    
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group mb-5">
+        <div class="col-md-offset-2 col-md-10">
+            <button type="submit" class="btn btn-secondary btn-sm btn-block" (click)="updateemployee()">Save</button>
+        </div>
+    </div>
+</div>
