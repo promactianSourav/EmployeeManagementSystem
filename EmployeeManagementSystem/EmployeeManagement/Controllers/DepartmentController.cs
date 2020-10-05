@@ -62,16 +62,16 @@ namespace EmployeeManagement.Controllers
                     _context.Departments.Add(dep);
                     _context.SaveChanges();
 
-            //var userid = userManager.GetUserId(HttpContext.User);
-            //var role = _context.UserRoles.FirstOrDefault(a => a.UserId == userid);
-            //var changer = _context.Roles.FirstOrDefault(a => a.Id == role.RoleId);
-            //var changeObjectId = s;
+            var userid = userManager.GetUserId(HttpContext.User);
+            var role = _context.UserRoles.FirstOrDefault(a => a.UserId == userid);
+            var changer = _context.Roles.FirstOrDefault(a => a.Id == role.RoleId);
+            var changeObjectId = s;
 
-            //var notification = new Notification
-            //{
-            //    Text = $" The {model.DepartmentName} is new Department."
-            //};
-            //NotificationRepository.CreateDepartNoti(notification, changer.Name, changeObjectId);
+            var notification = new Notification
+            {
+               Text = $" The {model.DepartmentName} is new Department."
+            };
+            NotificationRepository.CreateDepartNoti(notification, changer.Name, changeObjectId);
 
             //return RedirectToAction("Index");
             return Ok(model);

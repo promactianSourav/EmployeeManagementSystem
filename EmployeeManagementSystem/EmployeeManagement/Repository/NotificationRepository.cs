@@ -160,7 +160,8 @@ namespace EmployeeManagement.Repository
 
         public void ReadNotification(string Id, string userId)
         {
-            var notificationUser = _context.UserNotifications.FirstOrDefault(n => n.NotificationId == Id && n.EmployeeUserId == userId);
+            NotificationUser notificationUser = new NotificationUser();
+            notificationUser = (NotificationUser)_context.UserNotifications.FirstOrDefault(n => n.NotificationId == Id && n.EmployeeUserId == userId);
             notificationUser.IsRead = true;
             _context.UserNotifications.Update(notificationUser);
             _context.SaveChanges();

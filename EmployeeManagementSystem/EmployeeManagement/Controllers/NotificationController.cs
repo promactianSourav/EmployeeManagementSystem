@@ -18,8 +18,9 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace EmployeeManagement.Controllers
 {
-    [Authorize]
-    public class NotificationController : Controller
+    [Route("api/[controller]")]
+    // [Authorize]
+    public class NotificationController : ControllerBase
     {
         //We inject the DBContext into the controller...
         private DataContextAll _context;
@@ -46,16 +47,22 @@ namespace EmployeeManagement.Controllers
             //NotificationRepository = notificationRepository;
         }
 
-        public IActionResult GetNotification()
+        [HttpGet("{userId}")]
+        // [Authorize]
+        public IActionResult GetNotification(string userId)
         {
-            var userId = userManager.GetUserId(HttpContext.User);
+            // var userId = userManager.GetUserId(HttpContext.User);
             var notification = notificationRepository.GetNotificationUsers(userId);
             return Ok( new { NotificationUser = notification, count = notification.Count});
         }
 
-        public IActionResult ReadNotification(string NotificationId)
+        [HttpPost("{Id}/{userId}")]
+        // [Authorize]
+        public IActionResult ReadNotifications(string Id,string userId)
         {
-            notificationRepository.ReadNotification(NotificationId,userManager.GetUserId(HttpContext.User));
+            // notificationRepository.ReadNotification(Id,userManager.GetUserId(HttpContext.User));
+            notificationRepository.ReadNotification(Id,userId);
+
             return Ok();
         }
     }

@@ -43,10 +43,14 @@ namespace EmployeeManagement
 
             services.AddCors(options=>{
                 options.AddPolicy("CorsPolicy",
-                builder => builder.AllowAnyOrigin()
+                builder => 
+                builder
                 .AllowAnyMethod()
-                .AllowAnyHeader());
+                .AllowAnyHeader()
+                .WithOrigins("http://localhost:4200")
+                .AllowCredentials());
             });
+             services.AddSignalR();
             services.AddControllers().AddNewtonsoftJson(options => 
             options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore );
 
@@ -103,7 +107,7 @@ namespace EmployeeManagement
             //});
             //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
             //services.AddMvc();
-            services.AddSignalR();
+           
             services.AddMvc();
             //services.AddMvc(options =>
             //{
@@ -138,13 +142,13 @@ namespace EmployeeManagement
             app.UseRouting();
 
             app.UseAuthorization();
-
+            
             //app.UseMvcWithDefaultRoute();
             //app.UseSignalR(routes => routes.MapHub<SignalServer>("/signalServer"));
-            //app.UseSignalR(route =>
-            //{
-            //    route.MapHub<SignalServer>("/signalServer");
-            //});
+            // app.UseSignalR(route =>
+            // {
+            //    route.MapHub<SignalServer>("signalServer");
+            // });
 
             app.UseEndpoints(endpoints =>
             {

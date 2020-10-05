@@ -41,7 +41,7 @@ namespace EmployeeManagement.Controllers
        
         //...and can access it in our actions.
         [HttpGet("employeelist")]
-        [Authorize]
+        // [Authorize]
         public async Task<IActionResult> Index()
         {
              Employee currentEmp = await userManager.GetUserAsync(HttpContext.User);
@@ -144,15 +144,15 @@ namespace EmployeeManagement.Controllers
                     //var username = userManager.GetUserName(HttpContext.User);
 
 
-                    // var userid = userManager.GetUserId(HttpContext.User);
-                    // var role = _context.UserRoles.FirstOrDefault(a => a.UserId == userid);
-                    // var changer = _context.Roles.FirstOrDefault(a => a.Id == role.RoleId);
-                    // var changeObjectId = model.DepartmentId;
-                    // var notification = new Notification
-                    // {
-                    //     Text = $" The {model.UserName} is new Employee in your Department."
-                    // };
-                    // NotificationRepository.Create(notification,changer.Name,changeObjectId);
+                    var userid = userManager.GetUserId(HttpContext.User);
+                    var role = _context.UserRoles.FirstOrDefault(a => a.UserId == userid);
+                    var changer = _context.Roles.FirstOrDefault(a => a.Id == role.RoleId);
+                    var changeObjectId = model.DepartmentId;
+                    var notification = new Notification
+                    {
+                        Text = $" The {model.UserName} is new Employee in your Department."
+                    };
+                    NotificationRepository.Create(notification,changer.Name,changeObjectId);
                     // return RedirectToAction("Index");
                     return Ok(model);
                 }

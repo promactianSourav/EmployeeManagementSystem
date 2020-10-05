@@ -56,6 +56,7 @@ namespace EmployeeManagement.Controllers
         public async Task<IActionResult> Login([FromBody] LoginViewModel model)
         {
             var user = await userManager.FindByNameAsync(model.UserName);
+            
             if(user !=null && await userManager.CheckPasswordAsync(user, model.Password))
             {
                 var userRoles = await userManager.GetRolesAsync(user);
@@ -71,12 +72,13 @@ namespace EmployeeManagement.Controllers
                 var token = new JwtSecurityToken(
                         issuer: Configuration["JWT:ValidIssuer"],
                         audience: Configuration["JWT:ValidAudience"],
-                        expires: DateTime.Now.AddHours(5),
+                        expires: DateTime.Now.AddHours(1),
                         claims: authClaims,
                         signingCredentials: new SigningCredentials(authSigninKey, SecurityAlgorithms.HmacSha256)
                         );
                 return Ok(new
                 {
+                    userid=user.Id,
                     username=model.UserName,
                     token = new JwtSecurityTokenHandler().WriteToken(token)
                 });

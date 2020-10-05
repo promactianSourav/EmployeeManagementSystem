@@ -29,6 +29,7 @@ export class AuthServiceService {
         console.log(data);
         this.user = data.username;
           this.localstore.set('token',data.token);
+          sessionStorage.setItem('userid',data.id);
         this.localstore.set('username',data.username);
       }
       ),
