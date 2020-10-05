@@ -24,10 +24,12 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this._hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl("https://localhost:5001/api/notification/signalServer", {
-        // skipNegotiation: true,
-        // transport: signalR.HttpTransportType.WebSockets
-      }).configureLogging(signalR.LogLevel.Information).build();
+      .withUrl('https://localhost:5001/api/Notification/signalServer'
+      // , {
+      //   skipNegotiation: true,
+      //   transport: signalR.HttpTransportType.WebSockets
+      // }
+      ).configureLogging(signalR.LogLevel.Information).build();
     this._hubConnection
       .start()
       .then(() => console.log("Connection started!"))

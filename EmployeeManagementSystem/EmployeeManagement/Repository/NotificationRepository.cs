@@ -158,16 +158,21 @@ namespace EmployeeManagement.Repository
             //    .ToList();
         }
 
-        public void ReadNotification(string Id, string userId)
-        {
-            NotificationUser notificationUser = new NotificationUser();
-            notificationUser = (NotificationUser)_context.UserNotifications.FirstOrDefault(n => n.NotificationId == Id && n.EmployeeUserId == userId);
-            notificationUser.IsRead = true;
-            _context.UserNotifications.Update(notificationUser);
-            _context.SaveChanges();
-        }
+        //public void ReadNotification(string Id, string userId)
+        //{
+        //    NotificationUser notificationUser = new NotificationUser();
+        //    notificationUser = (NotificationUser)_context.UserNotifications.FirstOrDefault(n => n.NotificationId == Id && n.EmployeeUserId == userId);
+        //    notificationUser.IsRead = true;
+        //    _context.UserNotifications.Update(notificationUser);
+        //    _context.SaveChanges();
+        //}
 
         public List<NotificationUser> GetNotificationUsersSecond(string userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ReadNotification(string Id, string userId)
         {
             throw new NotImplementedException();
         }

@@ -52,16 +52,37 @@ namespace EmployeeManagement.Controllers
         public IActionResult GetNotification(string userId)
         {
             // var userId = userManager.GetUserId(HttpContext.User);
+            Console.WriteLine("its bug2");
             var notification = notificationRepository.GetNotificationUsers(userId);
             return Ok( new { NotificationUser = notification, count = notification.Count});
         }
 
-        [HttpPost("{Id}/{userId}")]
+        [HttpGet("{Id}/{userId}")]
         // [Authorize]
-        public IActionResult ReadNotifications(string Id,string userId)
+        public IActionResult ReadNotification(string Id,string userId)
         {
             // notificationRepository.ReadNotification(Id,userManager.GetUserId(HttpContext.User));
-            notificationRepository.ReadNotification(Id,userId);
+            //notificationRepository.ReadNotification(Id, userId);
+            if(Id!=null && userId != null)
+            {
+                NotificationUser notificationUser = new NotificationUser();
+                notificationUser = (NotificationUser)_context.UserNotifications.FirstOrDefault(n => n.NotificationId == Id && n.EmployeeUserId == userId);
+                Console.WriteLine(notificationUser);
+                Console.WriteLine("its bug");
+                if(notificationUser != null)
+                {
+                    notificationUser.IsRead = true;
+                    _context.UserNotifications.Update(notificationUser);
+                    _context.SaveChanges();
+                }
+                
+                
+            }
+            else
+            {
+                return Ok(new { Message = "Credentials are null." });
+            }
+            
 
             return Ok();
         }

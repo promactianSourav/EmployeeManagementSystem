@@ -50,7 +50,7 @@ namespace EmployeeManagement
                 .WithOrigins("http://localhost:4200")
                 .AllowCredentials());
             });
-             services.AddSignalR();
+             services.AddSignalR(options => options.EnableDetailedErrors = true);
             services.AddControllers().AddNewtonsoftJson(options => 
             options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore );
 

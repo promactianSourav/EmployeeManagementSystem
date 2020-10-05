@@ -35,7 +35,7 @@ export class NotificationService {
   readnotification(Id:string): Observable<any>{
     const userId = sessionStorage.getItem('userid');
     const url = `${this.serverUrl}/${Id}/${userId}`;
-    return this.http.post<any>(url,{
+    return this.http.get<any>(url,{
       headers: new HttpHeaders({
         'Content-Type':'application/json'
       })
