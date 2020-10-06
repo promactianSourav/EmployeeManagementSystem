@@ -53,17 +53,21 @@
                             {{count}}
                         </button>
                     </div>
-                    <div *ngIf="ntl" class="wrapper">
-                        <aside *ngFor="let n of notifications">
-                            <div class="notification" [ngClass]="{'is-info': n.style=='info','is-danger': n.style=='danger','is-success': n.style=='success'}">
+                    <!-- <div *ngIf="ntl" class="wrapper">
+
+                        <div *ngFor="let n of notifications">
+
+                            <div class="toast-body">
                                 {{n.text}}
-                                <button class="delete"></button>
                             </div>
 
-                        </aside>
-                    </div>
+                        </div>
+
+
+                    </div> -->
                 </div>
             </div>
+
 
 
 
@@ -87,7 +91,15 @@
         </div>
     </nav>
 </header>
+<ng-template #cn let-notificationData="notification">
+    <my-custom-alert type="notificationData.type" (click)="getid(notificationData.id)">
+        {{notificationData.message}}
+    </my-custom-alert>
+</ng-template>
 
 <router-outlet>
 
 </router-outlet>
+<notifier-container>
+
+</notifier-container>

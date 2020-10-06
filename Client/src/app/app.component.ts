@@ -1,11 +1,12 @@
 import { NotificationService } from './services/notification.service';
 import { AuthServiceService } from './services/auth-service.service';
 import { LocalStorageServiceService } from './services/local-storage-service.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
 import * as signalR from '@aspnet/signalr';
+import { NotifierService } from 'angular-notifier';
 
 
 
@@ -18,7 +19,7 @@ import * as signalR from '@aspnet/signalr';
 export class AppComponent implements OnInit {
   title = 'Client';
   public _hubConnection: HubConnection;
-  constructor(private notificationservice:NotificationService,private authservice: AuthServiceService, private router: Router) { }
+  constructor(private notifierservice:NotifierService,private notificationservice:NotificationService,private authservice: AuthServiceService, private router: Router) { }
 
   errorMessage:string = null;
 
@@ -48,9 +49,11 @@ export class AppComponent implements OnInit {
       );
   }
 
-notifications:string[]=[];
+notifications:any[]=[];
   notificationlist(){
     this.getNotification();
+    this.getset();
+    // document.getElementById('notificationCount').innerHTML('<div></div>');
     if(this.count>0 || this.ntl==true){
       if(this.ntl==true){
         this.ntl=false;
@@ -78,7 +81,7 @@ count:number = 0;
     );
   }
 
-   readNotification(id:string,target:string) {
+  readNotification(id:string,target:string) {
 
     // $.ajax({
     //     url: "/Notification/ReadNotification",
@@ -92,7 +95,48 @@ count:number = 0;
     //         console.log(error);
     //     }
     // });
-}
+  }
+
+  
+  @ViewChild ("cn",{static:true}) cntm;
+
+  msg:string[] =[
+    "a","b","c","d"
+  ];
+  msgid:string[] = [
+    "1","2","3","4"
+  ];
+  i:number = 0;
+  ch:boolean = false;
+
+  getid(i:string){
+    console.log("idnoti: "+i);
+  }
+
+  getset(){
+  
+    if(this.ch==false){
+      this.notifications.forEach(element => {
+        // this.i=this.i+1;
+        this.notifierservice.show({
+          type:"success",
+          message:element.text,
+          id: element.id,
+          template:this.cntm
+        });
+      });
+      
+      this.ch=true;
+    }else{
+      this.notifierservice.hideAll();
+      this.ch=false;
+    }
+   
+    
+  }
+
+
+
   // signin:boolean = localStorage.getItem('token')!=null ? true:false;
   username: string = localStorage.getItem('username');
 

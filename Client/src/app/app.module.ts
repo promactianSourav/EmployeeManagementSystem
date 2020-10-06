@@ -17,6 +17,7 @@ import { FooterComponent } from './sharedcomponent/footer/footer.component';
 import { PagenotfoundComponent } from './sharedcomponent/pagenotfound/pagenotfound.component';
 import { DepartmentModule } from './department/department.module';
 import { DepartmentRoutingModule } from './department/department-routing.module';
+import { NotifierModule } from 'angular-notifier';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,27 @@ import { DepartmentRoutingModule } from './department/department-routing.module'
     DepartmentModule,
     EmployeeRoutingModule,
     EmployeeModule,
+    NotifierModule.withConfig({
+      position:{
+        horizontal:{
+          position:"right",
+          distance:12,
+
+        },
+        vertical:{
+          position:"top",
+          distance:50,
+          gap:10
+        }
+      },
+      behaviour:{
+        autoHide:false,
+        onClick:"hide",
+        onMouseover:false,
+        showDismissButton:true,
+        stacking:5
+      }
+    }),
     AppRoutingModule
    
   ],
