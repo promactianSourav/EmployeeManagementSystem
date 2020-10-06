@@ -28,9 +28,11 @@ export class AuthServiceService {
       tap(data => {JSON.stringify(data);
         console.log(data);
         this.user = data.username;
-          this.localstore.set('token',data.token);
-          sessionStorage.setItem('userid',data.id);
-        this.localstore.set('username',data.username);
+          // this.localstore.set('token',data.token);
+          localStorage.setItem('token',data.token);
+          localStorage.setItem('userid',data.userid);
+          localStorage.setItem('username',data.username);
+        // this.localstore.set('username',data.username);
       }
       ),
       catchError(this.handleError)

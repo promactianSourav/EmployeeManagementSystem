@@ -41,7 +41,7 @@ namespace EmployeeManagement.Controllers
        
         //...and can access it in our actions.
         [HttpGet("employeelist")]
-        // [Authorize]
+        [Authorize]
         public async Task<IActionResult> Index()
         {
              Employee currentEmp = await userManager.GetUserAsync(HttpContext.User);

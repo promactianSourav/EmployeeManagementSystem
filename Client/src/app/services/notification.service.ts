@@ -15,11 +15,14 @@ export class NotificationService {
 
   constructor(private http:HttpClient,private jwttoken:JWTTokenServiceService,private localstore:LocalStorageServiceService,private router:Router) { }
   user:string=null;
-
+   userId:string = localStorage.getItem('userid');
+   url:string = null;
   getnotification(): Observable<any>{
-    const userId = sessionStorage.getItem('userid');
-    const url = `${this.serverUrl}/${userId}`;
-    return this.http.get<any>(url,{
+    
+    
+    console.log("useridnotif"+this.userId);
+   this.url = `${this.serverUrl}/${this.userId}`;
+    return this.http.get<any>(this.url,{
       headers: new HttpHeaders({
         'Content-Type':'application/json'
       })

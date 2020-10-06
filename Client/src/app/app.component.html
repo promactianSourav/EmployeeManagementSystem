@@ -39,14 +39,30 @@
                     <a class="nav-link text-dark btn button-transparent" (click)="logout()">Logout</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark btn button-transparent">Update</a>
+                    <a class="nav-link text-dark btn button-transparent" [routerLink]="['updateemployee']">Update</a>
                 </li>
-                <li>
-                    <b> {{username}} - </b>
+                <li class="mr-5">
+                    <b> {{username}}</b>
 
                 </li>
                 <span class="badge badge-light notification-count" id="notificationCount" data-toggle="popover" title="Notifications"></span>
 
+                <div class="mr-3">
+                    <div>
+                        <button class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse mr-3 btn-danger pl-2 pr-2" (click)="notificationlist()" [(ngModel)]="count">
+                            {{count}}
+                        </button>
+                    </div>
+                    <div *ngIf="ntl" class="wrapper">
+                        <aside *ngFor="let n of notifications">
+                            <div class="notification" [ngClass]="{'is-info': n.style=='info','is-danger': n.style=='danger','is-success': n.style=='success'}">
+                                {{n.text}}
+                                <button class="delete"></button>
+                            </div>
+
+                        </aside>
+                    </div>
+                </div>
             </div>
 
 

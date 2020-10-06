@@ -52,7 +52,7 @@ namespace EmployeeManagement.Controllers
         public IActionResult GetNotification(string userId)
         {
             // var userId = userManager.GetUserId(HttpContext.User);
-            Console.WriteLine("its bug2");
+            // Console.WriteLine("its bug2");
             var notification = notificationRepository.GetNotificationUsers(userId);
             return Ok( new { NotificationUser = notification, count = notification.Count});
         }
@@ -67,8 +67,8 @@ namespace EmployeeManagement.Controllers
             {
                 NotificationUser notificationUser = new NotificationUser();
                 notificationUser = (NotificationUser)_context.UserNotifications.FirstOrDefault(n => n.NotificationId == Id && n.EmployeeUserId == userId);
-                Console.WriteLine(notificationUser);
-                Console.WriteLine("its bug");
+                // Console.WriteLine(notificationUser);
+                // Console.WriteLine("its bug");
                 if(notificationUser != null)
                 {
                     notificationUser.IsRead = true;

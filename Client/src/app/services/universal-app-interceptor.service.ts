@@ -20,7 +20,7 @@ export class UniversalAppInterceptorService implements HttpInterceptor{
     req = req.clone({
       
       setHeaders: {
-        Authorization: `${token}`
+        Authorization: `Bearer ${token}`
       }
     });
     return next.handle(req);

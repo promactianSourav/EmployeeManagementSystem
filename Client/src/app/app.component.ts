@@ -24,26 +24,56 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this._hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('https://localhost:5001/api/Notification/signalServer'
+      .withUrl('https://localhost:5001/signalServer'
       // , {
       //   skipNegotiation: true,
       //   transport: signalR.HttpTransportType.WebSockets
       // }
       ).configureLogging(signalR.LogLevel.Information).build();
+
+      this._hubConnection.on("displayNotification", () => {
+        console.log("notificationOn");
+      
+      });
+
     this._hubConnection
       .start()
-      .then(() => console.log("Connection started!"))
+      .then(() => {console.log("Connection started!");this.getNotification();})
       .catch(err => console.log('Error while establishing connection:('));
 
-    this._hubConnection.on("displayNotification", () => {
       this.getNotification();
-    });
+      this.notificationservice.getnotification().subscribe(
+        data => { this.count =(data.count);console.log("notification:");console.log(data);console.log("userid"+localStorage.getItem('token'));},
+        err => {this.errorMessage = <any> err;}
+      );
   }
 
+notifications:string[]=[];
+  notificationlist(){
+    this.getNotification();
+    if(this.count>0 || this.ntl==true){
+      if(this.ntl==true){
+        this.ntl=false;
+      }else{
+        this.ntl = true;
+      }
+     
+    }
 
+  }
+  ntl:boolean = false;
+count:number = 0;
   getNotification(){
+    console.log("notification:");
     this.notificationservice.getnotification().subscribe(
-      data => { console.log("notification:");console.log(data);},
+      data => { 
+        this.count =(data.count);
+        this.notifications = data.notificationUser;
+        console.log("notificationslist");
+        console.log(this.notifications);
+        console.log("notification:");
+        console.log(data);console.log("userid"+localStorage.getItem('token'));
+      },
       err => {this.errorMessage = <any> err;}
     );
   }
@@ -65,11 +95,19 @@ export class AppComponent implements OnInit {
 }
   // signin:boolean = localStorage.getItem('token')!=null ? true:false;
   username: string = localStorage.getItem('username');
+
+  //for changing the navbar options after logged in
   get signin() {
+    this.username = localStorage.getItem('username');
     return localStorage.getItem('token') != null ? true : false;
   }
+ 
   logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    localStorage.removeItem('userid');
     this.authservice.logout();
+    localStorage.clear();
 
     this.router.navigate(['/login']);
   }

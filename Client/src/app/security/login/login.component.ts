@@ -1,3 +1,4 @@
+import { NotificationService } from './../../services/notification.service';
 import { ILoginview } from './../../models/ILoginview';
 import { AuthServiceService } from './../../services/auth-service.service';
 import { Component, OnInit } from '@angular/core';
@@ -11,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private authservice:AuthServiceService,private router:Router) { }
+  constructor(private authservice:AuthServiceService,private router:Router,private notificationservice:NotificationService) { }
 
   ngOnInit(): void {
   }
@@ -30,8 +31,10 @@ export class LoginComponent implements OnInit {
       response=>{console.log(response.status)},
       (error:any)=>this.errorMessage = <any> error
     );
-    console.log(localStorage.getItem('token'));
+    
+    console.log(sessionStorage.getItem('token'));
     formData.resetForm();
     this.router.navigate(['/home']);
   }
+ 
 }

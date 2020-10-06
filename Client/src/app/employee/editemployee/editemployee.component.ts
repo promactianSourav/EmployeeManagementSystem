@@ -1,3 +1,4 @@
+import { NotificationService } from './../../services/notification.service';
 import { IEmployee } from './../../models/IEmployee';
 import { EmpService } from './../../services/emp.service';
 import { Component, OnInit } from '@angular/core';
@@ -12,7 +13,7 @@ import { IDepartment } from 'src/app/models/IDepartment';
 })
 export class EditemployeeComponent implements OnInit {
 
-  constructor(private departservice:DepartService,private empservice:EmpService,private router:Router,private route:ActivatedRoute) { }
+  constructor(private notificationservice:NotificationService,private departservice:DepartService,private empservice:EmpService,private router:Router,private route:ActivatedRoute) { }
   departmentlist:IDepartment[]=[];
   employeelist:IEmployee[]=[];
 
@@ -31,7 +32,10 @@ export class EditemployeeComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    
+    this.notificationservice.getnotification().subscribe(
+      data => { console.log("notification:");console.log(data);},
+      err => {this.errorMessage = <any> err;}
+    );
     this.empservice.getlist().subscribe(
       emp => {
           this.employeelist = (emp);
@@ -97,5 +101,12 @@ export class EditemployeeComponent implements OnInit {
     //   alert("Please enter the Department Name.");
     // }
     
+  }
+  getNotification(){
+    console.log("notification:");
+    this.notificationservice.getnotification().subscribe(
+      data => { console.log("notification:");console.log(data);},
+      err => {this.errorMessage = <any> err;}
+    );
   }
 }
