@@ -20,7 +20,7 @@
         </div>
     </div>
 
-    <div class="form-group mb-3">
+    <!-- <div class="form-group mb-3">
         <div class="col-md-10">
             <label for="Password" class="col-sm-2 col-form-label">Password</label>
 
@@ -34,7 +34,7 @@
 
             <input type="password" class="form-control" placeholder="Confirm Password" id="ConfirmPassword" [(ngModel)]="editedemployee.confirmPassword">
         </div>
-    </div>
+    </div> -->
 
     <div class="form-group mb-3">
         <div class="col-md-10">
@@ -76,12 +76,12 @@
         </div>
     </div>
 
-    <div class="form-group mb-3">
+    <!-- <div class="form-group mb-3">
         <div class="col-md-10">
             <div for="ContactNumber" class="col-sm-2 col-form-label">Department</div>
             <div class="col-sm-2 col-form-label">
                 <select name="department" id="department" class="form-control form-control-sm" [(ngModel)]="editedemployee.departmentId" name="editedemployee.departmentId">
-                    <!-- <div *ngFor='let dep of departmentlist'> -->
+                 
                         <option value="emp.departmentId" [(ngModel)]="editeddepartment" name="editeddepartment">{{editeddepartment}}</option>
                         <option *ngFor='let dep of departmentlist' [value]="dep.deptId">
                             
@@ -89,12 +89,12 @@
                             
                            
                         </option>
-                    <!-- </div> -->
+             
                     
                 </select>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <div class="form-group mb-5">
         <div class="col-md-offset-2 col-md-10">

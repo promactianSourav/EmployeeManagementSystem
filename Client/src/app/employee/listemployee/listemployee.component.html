@@ -1,7 +1,7 @@
-<div id="right" class=" d-inline ">
+<div id="right" class=" d-inline " [hidden]="checkdep">
     <!-- <label style="font-size:26px"> Enter the new Department Name</label> -->
     <!-- <input type="text" class="form-control mb-4 mt-5 " placeholder="Enter the new Department Name" [(ngModel)]="newdepartment" name="newdepartment"> -->
-    <button type="submit" class="btn btn-secondary btn-lg btn-block" [routerLink]="['/employeelist/addemployee']">Add new employee</button>
+    <button [hidden]="checkdep" type="submit" class="btn btn-secondary btn-lg btn-block" [routerLink]="['/employeelist/addemployee']">Add new employee</button>
 
 
 </div>
@@ -19,21 +19,21 @@
                     <th scope="col">Address</th>
                     <th scope="col">Qualification</th>
                     <th scope="col">Contact No.</th>
-                    <th scope="col">Department</th>
-                    <th scope="col">Edit</th>
-                    <th scope="col">Delete</th>
+                    <th scope="col" [hidden]="checkdep">Department</th>
+                    <th scope="col" [hidden]="checkdep">Edit</th>
+                    <th scope="col" [hidden]="checkdep">Delete</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor='let emp of employeelist; let i = index'>
                     <!-- <th *ngIf='emp.departmentId!==null' scope="row">{{i+1}}</th> -->
-                    <td *ngIf='emp.departmentId!==null'>{{emp.name}}</td>
-                    <td *ngIf='emp.departmentId!==null'>{{emp.surname}}</td>
-                    <td *ngIf='emp.departmentId!==null'>{{emp.address}}</td>
-                    <td *ngIf='emp.departmentId!==null'>{{emp.qualification}}</td>
-                    <td *ngIf='emp.departmentId!==null'>{{emp.contactNumber}}</td>
+                    <td *ngIf='emp.departmentId!==null && (loggedinemp.departmentId===emp.departmentId || freehradmin)'>{{emp.name}}</td>
+                    <td *ngIf='emp.departmentId!==null && (loggedinemp.departmentId===emp.departmentId || freehradmin)'>{{emp.surname}}</td>
+                    <td *ngIf='emp.departmentId!==null && (loggedinemp.departmentId===emp.departmentId || freehradmin)'>{{emp.address}}</td>
+                    <td *ngIf='emp.departmentId!==null && (loggedinemp.departmentId===emp.departmentId || freehradmin)'>{{emp.qualification}}</td>
+                    <td *ngIf='emp.departmentId!==null && (loggedinemp.departmentId===emp.departmentId || freehradmin)'>{{emp.contactNumber}}</td>
 
-                    <td *ngIf='emp.departmentId!==null'>
+                    <td *ngIf='emp.departmentId!==null && (loggedinemp.departmentId===emp.departmentId || freehradmin)' [hidden]="checkdep">
 
                         <!-- {{emp.departmentId}} -->
                         <div *ngFor='let depart of departmentlist'>
@@ -45,11 +45,11 @@
 
 
                     </td>
-                    <td *ngIf='emp.departmentId!==null'>
+                    <td *ngIf='emp.departmentId!==null && (loggedinemp.departmentId===emp.departmentId || freehradmin)' [hidden]="checkdep">
                         <button type="submit" class="btn btn-link" [routerLink]="['/employeelist','editemployee',emp.id]">Edit</button>
 
                     </td>
-                    <td *ngIf='emp.departmentId!==null'>
+                    <td *ngIf='emp.departmentId!==null && (loggedinemp.departmentId===emp.departmentId || freehradmin)' [hidden]="checkdep">
 
                         <button type="submit" class="btn btn-link" (click)="deleteemployee(emp.id)">Delete</button>
 

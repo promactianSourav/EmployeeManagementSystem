@@ -17,6 +17,7 @@ export class DepartService {
 
   constructor(private http:HttpClient,private jwttoken:JWTTokenServiceService,private localstore:LocalStorageServiceService,private router:Router) { }
   user:string=null;
+  id:string = localStorage.getItem('userid');
 
   getlist(): Observable<any>{
     return this.http.get<any>(this.serverUrl+"/departmentlist",{
@@ -33,7 +34,8 @@ export class DepartService {
   }
 
   adddepart(form:IDepartment): Observable<any>{
-    return this.http.post<any>(this.serverUrl+"/add",form,{
+    const url = `${this.serverUrl+"/add"}/${this.id}`;
+    return this.http.post<any>(url,form,{
       headers: new HttpHeaders({
         'Content-Type':'application/json'
       })

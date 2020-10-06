@@ -67,7 +67,8 @@ export class UpdateemployeeComponent implements OnInit {
 
 
   errorMessage:string = null;
-  id:string = this.route.snapshot.paramMap.get('id');
+  // id:string = this.route.snapshot.paramMap.get('id');
+  id:string = localStorage.getItem('userid');
   editeddepartment:string = null;
   editeddepartmentid:string = null;
   get getname(){
@@ -88,7 +89,7 @@ export class UpdateemployeeComponent implements OnInit {
     // if(this.editeddepartment !=null){
     //   this.editfulldepart.deptId = this.id;
     //   this.editfulldepart.departmentName = this.editeddepartment;
-      this.empservice.editemployee(this.editedemployee).subscribe(
+      this.empservice.updateemployee(this.editedemployee).subscribe(
         data => {this.ngOnInit();},
         error => {this.errorMessage=<any> error;}
       );

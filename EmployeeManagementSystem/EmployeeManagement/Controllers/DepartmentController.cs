@@ -47,9 +47,9 @@ namespace EmployeeManagement.Controllers
             return Ok(departList);
         }
 
-        [HttpPost("add")]
+        [HttpPost("add/{id}")]
         [Authorize(Roles = "Admin")]
-        public IActionResult Add([FromBody] Department model)
+        public IActionResult Add([FromBody] Department model,string id)
         {
             string s = (Convert.ToInt32(_context.Departments.Select(x => x.DeptId).Max())+1).ToString();
             Department dep = new Department
@@ -62,7 +62,8 @@ namespace EmployeeManagement.Controllers
                     _context.Departments.Add(dep);
                     _context.SaveChanges();
 
-            var userid = userManager.GetUserId(HttpContext.User);
+            //var userid = userManager.GetUserId(HttpContext.User);
+            var userid = id;
             var role = _context.UserRoles.FirstOrDefault(a => a.UserId == userid);
             var changer = _context.Roles.FirstOrDefault(a => a.Id == role.RoleId);
             var changeObjectId = s;

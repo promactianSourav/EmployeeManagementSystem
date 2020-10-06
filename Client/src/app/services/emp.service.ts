@@ -16,7 +16,7 @@ export class EmpService {
 
   constructor(private http:HttpClient,private jwttoken:JWTTokenServiceService,private localstore:LocalStorageServiceService,private router:Router) { }
   user:string=null;
-
+  id:string = localStorage.getItem('userid');
   getlist(): Observable<any>{
     return this.http.get<any>(this.serverUrl+"/employeelist",{
       headers: new HttpHeaders({
@@ -32,7 +32,8 @@ export class EmpService {
   }
 
   addemployee(form:IEmployee): Observable<any>{
-    return this.http.post<any>(this.serverUrl+"/add",form,{
+    const url = `${this.serverUrl+"/add"}/${this.id}`;
+    return this.http.post<any>(url,form,{
       headers: new HttpHeaders({
         'Content-Type':'application/json'
       })
@@ -62,7 +63,8 @@ export class EmpService {
 
    updateemployee(dep:IEmployee): Observable<any>{
     // const url = `${this.serverUrl}`;
-     return this.http.put<any>(this.serverUrl+"/update",dep,{
+    const url = `${this.serverUrl+"/update"}/${this.id}`;
+     return this.http.put<any>(url,dep,{
        headers: new HttpHeaders({
          'Content-Type':'application/json'
        })

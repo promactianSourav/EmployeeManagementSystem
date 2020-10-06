@@ -74,9 +74,9 @@ namespace EmployeeManagement.Controllers
         // }
 
         
-        [HttpPost("add")]
+        [HttpPost("add/{id}")]
         [Authorize(Roles ="Admin,HR")]
-        public async Task<IActionResult> Add([FromBody] Employee model)
+        public async Task<IActionResult> Add([FromBody] Employee model,string id)
         {
             //_context.Employees.Add(employee);
             //_context.SaveChanges();
@@ -144,7 +144,8 @@ namespace EmployeeManagement.Controllers
                     //var username = userManager.GetUserName(HttpContext.User);
 
 
-                    var userid = userManager.GetUserId(HttpContext.User);
+                    //var userid = userManager.GetUserId(HttpContext.User);
+                    var userid = id;
                     var role = _context.UserRoles.FirstOrDefault(a => a.UserId == userid);
                     var changer = _context.Roles.FirstOrDefault(a => a.Id == role.RoleId);
                     var changeObjectId = model.DepartmentId;
@@ -221,9 +222,9 @@ namespace EmployeeManagement.Controllers
 
         }
 
-        [HttpPut("update")]
+        [HttpPut("update/{id}")]
         [Authorize]
-        public async Task<IActionResult> Update([FromBody]  Employee model)
+        public async Task<IActionResult> Update([FromBody]  Employee model,string id)
         {
            
             // ViewBag.id = model.Id;
@@ -245,6 +246,24 @@ namespace EmployeeManagement.Controllers
 
             if (result.Succeeded)
             {
+                var userid = id;
+                //Console.WriteLine(userid + " Hello");
+                var role = _context.UserRoles.FirstOrDefault(a => a.UserId == userid);
+                //Console.WriteLine(role + " role");
+                string changer = "";
+                if (role != null)
+                {
+                    var Role = _context.Roles.FirstOrDefault(a => a.Id == role.RoleId);
+                    changer = Role.Name;
+                }
+
+                var changeObjectId = model.Id;
+                var notification = new Notification
+                {
+                    Text = $" The {model.UserName} is updated the profile."
+                };
+                NotificationRepository.Create(notification, changer, changeObjectId);
+
                 // return RedirectToAction("Index");
                 return Ok(model);
             }
@@ -301,57 +320,60 @@ namespace EmployeeManagement.Controllers
         //     return View(employee);
         // }
 
-        // [HttpPost]
-        // // [Authorize]
-        // public async Task<IActionResult> Update(Employee model)
-        // {
+        //[HttpPost("{id}")]
+        //[Authorize]
+        //public async Task<IActionResult> Updateprofile([FromBody] Employee model,string id)
+        //{
 
-        //     ViewBag.id = model.Id;
-        //     //_context.Employees.Update(employee);
-        //     //_context.SaveChanges();
-        //     //return RedirectToAction("Index");
-        //     var emp = await userManager.FindByIdAsync(model.Id);
-        //     emp.UserName = model.UserName;
-        //     emp.Email = model.Email;
-        //     emp.Password = model.Password;
-        //     emp.ConfirmPassword = model.ConfirmPassword;
-        //     emp.Name = model.Name;
-        //     emp.Surname = model.Surname;
-        //     emp.Address = model.Address;
-        //     emp.Qualification = model.Qualification;
-        //     emp.ContactNumber = model.ContactNumber;
-        //     emp.DepartmentId = model.DepartmentId;
-        //     var result = await userManager.UpdateAsync(emp);
+        //    //ViewBag.id = model.Id;
+        //    //_context.Employees.Update(employee);
+        //    //_context.SaveChanges();
+        //    //return RedirectToAction("Index");
+        //    var emp = await userManager.FindByIdAsync(model.Id);
+        //    emp.UserName = model.UserName;
+        //    emp.Email = model.Email;
+        //    emp.Password = model.Password;
+        //    emp.ConfirmPassword = model.ConfirmPassword;
+        //    emp.Name = model.Name;
+        //    emp.Surname = model.Surname;
+        //    emp.Address = model.Address;
+        //    emp.Qualification = model.Qualification;
+        //    emp.ContactNumber = model.ContactNumber;
+        //    emp.DepartmentId = model.DepartmentId;
+        //    var result = await userManager.UpdateAsync(emp);
 
-        //     if (result.Succeeded)
-        //     {
-        //         var userid = userManager.GetUserId(HttpContext.User);
-        //         Console.WriteLine(userid+" Hello");
-        //         var role = _context.UserRoles.FirstOrDefault(a => a.UserId == userid);
-        //         Console.WriteLine(role+" role");
-        //         string changer = "";
-        //         if(role != null)
-        //         {
-        //             var Role = _context.Roles.FirstOrDefault(a => a.Id == role.RoleId);
-        //             changer = Role.Name;
-        //         }
-               
-        //         var changeObjectId = model.Id;
-        //         var notification = new Notification
-        //         {
-        //             Text = $" The {model.UserName} is updated the profile."
-        //         };
-        //         NotificationRepository.Create(notification, changer, changeObjectId);
+        //    if (result.Succeeded)
+        //    {
+        //        //var userid = userManager.GetUserId(HttpContext.User);
+        //        var userid = id;
+        //        Console.WriteLine(userid + " Hello");
+        //        var role = _context.UserRoles.FirstOrDefault(a => a.UserId == userid);
+        //        Console.WriteLine(role + " role");
+        //        string changer = "";
+        //        if (role != null)
+        //        {
+        //            var Role = _context.Roles.FirstOrDefault(a => a.Id == role.RoleId);
+        //            changer = Role.Name;
+        //        }
 
-        //         return RedirectToAction("Index");
-        //     }
-        //     foreach (var error in result.Errors)
-        //     {
-        //         ModelState.AddModelError("", error.Description);
-        //     }
+        //        var changeObjectId = model.Id;
+        //        var notification = new Notification
+        //        {
+        //            Text = $" The {model.UserName} is updated the profile."
+        //        };
+        //        NotificationRepository.Create(notification, changer, changeObjectId);
 
-        //     return View(model);
+        //        //return RedirectToAction("Index");
+        //        return Ok(model);
+        //    }
+        //    foreach (var error in result.Errors)
+        //    {
+        //        ModelState.AddModelError("", error.Description);
+        //    }
 
-        // }
+        //    //return View(model);
+        //    return Ok(new { Message = "Employee is not updated." });
+
+        //}
     }
 }
