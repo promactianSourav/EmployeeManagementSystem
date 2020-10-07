@@ -1,7 +1,7 @@
 import { NotificationService } from './services/notification.service';
 import { AuthServiceService } from './services/auth-service.service';
 import { LocalStorageServiceService } from './services/local-storage-service.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
@@ -20,6 +20,7 @@ export class AppComponent implements OnInit {
   title = 'Client';
   public _hubConnection: HubConnection;
   constructor(private notifierservice:NotifierService,private notificationservice:NotificationService,private authservice: AuthServiceService, private router: Router) { }
+ 
 
   errorMessage:string = null;
 
@@ -34,7 +35,7 @@ export class AppComponent implements OnInit {
 
       this._hubConnection.on("displayNotification", () => {
         // console.log("notificationOn");
-      
+        this.getNotification();
       });
 
     this._hubConnection
@@ -90,7 +91,8 @@ count:number = 0;
       },
       err => {this.errorMessage = <any> err;}
     );
-    
+    this.getNotification();
+    this.ngOnInit();
   }
 
   

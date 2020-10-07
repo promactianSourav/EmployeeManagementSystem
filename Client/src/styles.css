@@ -16,3 +16,9 @@ body {
 .Site-content {
     flex: 1;
 }
+
+.form-control.ng-touched.ng-invalid {
+    border-color: red;
+    border-style: outset;
+    border-width: 4px;
+}

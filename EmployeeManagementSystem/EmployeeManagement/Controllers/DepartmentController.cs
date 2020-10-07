@@ -48,7 +48,7 @@ namespace EmployeeManagement.Controllers
         }
 
         [HttpPost("add/{id}")]
-        [Authorize(Roles = "Admin")]
+        // [Authorize(Roles = "Admin")]
         public IActionResult Add([FromBody] Department model,string id)
         {
             string s = (Convert.ToInt32(_context.Departments.Select(x => x.DeptId).Max())+1).ToString();
