@@ -29,7 +29,7 @@ export class ListemployeeComponent implements OnInit {
           }else{
             this.check = true;
           }
-          console.log(this.departmentlist);
+          // console.log(this.departmentlist);
       },
       error => this.errorMessage = <any>error
     );
@@ -41,7 +41,7 @@ export class ListemployeeComponent implements OnInit {
               this.loggedinemp = emp;
             }
           })
-          console.log(this.employeelist);
+          // console.log(this.employeelist);
       },
       error => this.errorMessage = <any>error
     );

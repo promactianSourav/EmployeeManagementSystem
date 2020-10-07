@@ -25,7 +25,7 @@ export class EmpService {
     }).pipe(
       tap(data => {
         JSON.stringify(data);
-        console.log(data);
+        // console.log(data);
       }),
       catchError(this.handleError)
     );
@@ -40,7 +40,7 @@ export class EmpService {
     }).pipe(
       tap(data => {
         JSON.stringify(data);
-        console.log(data);
+        // console.log(data);
       }),
       catchError(this.handleError)
     );
@@ -55,7 +55,7 @@ export class EmpService {
      }).pipe(
        tap(data => {
          JSON.stringify(data);
-         console.log(data);
+        //  console.log(data);
        }),
        catchError(this.handleError)
      );
@@ -71,7 +71,7 @@ export class EmpService {
      }).pipe(
        tap(data => {
          JSON.stringify(data);
-         console.log(data);
+        //  console.log(data);
        }),
        catchError(this.handleError)
      );
@@ -86,7 +86,7 @@ export class EmpService {
     }).pipe(
       tap(data => {
         JSON.stringify(data);
-        console.log(data);
+        // console.log(data);
       }),
       catchError(this.handleError)
     );
@@ -103,7 +103,7 @@ export class EmpService {
         localStorage.setItem('erCode','403');
       }
     }
-    console.log(errorMessage);
+    // console.log(errorMessage);
     return throwError(errorMessage);
   }
 }

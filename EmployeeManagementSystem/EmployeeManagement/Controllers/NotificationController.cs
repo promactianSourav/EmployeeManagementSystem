@@ -63,9 +63,10 @@ namespace EmployeeManagement.Controllers
         {
             // notificationRepository.ReadNotification(Id,userManager.GetUserId(HttpContext.User));
             //notificationRepository.ReadNotification(Id, userId);
+             NotificationUser notificationUser = new NotificationUser();
             if(Id!=null && userId != null)
             {
-                NotificationUser notificationUser = new NotificationUser();
+               
                 notificationUser = (NotificationUser)_context.UserNotifications.FirstOrDefault(n => n.NotificationId == Id && n.EmployeeUserId == userId);
                 // Console.WriteLine(notificationUser);
                 // Console.WriteLine("its bug");
@@ -74,6 +75,8 @@ namespace EmployeeManagement.Controllers
                     notificationUser.IsRead = true;
                     _context.UserNotifications.Update(notificationUser);
                     _context.SaveChanges();
+                      return Ok(new { Message = "Message is read by user.",
+            read=notificationUser.IsRead });
                 }
                 
                 
@@ -84,7 +87,7 @@ namespace EmployeeManagement.Controllers
             }
             
 
-            return Ok();
+            return Ok(new { Message = "Message is not read by user."});
         }
     }
 }

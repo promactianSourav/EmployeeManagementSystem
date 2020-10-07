@@ -41,8 +41,8 @@ export class UpdateemployeeComponent implements OnInit {
               this.editeddepartmentid = val.departmentId;
             }
         })
-          console.log("editteddepartmetn"+ this.editeddepartment);
-          console.log(this.departmentlist);
+          // console.log("editteddepartmetn"+ this.editeddepartment);
+          // console.log(this.departmentlist);
       },
       error => this.errorMessage = <any>error
     );
@@ -56,8 +56,8 @@ export class UpdateemployeeComponent implements OnInit {
             }
         })
           // console.log("editteddepartmetn"+ this.editeddepartment);
-          console.log("departmentofemployee")
-          console.log(this.departmentlist);
+          // console.log("departmentofemployee")
+          // console.log(this.departmentlist);
       },
       error => this.errorMessage = <any>error
     );

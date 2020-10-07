@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
       ).configureLogging(signalR.LogLevel.Information).build();
 
       this._hubConnection.on("displayNotification", () => {
-        console.log("notificationOn");
+        // console.log("notificationOn");
       
       });
 
@@ -44,7 +44,9 @@ export class AppComponent implements OnInit {
 
       this.getNotification();
       this.notificationservice.getnotification().subscribe(
-        data => { this.count =(data.count);console.log("notification:");console.log(data);console.log("userid"+localStorage.getItem('token'));},
+        data => { this.count =(data.count);
+          // console.log("notification:");console.log(data);console.log("userid"+localStorage.getItem('token'));
+        },
         err => {this.errorMessage = <any> err;}
       );
   }
@@ -67,50 +69,41 @@ notifications:any[]=[];
   ntl:boolean = false;
 count:number = 0;
   getNotification(){
-    console.log("notification:");
+    // console.log("notification:");
     this.notificationservice.getnotification().subscribe(
       data => { 
         this.count =(data.count);
         this.notifications = data.notificationUser;
-        console.log("notificationslist");
-        console.log(this.notifications);
-        console.log("notification:");
-        console.log(data);console.log("userid"+localStorage.getItem('token'));
+        // console.log("notificationslist");
+        // console.log(this.notifications);
+        // console.log("notification:");
+        // console.log(data);console.log("userid"+localStorage.getItem('token'));
       },
       err => {this.errorMessage = <any> err;}
     );
   }
 
-  readNotification(id:string,target:string) {
-
-    // $.ajax({
-    //     url: "/Notification/ReadNotification",
-    //     method: "GET",
-    //     data: { NotificationId: id },
-    //     success: function (result) {
-    //         this.getNotification();
-    //         $(target).fadeOut("slow");
-    //     },
-    //     error: function (error) {
-    //         console.log(error);
-    //     }
-    // });
+  readNotification(id:string) {
+    this.notificationservice.readnotification(id).subscribe(
+      data => { 
+        // console.log(data);
+      },
+      err => {this.errorMessage = <any> err;}
+    );
+    
   }
 
   
   @ViewChild ("cn",{static:true}) cntm;
 
-  msg:string[] =[
-    "a","b","c","d"
-  ];
-  msgid:string[] = [
-    "1","2","3","4"
-  ];
+ 
   i:number = 0;
   ch:boolean = false;
 
   getid(i:string){
-    console.log("idnoti: "+i);
+    this.readNotification(i);
+    this.ngOnInit();
+    // console.log("idnoti: "+i);
   }
 
   getset(){
@@ -152,6 +145,8 @@ count:number = 0;
     localStorage.removeItem('userid');
     this.authservice.logout();
     localStorage.clear();
+    this.notifierservice.hideAll();
+    this.ch=false;
 
     this.router.navigate(['/login']);
   }

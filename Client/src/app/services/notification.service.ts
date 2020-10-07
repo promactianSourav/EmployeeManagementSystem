@@ -20,7 +20,7 @@ export class NotificationService {
   getnotification(): Observable<any>{
     
     
-    console.log("useridnotif"+this.userId);
+    // console.log("useridnotif"+this.userId);
    this.url = `${this.serverUrl}/${this.userId}`;
     return this.http.get<any>(this.url,{
       headers: new HttpHeaders({
@@ -29,15 +29,15 @@ export class NotificationService {
     }).pipe(
       tap(data => {
         JSON.stringify(data);
-        console.log(data);
+        // console.log(data);
       }),
       catchError(this.handleError)
     );
   }
 
   readnotification(Id:string): Observable<any>{
-    const userId = sessionStorage.getItem('userid');
-    const url = `${this.serverUrl}/${Id}/${userId}`;
+    
+    const url = `${this.serverUrl}/${Id}/${this.userId}`;
     return this.http.get<any>(url,{
       headers: new HttpHeaders({
         'Content-Type':'application/json'
@@ -45,7 +45,7 @@ export class NotificationService {
     }).pipe(
       tap(data => {
         JSON.stringify(data);
-        console.log(data);
+        // console.log(data);
       }),
       catchError(this.handleError)
     );
@@ -75,7 +75,7 @@ export class NotificationService {
         localStorage.setItem('erCode','403');
       }
     }
-    console.log(errorMessage);
+    // console.log(errorMessage);
     return throwError(errorMessage);
   }
 }

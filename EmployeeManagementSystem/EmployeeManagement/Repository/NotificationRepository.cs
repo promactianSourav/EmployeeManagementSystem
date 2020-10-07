@@ -150,7 +150,7 @@ namespace EmployeeManagement.Repository
                                        join two in listNotificationIds
                                        on one.Id equals two.NotificationId
                                        select one).ToList();
-            Console.WriteLine(list2);
+            // Console.WriteLine(list2);
             return list2;
 
             //return _context.UserNotifications
